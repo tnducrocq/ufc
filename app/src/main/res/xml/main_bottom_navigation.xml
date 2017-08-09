@@ -1,0 +1,20 @@
+<tabs>
+    <tab
+        badgeHidesWhenActive="true"
+        barColorWhenSelected="@color/colorFutureEvent"
+        icon="@drawable/ic_events"
+        id="@+id/future_events"
+        title="@string/future_events"/>
+    <tab
+        badgeHidesWhenActive="true"
+        barColorWhenSelected="@color/colorPastEvent"
+        icon="@drawable/ic_past_events"
+        id="@+id/past_events"
+        title="@string/past_events"/>
+    <tab
+        badgeHidesWhenActive="true"
+        barColorWhenSelected="@color/colorBoxer"
+        icon="@drawable/ic_boxing"
+        id="@+id/boxers"
+        title="@string/boxers"/>
+</tabs>

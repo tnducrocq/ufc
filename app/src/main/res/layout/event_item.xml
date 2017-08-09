@@ -1,0 +1,114 @@
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/more_media_card"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/spacing_small"
+    android:clickable="false"
+    app:cardCornerRadius="@dimen/cardview_default_radius"
+    app:cardElevation="@dimen/cardview_default_elevation">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--According to Material Design the media area should be 16:9-->
+        <fr.tnducrocq.ufc.presentation.ui.view.RatioImageView
+            android:id="@+id/media_poster"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/image"/>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/details_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/media_poster"
+            android:background="@color/grey_200"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_large">
+
+            <TextView
+                android:id="@+id/media_title"
+                style="@style/Widget.Title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:layout_marginRight="@dimen/spacing_medium"
+                android:maxLines="2"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Logan"/>
+
+            <TextView
+                android:id="@+id/media_tag_line"
+                style="@style/Widget.Title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:layout_marginRight="8dp"
+                android:maxLines="2"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintLeft_toLeftOf="@+id/media_title"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/media_title"
+                tools:text="Logan"/>
+
+            <TextView
+                android:id="@+id/media_release_year"
+                style="@style/Widget.NumberText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:drawableLeft="@drawable/ic_date"
+                android:drawablePadding="@dimen/spacing_small"
+                android:drawableStart="@drawable/ic_date"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                app:layout_constraintLeft_toLeftOf="@+id/media_tag_line"
+                app:layout_constraintTop_toBottomOf="@+id/media_tag_line"
+                tools:text="In 7 days"/>
+
+            <com.vpaliy.chips_lover.ChipsLayout
+                android:id="@+id/chipsContainer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:orientation="horizontal"
+                app:chipTextColor="@color/blue_grey_700"
+                app:chipTextStyle="@style/Widget.HashTag"
+                app:chip_layout_horizontal_margin="@dimen/spacing_small"
+                app:chip_layout_vertical_margin="@dimen/spacing_small"
+                app:layout_constraintLeft_toLeftOf="@+id/media_tag_line"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/media_release_year"
+                app:layout_constraintWidth_default="wrap"/>
+
+            <TextView
+                android:id="@+id/media_ratings"
+                style="@style/Widget.NumberText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacing_medium"
+                android:layout_marginRight="@dimen/spacing_medium"
+                android:drawablePadding="@dimen/spacing_small"
+                android:drawableRight="@drawable/ic_thumb"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="@+id/media_release_year"
+                app:layout_constraintLeft_toRightOf="@+id/media_release_year"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/media_release_year"
+                tools:text="6.7"/>
+        </android.support.constraint.ConstraintLayout>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

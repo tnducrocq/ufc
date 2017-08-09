@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">data</string>
+
+    <!-- Settings -->
+    <string name="pref_poster_quality_default">Low</string>
+    <string name="pref_backdrop_quality_default">High</string>
+    <string name="pref_poster_quality_title">Poster Image Quality</string>
+    <string name="pref_backdrop_quality_title">Backdrop Image Quality</string>
+    <string name="pref_backdrop_quality_key">BackdropQualityKey</string>
+    <string name="pref_poster_quality_key">PosterQualityKey</string>
+    <string name="pref_poster_quality_summary"> "%s" </string>
+    <string name="pref_backdrop_quality_summary"> "%s" </string>
+</resources>

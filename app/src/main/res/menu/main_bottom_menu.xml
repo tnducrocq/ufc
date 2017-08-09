@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/future_events"
+        android:icon="@android:drawable/ic_menu_today"
+        android:title="@string/future_events"/>
+
+    <item
+        android:id="@+id/past_events"
+        android:icon="@drawable/ic_past_events"
+        android:title="@string/past_events"/>
+
+    <item
+        android:id="@+id/boxers"
+        android:icon="@drawable/ic_boxing"
+        android:title="@string/boxers"/>
+</menu>
