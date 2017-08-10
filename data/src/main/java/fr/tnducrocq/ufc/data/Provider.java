@@ -24,7 +24,7 @@ import rx.Subscriber;
 /**
  * Created by tony on 25/07/2017.
  */
-
+@Deprecated
 public class Provider {
 
     private static final String API_URL = "http://ufc-data-api.ufc.com/api/v3";

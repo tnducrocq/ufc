@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,7 +20,7 @@ import butterknife.ButterKnife;
 import fr.tnducrocq.ufc.data.entity.event.Event;
 import fr.tnducrocq.ufc.data.entity.event.EventFight;
 import fr.tnducrocq.ufc.presentation.R;
-import fr.tnducrocq.ufc.presentation.ui.main.EventFragment;
+import fr.tnducrocq.ufc.presentation.ui.main.event.EventFragment;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Event} and makes a call to the
@@ -145,7 +144,7 @@ public class EventFightsRecyclerViewAdapter extends RecyclerView.Adapter<EventFi
 
     @Override
     public EventFightViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fight_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_fight_item, parent, false);
         return new EventFightViewHolder(view);
     }
 

@@ -6,6 +6,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import fr.tnducrocq.ufc.presentation.R;
+import fr.tnducrocq.ufc.presentation.ui.main.event.FutureEventFragment;
+import fr.tnducrocq.ufc.presentation.ui.main.event.PastEventFragment;
+import fr.tnducrocq.ufc.presentation.ui.main.fighter.FighterFragment;
 
 /**
  * Created by tony on 31/07/2017.

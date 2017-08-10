@@ -10,5 +10,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="fr.tnducrocq.ufc.presentation.ui.main.FutureEventFragment"
-    tools:listitem="@layout/event_item"/>
+    tools:context="fr.tnducrocq.ufc.presentation.ui.main.event.FutureEventFragment"
+    tools:listitem="@layout/adapter_event_item"/>

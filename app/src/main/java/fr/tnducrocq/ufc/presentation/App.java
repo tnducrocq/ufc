@@ -18,7 +18,11 @@ import fr.tnducrocq.ufc.data.utils.scheduler.SchedulerProvider;
 
 public class App extends MultiDexApplication {
 
-    private static App INSTANCE;
+    private static App instance;
+
+    public static App getInstance() {
+        return instance;
+    }
 
     Context context;
     BaseSchedulerProvider schedulerProvider;
@@ -28,7 +32,7 @@ public class App extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         initializeComponent();
-        INSTANCE = this;
+        instance = this;
     }
 
     private void initializeComponent() {

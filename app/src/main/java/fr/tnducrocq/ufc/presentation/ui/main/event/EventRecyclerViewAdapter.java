@@ -1,4 +1,4 @@
-package fr.tnducrocq.ufc.presentation.ui.main;
+package fr.tnducrocq.ufc.presentation.ui.main.event;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -48,19 +48,19 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
 
     public class EventViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.media_poster)
+        @BindView(R.id.event_poster)
         ImageView posterImage;
 
-        @BindView(R.id.media_title)
-        TextView mediaTitle;
+        @BindView(R.id.event_title)
+        TextView eventTitle;
 
-        @BindView(R.id.media_tag_line)
-        TextView mediaTag;
+        @BindView(R.id.event_tag_line)
+        TextView eventTag;
 
-        @BindView(R.id.media_release_year)
+        @BindView(R.id.event_release_year)
         TextView releaseYear;
 
-        @BindView(R.id.media_ratings)
+        @BindView(R.id.event_ratings)
         TextView ratings;
 
         @BindView(R.id.chipsContainer)
@@ -82,8 +82,8 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
                 background.setBackgroundColor(swatch.getRgb());
                 ChipBuilder builder = chipsContainer.getChipBuilder().setBackgroundColor(swatch.getTitleTextColor()).setTextColor(swatch.getBodyTextColor());
                 chipsContainer.updateChipColors(builder);
-                mediaTitle.setTextColor(swatch.getTitleTextColor());
-                mediaTag.setTextColor(swatch.getBodyTextColor());
+                eventTitle.setTextColor(swatch.getTitleTextColor());
+                eventTag.setTextColor(swatch.getBodyTextColor());
                 releaseYear.setTextColor(swatch.getBodyTextColor());
                 ratings.setTextColor(swatch.getBodyTextColor());
                 setDrawableColor(releaseYear, swatch.getBodyTextColor());
@@ -95,8 +95,8 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
                         setBackgroundColor(ContextCompat.getColor(context, R.color.colorEventItemTitleColor)).
                         setTextColor(ContextCompat.getColor(context, R.color.colorEventItemBodyColor));
                 chipsContainer.updateChipColors(builder);
-                mediaTitle.setTextColor(ContextCompat.getColor(context, R.color.colorEventItemTitleColor));
-                mediaTag.setTextColor(ContextCompat.getColor(context, R.color.colorEventItemBodyColor));
+                eventTitle.setTextColor(ContextCompat.getColor(context, R.color.colorEventItemTitleColor));
+                eventTag.setTextColor(ContextCompat.getColor(context, R.color.colorEventItemBodyColor));
                 releaseYear.setTextColor(ContextCompat.getColor(context, R.color.colorEventItemBodyColor));
                 ratings.setTextColor(ContextCompat.getColor(context, R.color.colorEventItemBodyColor));
                 setDrawableColor(releaseYear, ContextCompat.getColor(context, R.color.colorEventItemBodyColor));
@@ -108,8 +108,8 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
 
             String date = DateFormatUtils.format(event.getEventDate(), "dd/MM/yyyy");
             releaseYear.setText(date);
-            mediaTitle.setText(event.getBaseTitle());
-            mediaTag.setText(event.getTitleTagLine());
+            eventTitle.setText(event.getBaseTitle());
+            eventTag.setText(event.getTitleTagLine());
 
             Glide.with(itemView.getContext()).load(event.getFeatureImage()).asBitmap().priority(Priority.IMMEDIATE).diskCacheStrategy(DiskCacheStrategy.RESULT).placeholder(R.drawable.placeholder).animate(R.anim.fade_in).into(new ImageViewTarget<Bitmap>(posterImage) {
                 @Override
@@ -132,7 +132,7 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
 
     @Override
     public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_event_item, parent, false);
         return new EventViewHolder(view);
     }
 

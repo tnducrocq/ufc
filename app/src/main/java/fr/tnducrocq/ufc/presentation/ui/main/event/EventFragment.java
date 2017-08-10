@@ -1,4 +1,4 @@
-package fr.tnducrocq.ufc.presentation.ui.main;
+package fr.tnducrocq.ufc.presentation.ui.main.event;
 
 import fr.tnducrocq.ufc.data.entity.event.Event;
 

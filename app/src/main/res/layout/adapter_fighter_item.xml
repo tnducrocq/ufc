@@ -1,0 +1,38 @@
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <fr.tnducrocq.ufc.presentation.ui.view.RoundedImageView
+        android:id="@+id/fighter_profile"
+        android:layout_width="@dimen/poster_width"
+        android:layout_height="@dimen/poster_height"
+        android:layout_margin="@dimen/spacing_large"
+        android:scaleType="centerCrop"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/placeholder"/>
+
+    <TextView
+        android:id="@+id/fighter_name"
+        style="@style/Widget.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:ellipsize="end"
+        android:lines="2"
+        android:maxLines="2"
+        android:maxWidth="140dp"
+        android:textAlignment="center"
+        android:textColor="@color/blue_grey_400"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="@+id/fighter_profile"
+        app:layout_constraintRight_toRightOf="@+id/fighter_profile"
+        app:layout_constraintTop_toBottomOf="@+id/fighter_profile"
+        tools:text="The Hobbit"/>
+
+</android.support.constraint.ConstraintLayout>

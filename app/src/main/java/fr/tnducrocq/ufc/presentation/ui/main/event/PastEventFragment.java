@@ -1,4 +1,4 @@
-package fr.tnducrocq.ufc.presentation.ui.main;
+package fr.tnducrocq.ufc.presentation.ui.main.event;
 
 import android.content.Context;
 import android.os.Bundle;

@@ -24,7 +24,7 @@ import com.roughike.bottombar.BottomBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fr.tnducrocq.ufc.data.entity.event.Event;
-import fr.tnducrocq.ufc.presentation.ui.main.EventFragment;
+import fr.tnducrocq.ufc.presentation.ui.main.event.EventFragment;
 import fr.tnducrocq.ufc.presentation.ui.main.MainTypePagerAdapter;
 import fr.tnducrocq.ufc.presentation.ui.utils.PresentationUtils;
 import fr.tnducrocq.ufc.presentation.ui.view.MainPager;
@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity implements EventFragment.OnE
     @BindView(R.id.bottom_navigation)
     protected BottomBar bottomNavigation;
 
-    @BindView(R.id.media_pager)
-    protected MainPager mediaPager;
+    @BindView(R.id.main_pager)
+    protected MainPager mainPager;
 
     private ActionBarDrawerToggle drawerToggle;
 
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements EventFragment.OnE
 
     private void setBottomNavigation() {
         final int duration = getResources().getInteger(R.integer.page_fade_duration);
-        bottomNavigation.setOnTabSelectListener((tabId -> mediaPager.animate().alpha(0).setDuration(duration).setListener(new AnimatorListenerAdapter() {
+        bottomNavigation.setOnTabSelectListener((tabId -> mainPager.animate().alpha(0).setDuration(duration).setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
@@ -74,27 +74,27 @@ public class MainActivity extends AppCompatActivity implements EventFragment.OnE
                     case R.id.future_events:
                         actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(MainActivity.this, R.color.colorFutureEvent)));
                         actionBar.setTitle(R.string.future_events);
-                        mediaPager.setCurrentItem(0, false);
+                        mainPager.setCurrentItem(0, false);
                         break;
                     case R.id.past_events:
                         actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(MainActivity.this, R.color.colorPastEvent)));
                         actionBar.setTitle(R.string.past_events);
-                        mediaPager.setCurrentItem(1, false);
+                        mainPager.setCurrentItem(1, false);
                         break;
                     case R.id.boxers:
                         actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(MainActivity.this, R.color.colorBoxer)));
                         actionBar.setTitle(R.string.boxers);
-                        mediaPager.setCurrentItem(2, false);
+                        mainPager.setCurrentItem(2, false);
                         break;
                 }
-                mediaPager.animate().alpha(1.f).setDuration(duration).setListener(null).start();
+                mainPager.animate().alpha(1.f).setDuration(duration).setListener(null).start();
             }
         }).start()));
     }
 
     private void setMovieTypePager() {
-        mediaPager.setAdapter(new MainTypePagerAdapter(getSupportFragmentManager(), this ));
-        mediaPager.setOffscreenPageLimit(2);
+        mainPager.setAdapter(new MainTypePagerAdapter(getSupportFragmentManager(), this));
+        mainPager.setOffscreenPageLimit(2);
     }
 
     private void setActionBar() {
