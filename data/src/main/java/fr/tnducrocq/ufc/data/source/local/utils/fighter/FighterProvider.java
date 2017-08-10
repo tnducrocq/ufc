@@ -11,7 +11,6 @@ import java.util.List;
 import javax.inject.Singleton;
 
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
-import fr.tnducrocq.ufc.data.source.local.DatabaseUtils;
 import fr.tnducrocq.ufc.data.source.local.utils.QueryBuilder;
 import fr.tnducrocq.ufc.data.utils.WeightCategory;
 
@@ -46,7 +45,7 @@ public class FighterProvider {
     }
 
     public long insert(Fighter item) {
-        ContentValues values = DatabaseUtils.convertToValues(item);
+        ContentValues values = FighterContact.convertToValues(item);
         return db.insert(FighterContact.Tables.FIGHTERS, null, values);
     }
 
@@ -54,7 +53,7 @@ public class FighterProvider {
         db.beginTransaction();
         db.delete(FighterContact.Tables.FIGHTERS, null, null);
         for (Fighter item : items) {
-            ContentValues values = DatabaseUtils.convertToValues(item);
+            ContentValues values = FighterContact.convertToValues(item);
             db.insert(FighterContact.Tables.FIGHTERS, null, values);
         }
         db.setTransactionSuccessful();
@@ -62,7 +61,7 @@ public class FighterProvider {
     }
 
     public int update(Fighter item) {
-        ContentValues values = DatabaseUtils.convertToValues(item);
+        ContentValues values = FighterContact.convertToValues(item);
         final QueryBuilder builder = new QueryBuilder().table(FighterContact.Tables.FIGHTERS).where(FighterContact.Fighters.FIGHTER_ID + "=?", item.id());
         return builder.update(db, values);
     }
@@ -71,7 +70,7 @@ public class FighterProvider {
         final QueryBuilder builder = new QueryBuilder().table(FighterContact.Tables.FIGHTERS).where(FighterContact.Fighters.FIGHTER_ID + "=?", id);
         Cursor cursor = builder.query(db, null, null);
         if (cursor.moveToFirst()) {
-            return DatabaseUtils.convertToFighter(cursor);
+            return FighterContact.convertToFighter(cursor);
         }
         return null;
     }
@@ -82,7 +81,7 @@ public class FighterProvider {
         if (cursor.moveToFirst()) {
             List<Fighter> fighterList = new ArrayList<>();
             do {
-                fighterList.add(DatabaseUtils.convertToFighter(cursor));
+                fighterList.add(FighterContact.convertToFighter(cursor));
             } while (cursor.moveToNext());
 
             return fighterList;
@@ -96,7 +95,7 @@ public class FighterProvider {
         if (cursor.moveToFirst()) {
             List<Fighter> fighterList = new ArrayList<>();
             do {
-                fighterList.add(DatabaseUtils.convertToFighter(cursor));
+                fighterList.add(FighterContact.convertToFighter(cursor));
             } while (cursor.moveToNext());
 
             return fighterList;

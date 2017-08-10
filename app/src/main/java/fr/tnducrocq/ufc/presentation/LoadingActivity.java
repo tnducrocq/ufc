@@ -50,6 +50,7 @@ public class LoadingActivity extends AppCompatActivity {
 
             @Override
             public void onCompleted() {
+                finish();
                 Intent intent = MainActivity.newIntent(LoadingActivity.this);
                 startActivity(intent);
             }

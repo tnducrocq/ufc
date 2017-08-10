@@ -111,13 +111,20 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
             eventTitle.setText(event.getBaseTitle());
             eventTag.setText(event.getTitleTagLine());
 
-            Glide.with(itemView.getContext()).load(event.getFeatureImage()).asBitmap().priority(Priority.IMMEDIATE).diskCacheStrategy(DiskCacheStrategy.RESULT).placeholder(R.drawable.placeholder).animate(R.anim.fade_in).into(new ImageViewTarget<Bitmap>(posterImage) {
-                @Override
-                protected void setResource(Bitmap resource) {
-                    posterImage.setImageBitmap(resource);
-                    new Palette.Builder(resource).generate(EventViewHolder.this::applyPalette);
-                }
-            });
+            Glide.with(itemView.getContext()) //
+                    .load(event.getFeatureImage()) //
+                    .asBitmap() //
+                    .priority(Priority.IMMEDIATE) //
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT) //
+                    .placeholder(R.drawable.placeholder) //
+                    .animate(R.anim.fade_in) //
+                    .into(new ImageViewTarget<Bitmap>(posterImage) {
+                        @Override
+                        protected void setResource(Bitmap resource) {
+                            posterImage.setImageBitmap(resource);
+                            new Palette.Builder(resource).generate(EventViewHolder.this::applyPalette);
+                        }
+                    });
 
             posterImage.setOnClickListener(v -> {
                 mListener.onListFragmentInteraction(event);

@@ -9,15 +9,17 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
+import fr.tnducrocq.ufc.data.entity.HasId;
+
 /**
  * Created by tony on 25/07/2017.
  */
 
-public class Event implements Comparable<Event>, Parcelable {
+public class Event implements Comparable<Event>, Parcelable, HasId {
 
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
 
     @SerializedName("event_date")
     @Expose
@@ -127,11 +129,12 @@ public class Event implements Comparable<Event>, Parcelable {
     public Event() {
     }
 
-    public Integer getId() {
+    @Override
+    public String id() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -426,7 +429,7 @@ public class Event implements Comparable<Event>, Parcelable {
     }
 
     protected Event(Parcel in) {
-        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.id = in.readString();
         long tmpEventDate = in.readLong();
         this.eventDate = tmpEventDate == -1 ? null : new Date(tmpEventDate);
         this.secondaryFeatureImage = in.readString();

@@ -100,6 +100,7 @@ public class EventFightsRecyclerViewAdapter extends RecyclerView.Adapter<EventFi
                     asBitmap().priority(Priority.IMMEDIATE).diskCacheStrategy(DiskCacheStrategy.RESULT).
                     placeholder(R.drawable.fighter_placeholder).
                     animate(R.anim.fade_in).
+                    diskCacheStrategy(DiskCacheStrategy.RESULT).
                     into(new ImageViewTarget<Bitmap>(fighter2) {
                         @Override
                         protected void setResource(Bitmap resource) {

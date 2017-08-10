@@ -24,8 +24,8 @@ import com.roughike.bottombar.BottomBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fr.tnducrocq.ufc.data.entity.event.Event;
-import fr.tnducrocq.ufc.presentation.ui.main.event.EventFragment;
 import fr.tnducrocq.ufc.presentation.ui.main.MainTypePagerAdapter;
+import fr.tnducrocq.ufc.presentation.ui.main.event.EventFragment;
 import fr.tnducrocq.ufc.presentation.ui.utils.PresentationUtils;
 import fr.tnducrocq.ufc.presentation.ui.view.MainPager;
 
@@ -156,7 +156,13 @@ public class MainActivity extends AppCompatActivity implements EventFragment.OnE
     @Override
     public void onListFragmentInteraction(Event item) {
         Log.d("MainActivity", item.toString());
-        Intent intent = EventFightsActivity.newIntent(this, Integer.toString(item.getId()));
+        Intent intent = EventFightsActivity.newIntent(this, item.id());
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //finish();
+        moveTaskToBack(true);
     }
 }
