@@ -3,11 +3,17 @@ package fr.tnducrocq.ufc.presentation;
 import android.content.Context;
 import android.support.multidex.MultiDexApplication;
 
+import fr.tnducrocq.ufc.data.entity.event.Event;
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
+import fr.tnducrocq.ufc.data.repository.IEventRepository;
 import fr.tnducrocq.ufc.data.repository.IFighterRepository;
+import fr.tnducrocq.ufc.data.repository.impl.EventRepository;
 import fr.tnducrocq.ufc.data.repository.impl.FighterRepository;
+import fr.tnducrocq.ufc.data.source.EventDataSource;
 import fr.tnducrocq.ufc.data.source.FighterDataSource;
+import fr.tnducrocq.ufc.data.source.local.LocalEvents;
 import fr.tnducrocq.ufc.data.source.local.LocalFighters;
+import fr.tnducrocq.ufc.data.source.remote.RemoteEvents;
 import fr.tnducrocq.ufc.data.source.remote.RemoteFighters;
 import fr.tnducrocq.ufc.data.utils.scheduler.BaseSchedulerProvider;
 import fr.tnducrocq.ufc.data.utils.scheduler.SchedulerProvider;
@@ -27,6 +33,7 @@ public class App extends MultiDexApplication {
     Context context;
     BaseSchedulerProvider schedulerProvider;
     FighterRepository<Fighter> fighterRepository;
+    EventRepository<Event> eventRepository;
 
     @Override
     public void onCreate() {
@@ -42,6 +49,10 @@ public class App extends MultiDexApplication {
         FighterDataSource<Fighter> localSource = new LocalFighters(context);
         IFighterRepository<Fighter> remoteSource = new RemoteFighters();
         fighterRepository = new FighterRepository<>(context, localSource, remoteSource, schedulerProvider);
+
+        EventDataSource<Event> localEvent = new LocalEvents(context);
+        IEventRepository<Event> remoteEvent = new RemoteEvents();
+        eventRepository = new EventRepository<>(context, localEvent, remoteEvent, schedulerProvider);
     }
 
     public Context getContext() {
@@ -54,5 +65,9 @@ public class App extends MultiDexApplication {
 
     public FighterRepository<Fighter> getFighterRepository() {
         return fighterRepository;
+    }
+
+    public EventRepository<Event> getEventRepository() {
+        return eventRepository;
     }
 }

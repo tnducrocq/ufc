@@ -8,8 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Singleton;
-
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
 import fr.tnducrocq.ufc.data.source.local.utils.QueryBuilder;
 import fr.tnducrocq.ufc.data.utils.WeightCategory;
@@ -17,7 +15,6 @@ import fr.tnducrocq.ufc.data.utils.WeightCategory;
 /**
  * Created by tony on 08/08/2017.
  */
-@Singleton
 public class FighterProvider {
 
     private SQLiteDatabase db;

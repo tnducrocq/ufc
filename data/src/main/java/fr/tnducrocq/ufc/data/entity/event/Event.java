@@ -53,7 +53,6 @@ public class Event implements Comparable<Event>, Parcelable, HasId {
     @Expose
     private String ticketurl;
 
-
     @SerializedName("base_title")
     @Expose
     private String baseTitle;

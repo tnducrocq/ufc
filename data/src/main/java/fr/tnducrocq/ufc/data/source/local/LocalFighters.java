@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
 import fr.tnducrocq.ufc.data.source.FighterDataSource;
@@ -14,7 +13,6 @@ import fr.tnducrocq.ufc.data.source.local.utils.fighter.FighterProvider;
 import fr.tnducrocq.ufc.data.utils.WeightCategory;
 import rx.Observable;
 
-@Singleton
 public class LocalFighters implements FighterDataSource<Fighter> {
 
     private FighterProvider provider;

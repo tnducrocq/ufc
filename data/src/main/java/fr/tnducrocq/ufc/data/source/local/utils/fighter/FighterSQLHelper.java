@@ -14,17 +14,13 @@ public class FighterSQLHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "fighter.db";
     private static final int DATABASE_VERSION = 1;
 
-    interface Tables {
-        String FIGHTERS = "fighters";
-    }
-
     public FighterSQLHelper(@NonNull Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + Tables.FIGHTERS + " (" + //
+        db.execSQL("CREATE TABLE " + FighterContact.Tables.FIGHTERS + " (" + //
                 FighterContact.Fighters._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + //
                 FighterContact.Fighters.FIGHTER_ID + " INTEGER NOT NULL," + //
                 FighterContact.Fighters.FIGHTER_NICKNAME + " TEXT," + //
@@ -45,12 +41,13 @@ public class FighterSQLHelper extends SQLiteOpenHelper {
                 FighterContact.Fighters.FIGHTER_RIGHT_FULL_BODY_IMAGE + " TEXT," + //
                 FighterContact.Fighters.FIGHTER_PROFILE_IMAGE + " TEXT," + //
                 FighterContact.Fighters.FIGHTER_LINK + " TEXT," + //
-                " UNIQUE (" + FighterContact.Fighters.FIGHTER_ID + ") ON CONFLICT REPLACE)");
+                " UNIQUE (" + FighterContact.Fighters.FIGHTER_ID + ") ON CONFLICT REPLACE)" //
+        );
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS" + Tables.FIGHTERS);
+        db.execSQL("DROP TABLE IF EXISTS" + FighterContact.Tables.FIGHTERS);
         onCreate(db);
     }
 

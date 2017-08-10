@@ -7,12 +7,10 @@ import android.util.Pair;
 
 import java.util.List;
 
-import fr.tnducrocq.ufc.data.Provider;
-import fr.tnducrocq.ufc.data.entity.event.Events;
+import fr.tnducrocq.ufc.data.entity.event.Event;
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
 import rx.Observable;
 import rx.Observer;
-import rx.functions.Action1;
 import rx.functions.Func2;
 
 public class LoadingActivity extends AppCompatActivity {
@@ -25,27 +23,19 @@ public class LoadingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_loading);
 
 
-        App mApplication = ((App) getApplicationContext());
-        Observable<List<Fighter>> obsFighters = mApplication.fighterRepository.get();
+        Observable<List<Fighter>> obsFighters = App.getInstance().fighterRepository.get();
+        Observable<List<Event>> obsEvents = App.getInstance().getEventRepository().get();
 
-        Observable<Events> obsEvents = Provider.getInstance().requestEvents()//
-                .doOnNext(new Action1<Events>() {
-                    @Override
-                    public void call(Events events) {
-                        System.out.println("call(Events " + events + ")");
-                    }
-                });
-
-        Observable.zip(obsEvents, obsFighters, new Func2<Events, List<Fighter>, Pair<Events, List<Fighter>>>() {
+        Observable.zip(obsEvents, obsFighters, new Func2<List<Event>, List<Fighter>, Pair<List<Event>, List<Fighter>>>() {
             @Override
-            public Pair<Events, List<Fighter>> call(Events events, List<Fighter> fighters) {
-                return new Pair<Events, List<Fighter>>(events, fighters);
+            public Pair<List<Event>, List<Fighter>> call(List<Event> events, List<Fighter> fighters) {
+                return new Pair<List<Event>, List<Fighter>>(events, fighters);
             }
-        }).subscribeOn(mApplication.schedulerProvider.multi()).//
-                observeOn(mApplication.schedulerProvider.ui()).//
-                subscribe(new Observer<Pair<Events, List<Fighter>>>() {
+        }).subscribeOn(App.getInstance().schedulerProvider.multi()).//
+                observeOn(App.getInstance().schedulerProvider.ui()).//
+                subscribe(new Observer<Pair<List<Event>, List<Fighter>>>() {
 
-            Pair<Events, List<Fighter>> mValue;
+            Pair<List<Event>, List<Fighter>> mValue;
             Throwable mError;
 
             @Override
@@ -61,40 +51,10 @@ public class LoadingActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNext(Pair<Events, List<Fighter>> pair) {
+            public void onNext(Pair<List<Event>, List<Fighter>> pair) {
                 mValue = pair;
             }
         });
-
-
-       /* Subscription mSubscription = Observable.zip(obsEvents, obsFighters, new Func2<Events, Fighters, Pair<Events, Fighters>>() {
-            @Override
-            public Pair<Events, Fighters> call(Events events, Fighters fighters) {
-                return new Pair<Events, Fighters>(events, fighters);
-            }
-        }).subscribeOn(Schedulers.newThread())//
-                .observeOn(AndroidSchedulers.mainThread())//
-                .subscribe(new Observer<Pair<Events, Fighters>>() {
-                    Pair<Events, Fighters> mValue;
-
-                    @Override
-                    public void onCompleted() {
-                        System.out.println("onCompleted()");
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        System.out.println("onError()");
-
-                    }
-
-                    @Override
-                    public void onNext(Pair<Events, Fighters> pair) {
-                        System.out.println("onNext()");
-                        mValue = pair;
-                    }
-                });*/
 
     }
 }
