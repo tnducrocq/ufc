@@ -5,9 +5,6 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import fr.tnducrocq.ufc.data.entity.event.Events;
-import fr.tnducrocq.ufc.data.entity.fighter.Fighters;
-
 
 public class MainPager extends ViewPager {
 

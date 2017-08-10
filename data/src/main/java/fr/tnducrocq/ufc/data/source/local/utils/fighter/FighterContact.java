@@ -102,7 +102,7 @@ public class FighterContact {
     }
 
 
-    public static Fighter convertToFighter(Cursor cursor) {
+    public static Fighter convertToObject(Cursor cursor) {
         if (cursor == null) return null;
         Fighter fighter = new Fighter();
 

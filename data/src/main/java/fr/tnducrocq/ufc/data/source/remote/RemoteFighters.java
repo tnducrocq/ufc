@@ -13,7 +13,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
-import fr.tnducrocq.ufc.data.repository.IFighterRepository;
+import fr.tnducrocq.ufc.data.repository.IRepository;
 import fr.tnducrocq.ufc.data.utils.SwiftString;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -24,7 +24,7 @@ import rx.Observable;
  * Created by tony on 08/08/2017.
  */
 @Singleton
-public class RemoteFighters implements IFighterRepository<Fighter> {
+public class RemoteFighters implements IRepository<Fighter> {
 
     private static final String API_URL = "http://ufc-data-api.ufc.com/api/v3";
     private static final SwiftString API_FIGHTERS = SwiftString.format(API_URL + "/fighters");

@@ -8,6 +8,6 @@ import rx.Observable;
  * Created by tony on 04/08/2017.
  */
 
-public interface IFighterRepository<T> {
+public interface IRepository<T> {
     Observable<List<T>> get();
 }

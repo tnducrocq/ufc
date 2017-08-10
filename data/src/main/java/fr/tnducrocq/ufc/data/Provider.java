@@ -9,17 +9,11 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.tnducrocq.ufc.data.entity.event.Event;
 import fr.tnducrocq.ufc.data.entity.event.EventFight;
-import fr.tnducrocq.ufc.data.entity.event.Events;
-import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
-import fr.tnducrocq.ufc.data.entity.fighter.Fighters;
 import fr.tnducrocq.ufc.data.utils.SwiftString;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import rx.Observable;
-import rx.Subscriber;
 
 /**
  * Created by tony on 25/07/2017.
@@ -36,8 +30,6 @@ public class Provider {
 
     final Gson gson;
 
-    private Events events;
-    private Fighters fighters;
 
     /**
      * Constructeur privé
@@ -61,62 +53,6 @@ public class Provider {
      */
     public static Provider getInstance() {
         return SingletonHolder.instance;
-    }
-
-    public Observable<Events> requestEvents() {
-        if (events != null) {
-            return Observable.just(events);
-        }
-
-        return Observable.create(new Observable.OnSubscribe<Events>() {
-            @Override
-            public void call(Subscriber<? super Events> subscriber) {
-                try {
-                    String url = API_EVENTS.toString();
-
-                    OkHttpClient client = new OkHttpClient();
-                    Request request = new Request.Builder().url(url).build();
-                    Response response = client.newCall(request).execute();
-
-                    Type listType = new TypeToken<ArrayList<Event>>() {
-                    }.getType();
-                    List<Event> eventList = gson.fromJson(response.body().charStream(), listType);
-                    Provider.this.events = new Events(eventList);
-                    subscriber.onNext(Provider.this.events);
-                    subscriber.onCompleted();
-                } catch (IOException e) {
-                    subscriber.onError(e);
-                }
-            }
-        });
-    }
-
-    public Observable<Fighters> requestFighters() {
-        if (fighters != null) {
-            return Observable.just(fighters);
-        }
-
-        return Observable.create(new Observable.OnSubscribe<Fighters>() {
-            @Override
-            public void call(Subscriber<? super Fighters> subscriber) {
-
-                try {
-                    String url = API_FIGHTERS.toString();
-                    OkHttpClient client = new OkHttpClient();
-                    Request request = new Request.Builder().url(url).build();
-                    Response response = client.newCall(request).execute();
-
-                    Type listType = new TypeToken<ArrayList<Fighter>>() {
-                    }.getType();
-                    List<Fighter> fighterList = gson.fromJson(response.body().charStream(), listType);
-                    Provider.this.fighters = new Fighters(fighterList);
-                    subscriber.onNext(Provider.this.fighters);
-                    subscriber.onCompleted();
-                } catch (IOException e) {
-                    subscriber.onError(e);
-                }
-            }
-        });
     }
 
     public List<EventFight> requestEventFights(int id) {

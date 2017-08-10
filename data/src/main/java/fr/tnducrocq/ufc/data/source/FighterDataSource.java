@@ -2,18 +2,12 @@ package fr.tnducrocq.ufc.data.source;
 
 import java.util.List;
 
-import fr.tnducrocq.ufc.data.repository.IFighterRepository;
+import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
 import fr.tnducrocq.ufc.data.utils.WeightCategory;
 import rx.Observable;
 
-public interface FighterDataSource<T> extends IFighterRepository<T> {
+public interface FighterDataSource extends IDataSource<Fighter> {
 
-    Observable<T> get(String id);
-
-    Observable<List<T>> get(WeightCategory type);
-
-    boolean save(T item);
-
-    boolean save(List<T> item);
+    Observable<List<Fighter>> get(WeightCategory type);
 
 }

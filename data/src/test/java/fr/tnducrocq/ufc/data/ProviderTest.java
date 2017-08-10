@@ -6,7 +6,6 @@ import java.util.List;
 
 import fr.tnducrocq.ufc.data.entity.event.EventFight;
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
-import fr.tnducrocq.ufc.data.entity.fighter.Fighters;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
