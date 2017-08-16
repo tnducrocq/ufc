@@ -1,8 +1,8 @@
-package fr.tnducrocq.ufc.data.source;
+package fr.tnducrocq.ufc.data.source.local;
 
 import java.util.List;
 
-import fr.tnducrocq.ufc.data.repository.IRepository;
+import fr.tnducrocq.ufc.data.source.remote.IRepository;
 import rx.Observable;
 
 /**

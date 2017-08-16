@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import fr.tnducrocq.ufc.data.entity.event.Event;
-import fr.tnducrocq.ufc.data.source.EventDataSource;
 import fr.tnducrocq.ufc.data.source.local.utils.event.EventProvider;
 import rx.Observable;
 
@@ -18,7 +17,6 @@ public class LocalEvents extends AbstractLocal<Event, EventProvider> implements 
     public LocalEvents(Context context) {
         super(context, new EventProvider(context));
     }
-
 
     @Override
     public Observable<List<Event>> getPast(Date max) {

@@ -1,0 +1,118 @@
+<fr.tnducrocq.ufc.presentation.ui.view.TranslatableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/details_background"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/blue_grey_400"
+    android:padding="@dimen/spacing_large">
+
+    <TextView
+        android:id="@+id/media_title"
+        style="@style/Widget.Title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Fantastic beasts and where to find them "/>
+
+    <TextView
+        android:id="@+id/media_release_year"
+        style="@style/Widget.NumberText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:drawableLeft="@drawable/ic_date"
+        android:drawablePadding="@dimen/spacing_small"
+        android:drawableStart="@drawable/ic_date"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/media_title"
+        tools:text="In 7 days"/>
+
+
+    <TextView
+        android:id="@+id/media_duration"
+        style="@style/Widget.NumberText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:drawablePadding="@dimen/spacing_small"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="@+id/media_release_year"
+        app:layout_constraintTop_toBottomOf="@+id/media_release_year"
+        tools:text="2 hr 10 min"/>
+
+    <TextView
+        android:id="@+id/media_money"
+        style="@style/Widget.NumberText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/spacing_big"
+        android:layout_marginStart="@dimen/spacing_big"
+        android:drawablePadding="@dimen/spacing_small"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/media_duration"
+        app:layout_constraintLeft_toRightOf="@+id/media_duration"
+        app:layout_constraintTop_toTopOf="@+id/media_duration"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="20123131"/>
+
+    <com.vpaliy.chips_lover.ChipsLayout
+        android:id="@+id/chipsContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:orientation="horizontal"
+        app:chipTextColor="@color/blue_grey_700"
+        app:chipTextStyle="@style/Widget.HashTag"
+        app:chip_layout_horizontal_margin="@dimen/spacing_small"
+        app:chip_layout_vertical_margin="@dimen/spacing_small"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/media_duration"
+        app:layout_constraintWidth_default="wrap"/>
+
+    <TextView
+        android:id="@+id/media_ratings"
+        style="@style/Widget.NumberText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/spacing_big"
+        android:layout_marginStart="@dimen/spacing_big"
+        android:drawableEnd="@drawable/ic_thumb"
+        android:drawablePadding="@dimen/spacing_small"
+        android:drawableRight="@drawable/ic_thumb"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="@+id/media_release_year"
+        app:layout_constraintLeft_toRightOf="@+id/media_release_year"
+        app:layout_constraintTop_toTopOf="@+id/media_release_year"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="6.7"/>
+
+
+    <TextView
+        android:id="@+id/media_description"
+        style="@style/Widget.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:textColor="@color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chipsContainer"/>
+</fr.tnducrocq.ufc.presentation.ui.view.TranslatableLayout>

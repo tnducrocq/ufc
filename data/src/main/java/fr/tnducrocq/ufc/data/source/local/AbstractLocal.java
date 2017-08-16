@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import fr.tnducrocq.ufc.data.entity.HasId;
-import fr.tnducrocq.ufc.data.source.IDataSource;
 import fr.tnducrocq.ufc.data.source.local.utils.AbstractProvider;
 import rx.Observable;
 

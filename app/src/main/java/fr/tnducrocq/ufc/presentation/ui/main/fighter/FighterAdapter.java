@@ -25,8 +25,11 @@ import fr.tnducrocq.ufc.presentation.ui.base.AbstractFighterAdapter;
 
 public class FighterAdapter extends AbstractFighterAdapter<Fighter> {
 
-    public FighterAdapter(@NonNull Context context) {
+    private FighterFragment.OnFighterFragmentInteractionListener mListener;
+
+    public FighterAdapter(@NonNull Context context, FighterFragment.OnFighterFragmentInteractionListener listener) {
         super(context);
+        mListener = listener;
     }
 
     public void setData(List<Fighter> data) {
@@ -44,9 +47,6 @@ public class FighterAdapter extends AbstractFighterAdapter<Fighter> {
         FighterViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            posterImage.setOnClickListener(v -> {
-
-            });
         }
 
         @Override
@@ -60,6 +60,12 @@ public class FighterAdapter extends AbstractFighterAdapter<Fighter> {
                     .placeholder(R.drawable.fighter_placeholder) //
                     .animate(R.anim.fade_in) //
                     .into(posterImage);
+            posterImage.setOnClickListener(v -> {
+                mListener.onListFragmentInteraction(fighter);
+            });
+            fighterName.setOnClickListener(v -> {
+                mListener.onListFragmentInteraction(fighter);
+            });
         }
     }
 

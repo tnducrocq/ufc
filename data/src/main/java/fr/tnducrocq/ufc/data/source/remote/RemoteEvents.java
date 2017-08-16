@@ -13,8 +13,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import fr.tnducrocq.ufc.data.entity.event.Event;
-import fr.tnducrocq.ufc.data.repository.IRepository;
-import fr.tnducrocq.ufc.data.utils.SwiftString;
+import fr.tnducrocq.ufc.data.entity.event.EventFight;
+import fr.tnducrocq.ufc.data.entity.event.EventMedia;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -24,10 +24,8 @@ import rx.Observable;
  * Created by tony on 08/08/2017.
  */
 @Singleton
-public class RemoteEvents implements IRepository<Event> {
+public class RemoteEvents implements EventRemoteSource {
 
-    private static final String API_URL = "http://ufc-data-api.ufc.com/api/v3";
-    private static final SwiftString API_EVENTS = SwiftString.format(API_URL + "/events");
     private final Gson gson;
 
     @Inject
@@ -47,6 +45,48 @@ public class RemoteEvents implements IRepository<Event> {
                 Type listType = new TypeToken<ArrayList<Event>>() {
                 }.getType();
                 List<Event> eventList = gson.fromJson(response.body().charStream(), listType);
+                subscriber.onNext(eventList);
+                subscriber.onCompleted();
+            } catch (IOException e) {
+                subscriber.onError(e);
+                subscriber.onCompleted();
+            }
+        });
+    }
+
+    @Override
+    public Observable<List<EventMedia>> getEventMedia(String eventId) {
+        return Observable.create(subscriber -> {
+            try {
+                String url = API_EVENT_MEDIAS.put("id", eventId).toString();
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder().url(url).build();
+                Response response = client.newCall(request).execute();
+
+                Type listType = new TypeToken<ArrayList<EventMedia>>() {
+                }.getType();
+                List<EventMedia> eventList = gson.fromJson(response.body().charStream(), listType);
+                subscriber.onNext(eventList);
+                subscriber.onCompleted();
+            } catch (IOException e) {
+                subscriber.onError(e);
+                subscriber.onCompleted();
+            }
+        });
+    }
+
+    @Override
+    public Observable<List<EventFight>> getEventFight(String eventId) {
+        return Observable.create(subscriber -> {
+            try {
+                String url = API_EVENT_FIGHTS.put("id", eventId).toString();
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder().url(url).build();
+                Response response = client.newCall(request).execute();
+
+                Type listType = new TypeToken<ArrayList<EventFight>>() {
+                }.getType();
+                List<EventFight> eventList = gson.fromJson(response.body().charStream(), listType);
                 subscriber.onNext(eventList);
                 subscriber.onCompleted();
             } catch (IOException e) {

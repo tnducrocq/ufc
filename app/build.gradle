@@ -16,7 +16,7 @@ android {
         versionCode config.versionCode
         versionName config.versionName
         testInstrumentationRunner config.testInstrumentationRunner
-        
+
         vectorDrawables.useSupportLibrary true
         multiDexEnabled true
     }
@@ -94,4 +94,6 @@ dependencies {
     compile 'com.android.support:support-v4:26.+'
     compile 'com.android.support:recyclerview-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+ 
 }

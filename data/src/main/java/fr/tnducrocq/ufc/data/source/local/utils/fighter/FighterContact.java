@@ -134,7 +134,7 @@ public class FighterContact {
         fighter.setLastName(lastName);
         try {
             fighter.setWeightClass(WeightCategory.valueOf(weightClass));
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             Log.wtf(TAG, "weightClass: " + weightClass + " not found");
         }
         fighter.setTitleHolder(title_holder);

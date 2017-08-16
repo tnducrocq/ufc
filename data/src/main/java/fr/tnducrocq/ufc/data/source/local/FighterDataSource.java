@@ -1,4 +1,4 @@
-package fr.tnducrocq.ufc.data.source;
+package fr.tnducrocq.ufc.data.source.local;
 
 import java.util.List;
 

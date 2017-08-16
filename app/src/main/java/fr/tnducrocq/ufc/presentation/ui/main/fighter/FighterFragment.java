@@ -50,7 +50,15 @@ public class FighterFragment extends Fragment {
             WeightCategory.WOMEN_BANTAMWEIGHT,//
             WeightCategory.WOMEN_STRAWWEIGHT//
     };
-    private EventFragment.OnEventFragmentInteractionListener mListener;
+
+
+    public interface OnFighterFragmentInteractionListener {
+        void onSeeAllFragmentInteraction(WeightCategory category);
+
+        void onListFragmentInteraction(Fighter item);
+    }
+
+    private FighterFragment.OnFighterFragmentInteractionListener mListener;
     private Map<WeightCategory, FighterAdapter> mFighterAdapters;
     private FighterTypeAdapter mFighterCategoryAdapter;
 
@@ -85,20 +93,44 @@ public class FighterFragment extends Fragment {
 
         // Set the adapter
         if (view instanceof RecyclerView) {
+            Context context = view.getContext();
+
             mFighterAdapters = new LinkedHashMap<>();
-            mFighterCategoryAdapter = new FighterTypeAdapter(getContext());
+            mFighterCategoryAdapter = new FighterTypeAdapter(context, mListener);
             mRecyclerView.setAdapter(mFighterCategoryAdapter);
 
-            Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
             for (WeightCategory category : CATEGORIES) {
-                mFighterAdapters.put(category, new FighterAdapter(context));
+                mFighterAdapters.put(category, new FighterAdapter(context, mListener));
                 requestCategory(category);
             }
         }
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof EventFragment.OnEventFragmentInteractionListener) {
+            mListener = (FighterFragment.OnFighterFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement EventFragment.OnEventFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     private void requestCategory(WeightCategory category) {
@@ -136,29 +168,5 @@ public class FighterFragment extends Fragment {
                         this.mFighters = fighters;
                     }
                 });
-
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof EventFragment.OnEventFragmentInteractionListener) {
-            mListener = (EventFragment.OnEventFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString() + " must implement EventFragment.OnEventFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 }

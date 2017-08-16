@@ -24,13 +24,16 @@ import com.roughike.bottombar.BottomBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fr.tnducrocq.ufc.data.entity.event.Event;
+import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
+import fr.tnducrocq.ufc.data.utils.WeightCategory;
 import fr.tnducrocq.ufc.presentation.ui.main.MainTypePagerAdapter;
 import fr.tnducrocq.ufc.presentation.ui.main.event.EventFragment;
+import fr.tnducrocq.ufc.presentation.ui.main.fighter.FighterFragment;
 import fr.tnducrocq.ufc.presentation.ui.utils.PresentationUtils;
 import fr.tnducrocq.ufc.presentation.ui.view.MainPager;
 
 
-public class MainActivity extends AppCompatActivity implements EventFragment.OnEventFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements EventFragment.OnEventFragmentInteractionListener, FighterFragment.OnFighterFragmentInteractionListener {
 
 
     public static Intent newIntent(Context context) {
@@ -157,6 +160,17 @@ public class MainActivity extends AppCompatActivity implements EventFragment.OnE
     public void onListFragmentInteraction(Event item) {
         Log.d("MainActivity", item.toString());
         Intent intent = EventFightsActivity.newIntent(this, item.id());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onSeeAllFragmentInteraction(WeightCategory category) {
+
+    }
+
+    @Override
+    public void onListFragmentInteraction(Fighter item) {
+        Intent intent = FighterActivity.newIntent(this, item.id());
         startActivity(intent);
     }
 

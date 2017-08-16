@@ -19,8 +19,11 @@ import fr.tnducrocq.ufc.presentation.ui.base.AbstractFighterAdapter;
 
 public class FighterTypeAdapter extends AbstractFighterAdapter<FighterTypeAdapter.FighterCategoryWrapper> {
 
-    public FighterTypeAdapter(@NonNull Context context) {
+    private final FighterFragment.OnFighterFragmentInteractionListener mListener;
+
+    public FighterTypeAdapter(@NonNull Context context, FighterFragment.OnFighterFragmentInteractionListener listener) {
         super(context);
+        mListener = listener;
     }
 
     class TypeViewHolder extends GenericViewHolder implements View.OnClickListener {
@@ -38,12 +41,14 @@ public class FighterTypeAdapter extends AbstractFighterAdapter<FighterTypeAdapte
             super(itemView);
             ButterKnife.bind(this, itemView);
             list.setNestedScrollingEnabled(false);
-            title.setOnClickListener(this);
             more.setOnClickListener(this);
+            title.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
+            FighterCategoryWrapper wrapper = at(getAdapterPosition());
+            mListener.onSeeAllFragmentInteraction(wrapper.sortType);
         }
 
         @Override
@@ -52,6 +57,7 @@ public class FighterTypeAdapter extends AbstractFighterAdapter<FighterTypeAdapte
             list.setAdapter(wrapper.adapter);
             title.setText(wrapper.text);
             more.setTextColor(wrapper.color);
+
         }
     }
 

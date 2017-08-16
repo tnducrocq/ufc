@@ -5,13 +5,9 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
-import fr.tnducrocq.ufc.data.repository.IRepository;
-import fr.tnducrocq.ufc.data.source.FighterDataSource;
-import fr.tnducrocq.ufc.data.source.qualifier.Local;
-import fr.tnducrocq.ufc.data.source.qualifier.Remote;
+import fr.tnducrocq.ufc.data.source.remote.IRepository;
+import fr.tnducrocq.ufc.data.source.local.FighterDataSource;
 import fr.tnducrocq.ufc.data.utils.WeightCategory;
 import fr.tnducrocq.ufc.data.utils.scheduler.BaseSchedulerProvider;
 import rx.Observable;
@@ -22,8 +18,7 @@ import rx.Observable;
 
 public class FighterRepository extends AbstractRepository<Fighter, FighterDataSource, IRepository<Fighter>> implements FighterDataSource {
 
-    @Inject
-    public FighterRepository(@NonNull Context context, @NonNull @Local FighterDataSource localSource, @NonNull @Remote IRepository<Fighter> remoteSource, @NonNull BaseSchedulerProvider schedulerProvider) {
+    public FighterRepository(@NonNull Context context, @NonNull FighterDataSource localSource, @NonNull IRepository<Fighter> remoteSource, @NonNull BaseSchedulerProvider schedulerProvider) {
         super(context, schedulerProvider);
         this.localSource = localSource;
         this.remoteSource = remoteSource;

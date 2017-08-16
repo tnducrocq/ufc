@@ -2,27 +2,30 @@ package fr.tnducrocq.ufc.presentation;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import fr.tnducrocq.ufc.data.Provider;
 import fr.tnducrocq.ufc.data.entity.event.EventFight;
-import fr.tnducrocq.ufc.presentation.ui.event.fights.EventFightsRecyclerViewAdapter;
+import fr.tnducrocq.ufc.data.entity.event.EventMedia;
+import fr.tnducrocq.ufc.presentation.ui.event.details.EventFightsRecyclerViewAdapter;
+import rx.Observable;
+import rx.Observer;
+import rx.functions.Func2;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
 public class EventFightsActivity extends AppCompatActivity implements EventFightsRecyclerViewAdapter.OnEventFightsInteractionListener {
+
+    private static final String TAG = "EventFightsActivity";
 
     private static final String ARG_EVENT_ID = "event-id";
     private String mEventId;
@@ -58,29 +61,47 @@ public class EventFightsActivity extends AppCompatActivity implements EventFight
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        new ProviderAsyncTask().execute(Integer.parseInt(mEventId));
+        Observable<List<EventFight>> obsEventFights = App.getInstance().getEventRepository().getEventFight(mEventId);
+        Observable<List<EventMedia>> obsEventMedias = App.getInstance().getEventRepository().getEventMedia(mEventId);
+
+        Observable.zip(obsEventFights, obsEventMedias, new Func2<List<EventFight>, List<EventMedia>, EventDetail>() {
+            @Override
+            public EventDetail call(List<EventFight> eventFights, List<EventMedia> eventMedias) {
+                EventDetail detail = new EventDetail();
+                detail.fights = eventFights;
+                detail.medias = eventMedias;
+                return detail;
+            }
+        }).subscribeOn(App.getInstance().schedulerProvider.multi()).//
+                observeOn(App.getInstance().schedulerProvider.ui()).//
+                subscribe(new Observer<EventDetail>() {
+
+            EventDetail mDetail;
+            Throwable mError;
+
+            @Override
+            public void onCompleted() {
+                if (mDetail != null) {
+                    mAdapter = new EventFightsRecyclerViewAdapter(mDetail.fights, EventFightsActivity.this);
+                    mRecyclerView.setAdapter(mAdapter);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mError = e;
+            }
+
+            @Override
+            public void onNext(EventDetail eventDetail) {
+                mDetail = eventDetail;
+            }
+        });
     }
 
-    private class ProviderAsyncTask extends AsyncTask<Integer, Void, List<EventFight>> {
-
-        @Override
-        protected List<EventFight> doInBackground(Integer... params) {
-            try {
-                return Provider.getInstance().requestEventFights(params[0]);
-            } catch (Exception e) {
-                Log.e("EventFightsActivity", "ERROR", e);
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(final List<EventFight> eventList) {
-            super.onPostExecute(eventList);
-
-            Log.d("EventFightsActivity", eventList.toString());
-            mAdapter = new EventFightsRecyclerViewAdapter(eventList, EventFightsActivity.this);
-            mRecyclerView.setAdapter(mAdapter);
-        }
+    static class EventDetail {
+        List<EventFight> fights;
+        List<EventMedia> medias;
     }
 
     @Override

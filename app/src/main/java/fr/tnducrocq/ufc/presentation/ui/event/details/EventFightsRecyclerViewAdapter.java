@@ -1,4 +1,4 @@
-package fr.tnducrocq.ufc.presentation.ui.event.fights;
+package fr.tnducrocq.ufc.presentation.ui.event.details;
 
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
