@@ -1,24 +1,15 @@
 package fr.tnducrocq.ufc.presentation.ui.event.details;
 
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.ImageViewTarget;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import fr.tnducrocq.ufc.data.entity.event.Event;
 import fr.tnducrocq.ufc.data.entity.event.EventFight;
+import fr.tnducrocq.ufc.data.entity.event.EventMedia;
 import fr.tnducrocq.ufc.presentation.R;
 import fr.tnducrocq.ufc.presentation.ui.main.event.EventFragment;
 
@@ -27,132 +18,52 @@ import fr.tnducrocq.ufc.presentation.ui.main.event.EventFragment;
  * specified {@link EventFragment.OnEventFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class EventFightsRecyclerViewAdapter extends RecyclerView.Adapter<EventFightsRecyclerViewAdapter.EventFightViewHolder> {
+public class EventFightsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final List<EventFight> mValues;
+    private final List<EventFight> mFights;
+    private final List<EventMedia> mMedias;
     private final EventFightsRecyclerViewAdapter.OnEventFightsInteractionListener mListener;
 
     public interface OnEventFightsInteractionListener {
         void onListFragmentInteraction(EventFight item);
     }
 
-    public EventFightsRecyclerViewAdapter(List<EventFight> items, EventFightsRecyclerViewAdapter.OnEventFightsInteractionListener listener) {
-        mValues = items;
+    public EventFightsRecyclerViewAdapter(EventInformations details, EventFightsRecyclerViewAdapter.OnEventFightsInteractionListener listener) {
+        mFights = details.fights;
+        mMedias = details.medias;
         mListener = listener;
-    }
-
-    public class EventFightViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.fighter1)
-        ImageView fighter1;
-        @BindView(R.id.fighter1Name)
-        TextView fighter1Name;
-        @BindView(R.id.fighter1Record)
-        TextView fighter1Record;
-        @BindView(R.id.fighter1Height)
-        TextView fighter1Height;
-        @BindView(R.id.fighter1Weight)
-        TextView fighter1Weight;
-        @BindView(R.id.fighter1Reach)
-        TextView fighter1Reach;
-
-        @BindView(R.id.fighter2)
-        ImageView fighter2;
-        @BindView(R.id.fighter2Name)
-        TextView fighter2Name;
-        @BindView(R.id.fighter2Record)
-        TextView fighter2Record;
-        @BindView(R.id.fighter2Height)
-        TextView fighter2Height;
-        @BindView(R.id.fighter2Weight)
-        TextView fighter2Weight;
-        @BindView(R.id.fighter2Reach)
-        TextView fighter2Reach;
-
-        //@BindView(R.id.fightMore)
-        //Button fightMore;
-
-        EventFightViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-
-        public void bindData(final EventFight fight) {
-            Glide.with(itemView.getContext()).
-                    load(fight.getFighter1ProfileImage()).
-                    asBitmap().priority(Priority.IMMEDIATE).diskCacheStrategy(DiskCacheStrategy.RESULT).
-                    placeholder(R.drawable.fighter_placeholder).
-                    animate(R.anim.fade_in).
-                    into(new ImageViewTarget<Bitmap>(fighter1) {
-                        @Override
-                        protected void setResource(Bitmap resource) {
-                            fighter1.setImageBitmap(resource);
-                        }
-                    });
-            fighter1Name.setText(fight.getFighter1LastName());
-            fighter1Record.setText(fight.getFighter1record());
-            fighter1Height.setText(toCm(fight.getFighter1height()));
-            fighter1Weight.setText(toKg(fight.getFighter1weight()));
-            fighter1Reach.setText(toCm(fight.getFighter1reach()));
-
-            Glide.with(itemView.getContext()).
-                    load(fight.getFighter2ProfileImage()).
-                    asBitmap().priority(Priority.IMMEDIATE).diskCacheStrategy(DiskCacheStrategy.RESULT).
-                    placeholder(R.drawable.fighter_placeholder).
-                    animate(R.anim.fade_in).
-                    diskCacheStrategy(DiskCacheStrategy.RESULT).
-                    into(new ImageViewTarget<Bitmap>(fighter2) {
-                        @Override
-                        protected void setResource(Bitmap resource) {
-                            fighter2.setImageBitmap(resource);
-                        }
-                    });
-            fighter2Name.setText(fight.getFighter2LastName());
-            fighter2Record.setText(fight.getFighter2record());
-            fighter2Height.setText(toCm(fight.getFighter2height()));
-            fighter2Weight.setText(toKg(fight.getFighter2weight()));
-            fighter2Reach.setText(toCm(fight.getFighter2reach()));
-
-            /*if (fight.getResult() != null) {
-                fightMore.setVisibility(View.VISIBLE);
-            } else {
-                fightMore.setVisibility(View.INVISIBLE);
-            }*/
-        }
-
-        private String toKg(Integer lbs) {
-            if (lbs == null) return "";
-            double kg = 0.453592 * (double) lbs;
-            return Integer.toString((int) kg) + " kg";
-        }
-
-        private String toCm(Integer in) {
-            if (in == null) return "";
-            double cm = 2.54 * (double) in;
-            return Integer.toString((int) cm) + " cm";
-        }
-
-        private String toString(Integer value) {
-            return value == null ? "" : Integer.toString(value);
-        }
-
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return mFights.size() + 1;
     }
 
     @Override
-    public EventFightViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_fight_item, parent, false);
-        return new EventFightViewHolder(view);
+    public int getItemViewType(int position) {
+        return position == 0 ? 0 : 1;
     }
 
     @Override
-    public void onBindViewHolder(final EventFightViewHolder holder, int position) {
-        EventFight fight = mValues.get(position);
-        holder.bindData(fight);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == 0) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_event_medias, parent, false);
+            return new EventMediasViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_fight_item, parent, false);
+            return new EventFightViewHolder(view);
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+        int viewType = getItemViewType(position);
+        if (viewType == 0) {
+            ((EventMediasViewHolder) holder).bindData(mMedias);
+        } else {
+            EventFight fight = mFights.get(position - 1);
+            ((EventFightViewHolder) holder).bindData(fight);
+        }
     }
 
 }

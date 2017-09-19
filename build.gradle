@@ -2,24 +2,43 @@ apply from: 'dependencies.gradle'
 
 buildscript {
     repositories {
+
         jcenter()
+        mavenLocal()
         mavenCentral()
+
+        maven {
+            url 'https://jitpack.io'
+        }
         maven {
             url 'http://dl.bintray.com/amulyakhare/maven'
+        }
+        maven {
+            url "https://maven.google.com"
         }
     }
 
     dependencies {
-        classpath 'me.tatarka:gradle-retrolambda:3.6.0'
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'me.tatarka:gradle-retrolambda:3.6.1'
+        classpath 'com.android.tools.build:gradle:3.0.0-beta5'
     }
 }
 
 allprojects {
     repositories {
+
         jcenter()
+        mavenLocal()
+        mavenCentral()
+
         maven {
             url 'https://jitpack.io'
+        }
+        maven {
+            url 'http://dl.bintray.com/amulyakhare/maven'
+        }
+        maven {
+            url "https://maven.google.com"
         }
     }
 }

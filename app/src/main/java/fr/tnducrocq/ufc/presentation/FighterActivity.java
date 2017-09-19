@@ -10,7 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
 import fr.tnducrocq.ufc.presentation.ui.fighter.details.FighterDetailsFragment;
+import fr.tnducrocq.ufc.presentation.ui.utils.Constants;
 
 /**
  * Created by tony on 11/08/2017.
@@ -18,13 +20,11 @@ import fr.tnducrocq.ufc.presentation.ui.fighter.details.FighterDetailsFragment;
 
 public class FighterActivity extends AppCompatActivity {
 
-
-    private static final String ARG_FIGHTER_ID = "fighter-id";
     public static final String FIGHTER_DETAILS_TAG = "fighterDetailsTag";
 
-    public static Intent newIntent(Context context, String fighterId) {
+    public static Intent newIntent(Context context, Fighter fighter) {
         Intent intent = new Intent(context, FighterActivity.class);
-        intent.putExtra(ARG_FIGHTER_ID, fighterId);
+        intent.putExtra(Constants.EXTRA_FIGHTER, fighter);
         return intent;
     }
 
@@ -37,7 +37,7 @@ public class FighterActivity extends AppCompatActivity {
             savedInstanceState = getIntent().getExtras();
             setEnterTransition(savedInstanceState);
 
-            Fragment fragment = FighterDetailsFragment.newInstance();
+            Fragment fragment = FighterDetailsFragment.newInstance(savedInstanceState);
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragment, FIGHTER_DETAILS_TAG).commit();
         }
     }
