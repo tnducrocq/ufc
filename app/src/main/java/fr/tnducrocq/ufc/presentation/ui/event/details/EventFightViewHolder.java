@@ -48,9 +48,6 @@ public class EventFightViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.fighter2Reach)
     TextView fighter2Reach;
 
-    //@BindView(R.id.fightMore)
-    //Button fightMore;
-
     EventFightViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);

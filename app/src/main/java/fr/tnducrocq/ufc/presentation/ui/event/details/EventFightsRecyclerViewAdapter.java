@@ -62,7 +62,13 @@ public class EventFightsRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             ((EventMediasViewHolder) holder).bindData(mMedias);
         } else {
             EventFight fight = mFights.get(position - 1);
-            ((EventFightViewHolder) holder).bindData(fight);
+            EventFightViewHolder eHolder = (EventFightViewHolder) holder;
+            eHolder.bindData(fight);
+            eHolder.itemView.setOnClickListener(view -> {
+                if (mListener != null) {
+                    mListener.onListFragmentInteraction(fight);
+                }
+            });
         }
     }
 

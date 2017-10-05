@@ -23,12 +23,12 @@ public class EventMediasViewHolder extends RecyclerView.ViewHolder {
     EventMediasViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        list.setNestedScrollingEnabled(false);
+        //list.setNestedScrollingEnabled(false);
     }
 
     public void bindData(final List<EventMedia> medias) {
         EventMediasRecyclerViewAdapter adapter = new EventMediasRecyclerViewAdapter(medias, null);
-        list.setLayoutManager(new LinearLayoutManager(list.getContext(), LinearLayoutManager.HORIZONTAL, true));
+        list.setLayoutManager(new LinearLayoutManager(list.getContext(), LinearLayoutManager.HORIZONTAL, false));
         list.setAdapter(adapter);
     }
 

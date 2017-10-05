@@ -26,5 +26,4 @@ public final class Constants {
 
 
 
-    public static final String EXTRA_FIGHTER = "extra_fighter";
 }

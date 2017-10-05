@@ -27,6 +27,8 @@ android {
 
 dependencies {
 
+    compile project(':jsoup-annotations-library')
+    
     compile libs.supportAppCompat
 
     //Java 8 / annotations...
