@@ -1,0 +1,81 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fr.tnducrocq.ufc.presentation.Main2Activity">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F1F5F8"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            android:weightSum="2">
+
+            <fr.tnducrocq.ufc.presentation.ui.view.CardPieView
+                android:id="@+id/fighter_kick_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:lineWidth="50dp"
+                app:remaining="%d / %d réussi"
+                app:title="Frappes"/>
+
+            <fr.tnducrocq.ufc.presentation.ui.view.CardPieView
+                android:id="@+id/fighter_grappling_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:lineWidth="26dp"
+                app:remaining="%d / %d réussi"
+                app:title="Grappling">
+
+            </fr.tnducrocq.ufc.presentation.ui.view.CardPieView>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="#F1F5F8"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <fr.tnducrocq.ufc.presentation.ui.view.CardPieView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    app:lineWidth="5dp">
+
+                </fr.tnducrocq.ufc.presentation.ui.view.CardPieView>
+
+                <fr.tnducrocq.ufc.presentation.ui.view.CardPieView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_weight="1"
+                    app:lineWidth="5dp">
+
+                </fr.tnducrocq.ufc.presentation.ui.view.CardPieView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</RelativeLayout>

@@ -10,7 +10,7 @@ public class EventFight implements Parcelable {
 
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
 
     @SerializedName("fighter1reach")
     @Expose
@@ -213,11 +213,11 @@ public class EventFight implements Parcelable {
     @Expose
     private EventFightResult result;
 
-    public Integer getId() {
+    public String id() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -709,7 +709,6 @@ public class EventFight implements Parcelable {
         this.result = result;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -717,7 +716,7 @@ public class EventFight implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(this.id);
+        dest.writeString(this.id);
         dest.writeValue(this.fighter1reach);
         dest.writeValue(this.fighter2weight);
         dest.writeValue(this.fighter2height);
@@ -781,11 +780,8 @@ public class EventFight implements Parcelable {
         dest.writeParcelable(this.result, flags);
     }
 
-    public EventFight() {
-    }
-
     protected EventFight(Parcel in) {
-        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.id = in.readString();
         this.fighter1reach = (Integer) in.readValue(Integer.class.getClassLoader());
         this.fighter2weight = (Integer) in.readValue(Integer.class.getClassLoader());
         this.fighter2height = (Integer) in.readValue(Integer.class.getClassLoader());
@@ -849,7 +845,7 @@ public class EventFight implements Parcelable {
         this.result = in.readParcelable(EventFightResult.class.getClassLoader());
     }
 
-    public static final Creator<EventFight> CREATOR = new Creator<EventFight>() {
+    public static final Parcelable.Creator<EventFight> CREATOR = new Parcelable.Creator<EventFight>() {
         @Override
         public EventFight createFromParcel(Parcel source) {
             return new EventFight(source);

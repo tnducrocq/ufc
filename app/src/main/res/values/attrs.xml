@@ -20,4 +20,20 @@
         <attr name="metaButtonBarStyle" format="reference"/>
         <attr name="metaButtonBarButtonStyle" format="reference"/>
     </declare-styleable>
+
+    <declare-styleable name="PieChart">
+        <attr name="color" format="color"/>
+        <attr name="test" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="CardPieView">
+        <attr name="remaining" format="string"/>
+        <attr name="title" format="string"/>
+        <attr name="lineWidth" format="dimension"/>
+
+        <attr name="percentageAppearance" format="reference"/>
+        <attr name="remainingAppearance" format="reference"/>
+        <attr name="titleAppearance" format="reference"/>
+    </declare-styleable>
+
 </resources>

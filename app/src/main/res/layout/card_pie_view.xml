@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.ritesh.ratiolayout.RatioRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="32dp"
+        app:fixed_attribute="WIDTH"
+        app:horizontal_ratio="1"
+        app:vertical_ratio="1">
+
+        <TextView
+            android:id="@+id/text_percentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="48%"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="40sp"/>
+
+        <TextView
+            android:id="@+id/text_remaining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_percentage"
+            android:layout_centerHorizontal="true"
+            android:maxWidth="200dp"
+            android:text="473 / 993"
+            android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+        <com.hookedonplay.decoviewlib.DecoView
+            xmlns:custom="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/deco_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            custom:dv_lineWidth="26dp">
+        </com.hookedonplay.decoviewlib.DecoView>
+    </com.ritesh.ratiolayout.RatioRelativeLayout>
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="Frappes"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+</LinearLayout>

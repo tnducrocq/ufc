@@ -40,50 +40,35 @@ android {
 }
 
 dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     compile project(':data')
 
-    compile 'com.hwangjr.rxbus:rxbus:2.0.0'
-    compile('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
-        transitive = true;
-    }
-
-    compile libs.chipsLover
-    compile libs.calligraphy
-    compile libs.constraintLayout
-    compile libs.multiDex
-    compile libs.materialIconLib
-    compile libs.preferenceCompat7
-    compile libs.cardView
-    compile libs.expandableTextView
-    compile libs.leakCanary
-    compile libs.recyclerView
-    compile libs.supportDesign
     compile libs.supportAppCompat
-    compile libs.textDrawable
-    compile libs.circleImage
-    compile libs.ottoEventBus
-    compile libs.butterKnife
-    compile libs.Dagger2
-    compile libs.circleIndicator
-    compile libs.glide
+    compile libs.supportAnnotations
+    compile libs.supportDesign
+    compile libs.supportPalette
+    compile libs.supportCardView
+    compile libs.supportPreferenceCompat7
+    compile libs.supportMultiDex
+    compile libs.supporRecyclerView
+    compile libs.supportConstraintLayout
+
+    //Java 8 / annotations...
     compile libs.RxJava
     compile libs.RxAndroid
-    compile libs.circleIndicator
-    compile libs.palette
-    compile libs.rxRelay
-
+    compile libs.RxRelay
     annotationProcessor libs.Dagger2Compiler
+    compile libs.butterKnife
     annotationProcessor libs.butterKnifeCompiler
     provided libs.javaxAnnotation
+    compile libs.Dagger2
 
-    /* Testing Libraries */
-    testCompile testLibs.mockito
-    testCompile testLibs.espresso
-    testCompile testLibs.jUnit
-
-    androidTestCompile testLibs.mockito
-    androidTestCompile testLibs.espresso
-    androidTestCompile testLibs.jUnit
+    //
+    compile libs.glide
+    compile libs.toro3
+    compile 'com.google.android.exoplayer:exoplayer-core:r2.5.2'
+    compile 'com.google.android.exoplayer:exoplayer-dash:r2.5.2'
+    compile 'com.google.android.exoplayer:exoplayer-ui:r2.5.2'
 
     compile 'com.ritesh:ratiolayout:1.0.0'
     compile 'com.aurelhubert:ahbottomnavigation:2.0.6'
@@ -91,9 +76,14 @@ dependencies {
     compile 'com.github.kanytu:ImageWindow:v1.0'
     compile 'com.romandanylyk:pageindicatorview:0.2.0@aar'
     compile 'com.github.florent37:diagonallayout:1.0.6'
-    compile 'com.android.support:support-v4:26.+'
-    compile 'com.android.support:recyclerview-v7:26.+'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
- 
+    compile 'com.github.bmarrdev:android-DecoView-charting:v0.9.3'
+
+    /* Testing Libraries */
+    testCompile testLibs.mockito
+    testCompile testLibs.espresso
+    testCompile testLibs.jUnit
+    androidTestCompile testLibs.mockito
+    androidTestCompile testLibs.espresso
+    androidTestCompile testLibs.jUnit
 }

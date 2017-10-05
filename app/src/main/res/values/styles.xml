@@ -11,6 +11,18 @@
 
     </style>
 
+
+    <style name="UFC_FIGHT" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/background_dark</item>
+        <item name="colorPrimaryDark">@color/background_dark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
+
+    </style>
+
     <style name="UFC.Details" parent="UFC">
 
         <item name="android:colorBackgroundCacheHint">@null</item>
@@ -116,4 +128,19 @@
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/black_overlay</item>
     </style>
+
+    <style name="UFC.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="UFC.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="UFC_FIGHT.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="UFC_FIGHT.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+
+    <style name="ExpandedAppBar" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

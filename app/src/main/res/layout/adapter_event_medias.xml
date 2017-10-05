@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.ritesh.ratiolayout.RatioFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:fixed_attribute="WIDTH"
+    app:horizontal_ratio="17"
+    app:vertical_ratio="9">
+
+    <im.ene.toro.widget.Container
+        android:id="@+id/media_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blue_grey_400"
+        android:orientation="horizontal"
+        app:layoutManager="@string/media_layout_manager"/>
+
+</com.ritesh.ratiolayout.RatioFrameLayout>

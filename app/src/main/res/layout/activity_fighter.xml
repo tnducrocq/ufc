@@ -1,6 +1,146 @@
-<FrameLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/frame"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/UFC_FIGHT"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:transitionGroup="false"/>
+    >
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:toolbarId="@+id/event_fights_toolbar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"></FrameLayout>
+
+                <ImageView
+                    android:id="@+id/fighter_image"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="matrix"
+                    android:src="@drawable/fighter_placeholder_blue"
+                    app:layout_collapseMode="parallax"/>
+            </LinearLayout>
+
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/fighter_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F1F5F8"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="fr.tnducrocq.ufc.presentation.EventFightActivity"
+        tools:showIn="@layout/activity_event_fight">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            android:weightSum="2">
+
+            <fr.tnducrocq.ufc.presentation.ui.view.CardPieView
+                android:id="@+id/fighter_kick_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:lineWidth="50dp"
+                app:remaining="%d / %d réussi"
+                app:title="Frappes"/>
+
+            <fr.tnducrocq.ufc.presentation.ui.view.CardPieView
+                android:id="@+id/fighter_grappling_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:lineWidth="26dp"
+                app:remaining="%d / %d réussi"
+                app:title="Grappling">
+
+            </fr.tnducrocq.ufc.presentation.ui.view.CardPieView>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="#F1F5F8"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <fr.tnducrocq.ufc.presentation.ui.view.CardPieView
+                    android:id="@+id/fighter_kick_card2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    app:lineWidth="5dp"
+                    app:percentageAppearance="?android:attr/textAppearanceMedium"
+                    app:remainingAppearance="?android:attr/textAppearanceSmall"
+                    app:title="Frappes"
+                    app:titleAppearance="?android:attr/textAppearanceMedium">
+
+                </fr.tnducrocq.ufc.presentation.ui.view.CardPieView>
+
+                <fr.tnducrocq.ufc.presentation.ui.view.CardPieView
+                    android:id="@+id/fighter_grappling_card2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_weight="1"
+                    app:lineWidth="5dp"
+                    app:percentageAppearance="?android:attr/textAppearanceSmall"
+                    app:remainingAppearance="?android:attr/textAppearanceSmall"
+                    app:title="Grappling"
+                    app:titleAppearance="?android:attr/textAppearanceMedium">
+
+                </fr.tnducrocq.ufc.presentation.ui.view.CardPieView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

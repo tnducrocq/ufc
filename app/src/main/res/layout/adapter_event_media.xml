@@ -1,0 +1,31 @@
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/more_event_card"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/spacing_small"
+    android:clickable="false"
+    app:cardBackgroundColor="@color/background_dark"
+    app:cardCornerRadius="@dimen/cardview_default_radius"
+    app:cardElevation="@dimen/cardview_default_elevation">
+
+    <com.ritesh.ratiolayout.RatioFrameLayout
+        android:id="@+id/event_poster"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:fixed_attribute="HEIGHT"
+        app:horizontal_ratio="16"
+        app:vertical_ratio="9">
+
+        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+            android:id="@+id/event_player"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:resize_mode="fixed_height"
+            app:surface_type="texture_view"
+            app:use_controller="false"
+            />
+    </com.ritesh.ratiolayout.RatioFrameLayout>
+
+</android.support.v7.widget.CardView>

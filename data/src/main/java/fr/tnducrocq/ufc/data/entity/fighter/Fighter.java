@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 import fr.tnducrocq.ufc.data.entity.HasId;
 import fr.tnducrocq.ufc.data.utils.WeightCategory;
 
-public class Fighter implements Parcelable, HasId {
+public class Fighter implements HasId, Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -86,6 +86,9 @@ public class Fighter implements Parcelable, HasId {
     @SerializedName("weight_class")
     @Expose
     private WeightCategory weightClass;
+
+    public Fighter() {
+    }
 
     @Override
     public String id() {
@@ -240,6 +243,7 @@ public class Fighter implements Parcelable, HasId {
         this.link = link;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -253,7 +257,6 @@ public class Fighter implements Parcelable, HasId {
         dest.writeValue(this.statid);
         dest.writeValue(this.losses);
         dest.writeString(this.lastName);
-        dest.writeString(this.weightClass.getName());
         dest.writeValue(this.titleHolder);
         dest.writeValue(this.draws);
         dest.writeString(this.firstName);
@@ -266,9 +269,7 @@ public class Fighter implements Parcelable, HasId {
         dest.writeString(this.rightFullBodyImage);
         dest.writeString(this.profileImage);
         dest.writeString(this.link);
-    }
-
-    public Fighter() {
+        dest.writeInt(this.weightClass == null ? -1 : this.weightClass.ordinal());
     }
 
     protected Fighter(Parcel in) {
@@ -278,7 +279,6 @@ public class Fighter implements Parcelable, HasId {
         this.statid = (Integer) in.readValue(Integer.class.getClassLoader());
         this.losses = (Integer) in.readValue(Integer.class.getClassLoader());
         this.lastName = in.readString();
-        this.weightClass = WeightCategory.valueOf(in.readString());
         this.titleHolder = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.draws = (Integer) in.readValue(Integer.class.getClassLoader());
         this.firstName = in.readString();
@@ -291,9 +291,11 @@ public class Fighter implements Parcelable, HasId {
         this.rightFullBodyImage = in.readString();
         this.profileImage = in.readString();
         this.link = in.readString();
+        int tmpWeightClass = in.readInt();
+        this.weightClass = tmpWeightClass == -1 ? null : WeightCategory.values()[tmpWeightClass];
     }
 
-    public static final Creator<Fighter> CREATOR = new Creator<Fighter>() {
+    public static final Parcelable.Creator<Fighter> CREATOR = new Parcelable.Creator<Fighter>() {
         @Override
         public Fighter createFromParcel(Parcel source) {
             return new Fighter(source);
@@ -314,7 +316,6 @@ public class Fighter implements Parcelable, HasId {
         sb.append(", statid=").append(statid);
         sb.append(", losses=").append(losses);
         sb.append(", lastName='").append(lastName).append('\'');
-        sb.append(", weightClass='").append(weightClass).append('\'');
         sb.append(", titleHolder=").append(titleHolder);
         sb.append(", draws=").append(draws);
         sb.append(", firstName='").append(firstName).append('\'');
@@ -327,6 +328,7 @@ public class Fighter implements Parcelable, HasId {
         sb.append(", rightFullBodyImage='").append(rightFullBodyImage).append('\'');
         sb.append(", profileImage='").append(profileImage).append('\'');
         sb.append(", link='").append(link).append('\'');
+        sb.append(", weightClass=").append(weightClass);
         sb.append('}');
         return sb.toString();
     }

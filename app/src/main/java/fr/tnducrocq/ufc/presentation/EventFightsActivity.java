@@ -7,17 +7,26 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import fr.tnducrocq.ufc.data.entity.event.Event;
 import fr.tnducrocq.ufc.data.entity.event.EventFight;
 import fr.tnducrocq.ufc.data.entity.event.EventMedia;
 import fr.tnducrocq.ufc.presentation.ui.event.details.EventFightsRecyclerViewAdapter;
+import fr.tnducrocq.ufc.presentation.ui.event.details.EventInformations;
+import im.ene.toro.widget.Container;
 import rx.Observable;
 import rx.Observer;
-import rx.functions.Func2;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -28,17 +37,30 @@ public class EventFightsActivity extends AppCompatActivity implements EventFight
     private static final String TAG = "EventFightsActivity";
 
     private static final String ARG_EVENT_ID = "event-id";
+    private static final String ARG_EVENT_TITLE = "event-title";
+    private static final String ARG_EVENT_IMAGE = "event-feature-image";
+
     private String mEventId;
+    private String mEventTitle;
+    private String mEventFeatureImage;
 
     @BindView(R.id.event_fights_list)
-    public RecyclerView mRecyclerView;
+    public Container mRecyclerView;
+
+    @BindView(R.id.event_fights_image)
+    public ImageView mImageView;
+
+    @BindView(R.id.event_fights_toolbar)
+    public Toolbar mToolbar;
 
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    public static Intent newIntent(Context context, String eventId) {
+    public static Intent newIntent(Context context, Event event) {
         Intent intent = new Intent(context, EventFightsActivity.class);
-        intent.putExtra(ARG_EVENT_ID, eventId);
+        intent.putExtra(ARG_EVENT_ID, event.id());
+        intent.putExtra(ARG_EVENT_TITLE, event.getBaseTitle());
+        intent.putExtra(ARG_EVENT_IMAGE, event.getFeatureImage());
         return intent;
     }
 
@@ -52,7 +74,24 @@ public class EventFightsActivity extends AppCompatActivity implements EventFight
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             mEventId = bundle.getString(ARG_EVENT_ID);
+            mEventTitle = bundle.getString(ARG_EVENT_TITLE);
+            mEventFeatureImage = bundle.getString(ARG_EVENT_IMAGE);
         }
+
+        mToolbar.setTitle(mEventTitle);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        Glide.with(this) //
+                .load(mEventFeatureImage) //
+                .asBitmap() //
+                .priority(Priority.IMMEDIATE) //
+                .diskCacheStrategy(DiskCacheStrategy.RESULT) //
+                .placeholder(R.drawable.event_placeholder) //
+                .animate(R.anim.fade_in) //
+                .into(mImageView);
+
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
@@ -64,48 +103,51 @@ public class EventFightsActivity extends AppCompatActivity implements EventFight
         Observable<List<EventFight>> obsEventFights = App.getInstance().getEventRepository().getEventFight(mEventId);
         Observable<List<EventMedia>> obsEventMedias = App.getInstance().getEventRepository().getEventMedia(mEventId);
 
-        Observable.zip(obsEventFights, obsEventMedias, new Func2<List<EventFight>, List<EventMedia>, EventDetail>() {
-            @Override
-            public EventDetail call(List<EventFight> eventFights, List<EventMedia> eventMedias) {
-                EventDetail detail = new EventDetail();
-                detail.fights = eventFights;
-                detail.medias = eventMedias;
-                return detail;
-            }
+        Observable.zip(obsEventFights, obsEventMedias, (eventFights, eventMedias) -> {
+            EventInformations detail = new EventInformations();
+            detail.fights = eventFights;
+            detail.medias = eventMedias;
+            return detail;
         }).subscribeOn(App.getInstance().schedulerProvider.multi()).//
                 observeOn(App.getInstance().schedulerProvider.ui()).//
-                subscribe(new Observer<EventDetail>() {
-
-            EventDetail mDetail;
-            Throwable mError;
-
-            @Override
-            public void onCompleted() {
-                if (mDetail != null) {
-                    mAdapter = new EventFightsRecyclerViewAdapter(mDetail.fights, EventFightsActivity.this);
-                    mRecyclerView.setAdapter(mAdapter);
-                }
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                mError = e;
-            }
-
-            @Override
-            public void onNext(EventDetail eventDetail) {
-                mDetail = eventDetail;
-            }
-        });
+                subscribe(new ObserverEventInformations());
     }
 
-    static class EventDetail {
-        List<EventFight> fights;
-        List<EventMedia> medias;
+    public class ObserverEventInformations implements Observer<EventInformations> {
+
+        private EventInformations mDetail;
+        private Throwable mError;
+
+        @Override
+        public void onCompleted() {
+            if (mDetail != null) {
+                mAdapter = new EventFightsRecyclerViewAdapter(mDetail, EventFightsActivity.this);
+                mRecyclerView.setAdapter(mAdapter);
+            }
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            mError = e;
+        }
+
+        @Override
+        public void onNext(EventInformations eventDetail) {
+            mDetail = eventDetail;
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override
     public void onListFragmentInteraction(EventFight item) {
-
+        Intent intent = EventFightActivity.newIntent(this, item);
+        startActivity(intent);
     }
 }

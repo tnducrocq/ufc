@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements EventFragment.OnE
     @Override
     public void onListFragmentInteraction(Event item) {
         Log.d("MainActivity", item.toString());
-        Intent intent = EventFightsActivity.newIntent(this, item.id());
+        Intent intent = EventFightsActivity.newIntent(this, item);
         startActivity(intent);
     }
 
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements EventFragment.OnE
 
     @Override
     public void onListFragmentInteraction(Fighter item) {
-        Intent intent = FighterActivity.newIntent(this, item.id());
+        Intent intent = FighterActivity.newIntent(this, item);
         startActivity(intent);
     }
 

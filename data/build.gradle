@@ -27,19 +27,23 @@ android {
 
 dependencies {
 
+    compile project(':jsoup-annotations-library')
+    
     compile libs.supportAppCompat
 
+    //Java 8 / annotations...
     compile libs.RxJava
+    compile libs.RxAndroid
+    provided libs.javaxAnnotation
+    compile libs.Dagger2
+    annotationProcessor libs.Dagger2Compiler
+
     compile libs.guava
     compile libs.retrofit
     compile libs.retrofitAdapter
     compile libs.retrofitConverter
     compile libs.okHttp
     compile libs.gson
-    compile libs.RxAndroid
-    compile libs.Dagger2
-    annotationProcessor libs.Dagger2Compiler
-    provided libs.javaxAnnotation
 
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
 

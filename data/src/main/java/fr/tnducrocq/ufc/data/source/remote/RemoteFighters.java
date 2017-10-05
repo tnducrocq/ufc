@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
+import fr.tnducrocq.ufc.data.entity.fighter.FighterDetails;
 import fr.tnducrocq.ufc.data.utils.SwiftString;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -54,4 +55,6 @@ public class RemoteFighters implements IRepository<Fighter> {
             }
         });
     }
+
+
 }

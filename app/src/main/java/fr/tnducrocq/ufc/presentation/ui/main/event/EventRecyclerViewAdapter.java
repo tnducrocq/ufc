@@ -2,6 +2,7 @@ package fr.tnducrocq.ufc.presentation.ui.main.event;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
@@ -15,8 +16,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.ImageViewTarget;
-import com.vpaliy.chips_lover.ChipBuilder;
-import com.vpaliy.chips_lover.ChipsLayout;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
 
@@ -60,11 +59,9 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
         @BindView(R.id.event_release_year)
         TextView releaseYear;
 
-        @BindView(R.id.event_ratings)
-        TextView ratings;
+//        @BindView(R.id.event_ratings)
+//        TextView ratings;
 
-        @BindView(R.id.chipsContainer)
-        ChipsLayout chipsContainer;
 
         @BindView(R.id.details_background)
         View background;
@@ -80,27 +77,23 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
             //apply if not null
             if (swatch != null) {
                 background.setBackgroundColor(swatch.getRgb());
-                ChipBuilder builder = chipsContainer.getChipBuilder().setBackgroundColor(swatch.getTitleTextColor()).setTextColor(swatch.getBodyTextColor());
-                chipsContainer.updateChipColors(builder);
+
                 eventTitle.setTextColor(swatch.getTitleTextColor());
                 eventTag.setTextColor(swatch.getBodyTextColor());
                 releaseYear.setTextColor(swatch.getBodyTextColor());
-                ratings.setTextColor(swatch.getBodyTextColor());
+                //ratings.setTextColor(swatch.getBodyTextColor());
                 setDrawableColor(releaseYear, swatch.getBodyTextColor());
-                setDrawableColor(ratings, swatch.getBodyTextColor());
+                //setDrawableColor(ratings, swatch.getBodyTextColor());
             } else {
                 Context context = background.getContext();
                 background.setBackgroundColor(ContextCompat.getColor(context, R.color.colorEventItemBackground));
-                ChipBuilder builder = chipsContainer.getChipBuilder().
-                        setBackgroundColor(ContextCompat.getColor(context, R.color.colorEventItemTitleColor)).
-                        setTextColor(ContextCompat.getColor(context, R.color.colorEventItemBodyColor));
-                chipsContainer.updateChipColors(builder);
+
                 eventTitle.setTextColor(ContextCompat.getColor(context, R.color.colorEventItemTitleColor));
                 eventTag.setTextColor(ContextCompat.getColor(context, R.color.colorEventItemBodyColor));
                 releaseYear.setTextColor(ContextCompat.getColor(context, R.color.colorEventItemBodyColor));
-                ratings.setTextColor(ContextCompat.getColor(context, R.color.colorEventItemBodyColor));
+                //ratings.setTextColor(ContextCompat.getColor(context, R.color.colorEventItemBodyColor));
                 setDrawableColor(releaseYear, ContextCompat.getColor(context, R.color.colorEventItemBodyColor));
-                setDrawableColor(ratings, ContextCompat.getColor(context, R.color.colorEventItemBodyColor));
+                //setDrawableColor(ratings, ContextCompat.getColor(context, R.color.colorEventItemBodyColor));
             }
         }
 
@@ -111,12 +104,16 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
             eventTitle.setText(event.getBaseTitle());
             eventTag.setText(event.getTitleTagLine());
 
+            Bitmap placeholder = BitmapFactory.decodeResource(background.getContext().getResources(), R.drawable.event_placeholder);
+            posterImage.setImageBitmap(placeholder);
+            new Palette.Builder(placeholder).generate(EventViewHolder.this::applyPalette);
+
             Glide.with(itemView.getContext()) //
                     .load(event.getFeatureImage()) //
                     .asBitmap() //
                     .priority(Priority.IMMEDIATE) //
                     .diskCacheStrategy(DiskCacheStrategy.RESULT) //
-                    .placeholder(R.drawable.placeholder) //
+                    .placeholder(R.drawable.event_placeholder) //
                     .animate(R.anim.fade_in) //
                     .into(new ImageViewTarget<Bitmap>(posterImage) {
                         @Override

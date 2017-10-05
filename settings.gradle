@@ -1,2 +1,4 @@
 include ':app'
 include ':data'
+include ':jsoup-annotations-library'
+project(':jsoup-annotations-library').projectDir = new File('jsoup-annotations/library')
