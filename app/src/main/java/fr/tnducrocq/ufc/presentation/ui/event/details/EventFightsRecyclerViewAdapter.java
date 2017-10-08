@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.tnducrocq.ufc.data.entity.event.Event;
@@ -21,7 +22,7 @@ import fr.tnducrocq.ufc.presentation.ui.main.event.EventFragment;
 public class EventFightsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final List<EventFight> mFights;
-    private final List<EventMedia> mMedias;
+    private final List<EventMedia> mMedias = new ArrayList<>();
     private final EventFightsRecyclerViewAdapter.OnEventFightsInteractionListener mListener;
 
     public interface OnEventFightsInteractionListener {
@@ -30,17 +31,27 @@ public class EventFightsRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
     public EventFightsRecyclerViewAdapter(EventInformations details, EventFightsRecyclerViewAdapter.OnEventFightsInteractionListener listener) {
         mFights = details.fights;
-        mMedias = details.medias;
+        for (EventMedia media : details.medias) {
+            if (media.getMobileVideoUrl() != null) {
+                mMedias.add(media);
+            }
+        }
         mListener = listener;
     }
 
     @Override
     public int getItemCount() {
+        if (mMedias.isEmpty()) {
+            return mFights.size();
+        }
         return mFights.size() + 1;
     }
 
     @Override
     public int getItemViewType(int position) {
+        if (mMedias.isEmpty()) {
+            return 1;
+        }
         return position == 0 ? 0 : 1;
     }
 

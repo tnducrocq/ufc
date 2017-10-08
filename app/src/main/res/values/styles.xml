@@ -1,6 +1,7 @@
 <resources>
 
-    <style name="UFC" parent="Theme.AppCompat.Light.NoActionBar">
+    <!-- Style 1: Red ActionBar-->
+    <style name="main" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -8,53 +9,10 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowContentTransitions">true</item>
 
-    </style>
-
-
-    <style name="UFC_FIGHT" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/background_dark</item>
-        <item name="colorPrimaryDark">@color/background_dark</item>
-        <item name="colorAccent">@color/colorPrimary</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="android:windowActionModeOverlay">true</item>
-
-    </style>
-
-    <style name="UFC.Details" parent="UFC">
-
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@color/scrim</item>
-    </style>
-
-    <style name="UFC.Actor" parent="UFC"/>
-
-    <style name="UFC.MoreMedia" parent="UFC"/>
-
-    <style name="UFC.Settings"/>
-
-    <style name="SimpleAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
-    </style>
-
-    <style name="SplashTheme" parent="Theme.AppCompat.Light">
-        <!--<item name="android:windowBackground">@drawable/app_logo</item>-->
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="colorPrimary">@color/colorWhite</item>
-        <item name="colorPrimaryDark">@android:color/darker_gray</item>
-        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="Widget">
@@ -117,30 +75,25 @@
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="FullscreenTheme" parent="UFC">
-        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="android:windowBackground">@null</item>
-        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
-        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
-    </style>
-
-    <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">@color/black_overlay</item>
-    </style>
-
-    <style name="UFC.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-    <style name="UFC.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
-
-    <style name="UFC_FIGHT.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-    <style name="UFC_FIGHT.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
-
-
     <style name="ExpandedAppBar" parent="@android:style/TextAppearance.Medium">
         <item name="android:textSize">24sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
+    <!-- Style 2: Gray ActionBar-->
+    <style name="second" parent="main">
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="second.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:background">@color/colorPrimaryDark</item>
+    </style>
+
+
+    <!-- Other Style-->
+    <style name="main.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="main.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 </resources>

@@ -2,7 +2,6 @@ package fr.tnducrocq.ufc.presentation.ui.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.widget.TextView;
@@ -46,6 +45,8 @@ public class CardPieView extends CardView {
 
     private float lineWidth;
 
+    private int serieBackColor;
+    private int serieItemColor;
 
     public CardPieView(Context context) {
         super(context);
@@ -87,6 +88,9 @@ public class CardPieView extends CardView {
             if (remainingAppearance != -1) {
                 mRemaining.setTextAppearance(context, remainingAppearance);
             }
+            serieBackColor = a.getColor(R.styleable.CardPieView_serieBackColor, getResources().getColor(R.color.colorSerieBack));
+            serieItemColor = a.getColor(R.styleable.CardPieView_serieBackColor, getResources().getColor(R.color.colorSerieItem1));
+
         } finally {
             a.recycle();
         }
@@ -103,13 +107,13 @@ public class CardPieView extends CardView {
         mPercentage.setText("");
         mRemaining.setText("");
 
-        SeriesItem backSerie = new SeriesItem.Builder(Color.parseColor("#FFE2E2E2")).//
+        SeriesItem backSerie = new SeriesItem.Builder(serieBackColor).//
                 setLineWidth(lineWidth).//
                 setRange(0, attempt, 0).//
                 setInitialVisibility(true).build();
         int backIndex = mDecoView.addSeries(backSerie);
 
-        final SeriesItem seriesItem = new SeriesItem.Builder(Color.parseColor("#FFFF8800")).//
+        final SeriesItem seriesItem = new SeriesItem.Builder(serieItemColor).//
                 setLineWidth(lineWidth).//
                 setRange(0, attempt, 0).//
                 setInitialVisibility(false).build();

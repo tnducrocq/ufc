@@ -42,7 +42,9 @@
             android:id="@+id/deco_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            custom:dv_lineWidth="26dp">
+            custom:dv_lineWidth="26dp"
+            custom:dv_rotateAngle="0"
+            custom:dv_totalAngle="360">
         </com.hookedonplay.decoviewlib.DecoView>
     </com.ritesh.ratiolayout.RatioRelativeLayout>
 

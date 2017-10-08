@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,10 +40,12 @@ public class EventFightsActivity extends AppCompatActivity implements EventFight
     private static final String ARG_EVENT_ID = "event-id";
     private static final String ARG_EVENT_TITLE = "event-title";
     private static final String ARG_EVENT_IMAGE = "event-feature-image";
+    private static final String ARG_EVENT_COLOR = "event-feature-color";
 
     private String mEventId;
     private String mEventTitle;
     private String mEventFeatureImage;
+    private int mEventColor;
 
     @BindView(R.id.event_fights_list)
     public Container mRecyclerView;
@@ -53,14 +56,19 @@ public class EventFightsActivity extends AppCompatActivity implements EventFight
     @BindView(R.id.event_fights_toolbar)
     public Toolbar mToolbar;
 
+
+    @BindView(R.id.toolbar_layout)
+    public CollapsingToolbarLayout mToolbarLayout;
+
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    public static Intent newIntent(Context context, Event event) {
+    public static Intent newIntent(Context context, Event event, int color) {
         Intent intent = new Intent(context, EventFightsActivity.class);
         intent.putExtra(ARG_EVENT_ID, event.id());
         intent.putExtra(ARG_EVENT_TITLE, event.getBaseTitle());
         intent.putExtra(ARG_EVENT_IMAGE, event.getFeatureImage());
+        intent.putExtra(ARG_EVENT_COLOR, color);
         return intent;
     }
 
@@ -76,8 +84,12 @@ public class EventFightsActivity extends AppCompatActivity implements EventFight
             mEventId = bundle.getString(ARG_EVENT_ID);
             mEventTitle = bundle.getString(ARG_EVENT_TITLE);
             mEventFeatureImage = bundle.getString(ARG_EVENT_IMAGE);
+            mEventColor = bundle.getInt(ARG_EVENT_COLOR);
         }
 
+        mToolbarLayout.setBackgroundColor(mEventColor);
+        mToolbarLayout.setStatusBarScrimColor(mEventColor);
+        mToolbarLayout.setContentScrimColor(mEventColor);
         mToolbar.setTitle(mEventTitle);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -87,7 +99,7 @@ public class EventFightsActivity extends AppCompatActivity implements EventFight
                 .load(mEventFeatureImage) //
                 .asBitmap() //
                 .priority(Priority.IMMEDIATE) //
-                .diskCacheStrategy(DiskCacheStrategy.RESULT) //
+                .diskCacheStrategy(DiskCacheStrategy.ALL) //
                 .placeholder(R.drawable.event_placeholder) //
                 .animate(R.anim.fade_in) //
                 .into(mImageView);
@@ -140,7 +152,9 @@ public class EventFightsActivity extends AppCompatActivity implements EventFight
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         if (menuItem.getItemId() == android.R.id.home) {
+            //supportFinishAfterTransition();
             finish();
+            return true;
         }
         return super.onOptionsItemSelected(menuItem);
     }

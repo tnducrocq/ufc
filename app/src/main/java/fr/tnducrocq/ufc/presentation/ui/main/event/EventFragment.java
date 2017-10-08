@@ -96,7 +96,7 @@ public abstract class EventFragment extends Fragment {
                     @Override
                     public void onCompleted() {
                         if (mEvents != null) {
-                            mRecyclerView.setAdapter(new EventRecyclerViewAdapter(mEvents, mListener));
+                            mRecyclerView.setAdapter(new EventRecyclerViewAdapter(mEvents, getActivity(), mListener));
                         }
                     }
 

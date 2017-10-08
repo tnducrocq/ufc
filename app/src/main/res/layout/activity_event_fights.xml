@@ -8,35 +8,49 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
+        android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/event_fights_toolbar">
 
-            <ImageView
-                android:id="@+id/event_fights_image"
+
+            <com.ritesh.ratiolayout.RatioRelativeLayout
+                android:id="@+id/event_fights_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/event_placeholder"
-                android:fitsSystemWindows="true"
-                android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"/>
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                app:fixed_attribute="WIDTH"
+                app:horizontal_ratio="16"
+                app:layout_collapseMode="parallax"
+                app:vertical_ratio="9">
+
+                <ImageView
+                    android:id="@+id/event_fights_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/event_placeholder"
+                    android:transitionName="profile"/>
+
+            </com.ritesh.ratiolayout.RatioRelativeLayout>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/event_fights_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
-
+                app:popupTheme="@style/main.PopupOverlay"
+                app:titleMarginTop="13dp"/>
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>

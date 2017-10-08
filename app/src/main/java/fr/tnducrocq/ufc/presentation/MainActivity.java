@@ -159,8 +159,8 @@ public class MainActivity extends AppCompatActivity implements EventFragment.OnE
     @Override
     public void onListFragmentInteraction(Event item) {
         Log.d("MainActivity", item.toString());
-        Intent intent = EventFightsActivity.newIntent(this, item);
-        startActivity(intent);
+       /* Intent intent = EventFightsActivity.newIntent(this, item, color);
+        startActivity(intent);*/
     }
 
     @Override

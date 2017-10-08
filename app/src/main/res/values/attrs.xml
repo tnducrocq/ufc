@@ -34,6 +34,10 @@
         <attr name="percentageAppearance" format="reference"/>
         <attr name="remainingAppearance" format="reference"/>
         <attr name="titleAppearance" format="reference"/>
+
+
+        <attr name="serieBackColor" format="color"/>
+        <attr name="serieItemColor" format="color"/>
     </declare-styleable>
 
 </resources>

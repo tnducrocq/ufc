@@ -1,8 +1,11 @@
 package fr.tnducrocq.ufc.presentation.ui.main.event;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +27,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fr.tnducrocq.ufc.data.entity.event.Event;
+import fr.tnducrocq.ufc.presentation.EventFightsActivity;
 import fr.tnducrocq.ufc.presentation.R;
 
 import static fr.tnducrocq.ufc.presentation.ui.utils.ColorUtils.fetchDominantSwatch;
@@ -37,17 +41,19 @@ import static fr.tnducrocq.ufc.presentation.ui.utils.ColorUtils.setDrawableColor
 public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecyclerViewAdapter.EventViewHolder> {
 
     private final List<Event> mValues;
+    private final Context mContext;
     private final EventFragment.OnEventFragmentInteractionListener mListener;
 
 
-    public EventRecyclerViewAdapter(List<Event> items, EventFragment.OnEventFragmentInteractionListener listener) {
+    public EventRecyclerViewAdapter(List<Event> items, Context context, EventFragment.OnEventFragmentInteractionListener listener) {
         mValues = items;
+        mContext = context;
         mListener = listener;
     }
 
     public class EventViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.event_poster)
+        @BindView(R.id.event_fights_image)
         ImageView posterImage;
 
         @BindView(R.id.event_title)
@@ -58,6 +64,8 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
 
         @BindView(R.id.event_release_year)
         TextView releaseYear;
+
+        Palette.Swatch mSwatch;
 
 //        @BindView(R.id.event_ratings)
 //        TextView ratings;
@@ -73,9 +81,11 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
 
         //that's where the magic happens
         private void applyPalette(Palette palette) {
+
             Palette.Swatch swatch = fetchDominantSwatch(palette);
             //apply if not null
             if (swatch != null) {
+                mSwatch = swatch;
                 background.setBackgroundColor(swatch.getRgb());
 
                 eventTitle.setTextColor(swatch.getTitleTextColor());
@@ -112,7 +122,7 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
                     .load(event.getFeatureImage()) //
                     .asBitmap() //
                     .priority(Priority.IMMEDIATE) //
-                    .diskCacheStrategy(DiskCacheStrategy.RESULT) //
+                    .diskCacheStrategy(DiskCacheStrategy.ALL) //
                     .placeholder(R.drawable.event_placeholder) //
                     .animate(R.anim.fade_in) //
                     .into(new ImageViewTarget<Bitmap>(posterImage) {
@@ -124,6 +134,16 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
                     });
 
             posterImage.setOnClickListener(v -> {
+                int color = posterImage.getResources().getColor(R.color.colorPrimaryDark);
+                if (mSwatch != null) {
+                    color = mSwatch.getRgb();
+                }
+
+                Intent intent = EventFightsActivity.newIntent(mContext, event, color);
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation((Activity) mContext, (View) posterImage, "profile");
+                mContext.startActivity(intent, options.toBundle());
+
                 mListener.onListFragmentInteraction(event);
             });
         }
