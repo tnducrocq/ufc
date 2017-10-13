@@ -63,12 +63,12 @@ public class FighterActivity extends AppCompatActivity {
     @BindView(R.id.fighter_grappling_card)
     public CardPieView grapplingView;
 
-
+/*
     @BindView(R.id.fighter_kick_card2)
     public CardPieView kickView2;
 
     @BindView(R.id.fighter_grappling_card2)
-    public CardPieView grapplingView2;
+    public CardPieView grapplingView2;*/
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -112,9 +112,9 @@ public class FighterActivity extends AppCompatActivity {
         Log.d(TAG, "fighter: " + mFighter == null ? "null" : mFighter.toString());
 
         kickView.setVisibility(View.GONE);
-        kickView2.setVisibility(View.GONE);
+        //kickView2.setVisibility(View.GONE);
         grapplingView.setVisibility(View.GONE);
-        grapplingView2.setVisibility(View.GONE);
+        //grapplingView2.setVisibility(View.GONE);
 
         Observable<FighterDetails> observable = getInstance().getFighterDetailsRepository().get(mFighter);
         observable.subscribeOn(App.getInstance().getSchedulerProvider().multi())//
@@ -128,15 +128,15 @@ public class FighterActivity extends AppCompatActivity {
                     public void onCompleted() {
                         if (mFighter != null) {
                             kickView.setVisibility(View.VISIBLE);
-                            kickView2.setVisibility(View.VISIBLE);
+                            //kickView2.setVisibility(View.VISIBLE);
                             grapplingView.setVisibility(View.VISIBLE);
-                            grapplingView2.setVisibility(View.VISIBLE);
+                            // grapplingView2.setVisibility(View.VISIBLE);
 
                             kickView.init(mFighter.getStrikes_attempted(), mFighter.getStrikes_successful());
                             grapplingView.init(mFighter.getTakedowns_attempted(), mFighter.getTakedowns_successful());
 
-                            kickView2.init(mFighter.getStrikes_attempted(), mFighter.getStrikes_successful());
-                            grapplingView2.init(mFighter.getTakedowns_attempted(), mFighter.getTakedowns_successful());
+                            // kickView2.init(mFighter.getStrikes_attempted(), mFighter.getStrikes_successful());
+                            // grapplingView2.init(mFighter.getTakedowns_attempted(), mFighter.getTakedowns_successful());
                         }
                     }
 

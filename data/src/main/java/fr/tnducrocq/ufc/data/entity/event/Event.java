@@ -15,7 +15,7 @@ import fr.tnducrocq.ufc.data.entity.HasId;
  * Created by tony on 25/07/2017.
  */
 
-public class Event implements Comparable<Event>, Parcelable, HasId {
+public class Event implements Comparable<Event>, HasId, Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -398,7 +398,7 @@ public class Event implements Comparable<Event>, Parcelable, HasId {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(this.id);
+        dest.writeString(this.id);
         dest.writeLong(this.eventDate != null ? this.eventDate.getTime() : -1);
         dest.writeString(this.secondaryFeatureImage);
         dest.writeString(this.ticketImage);

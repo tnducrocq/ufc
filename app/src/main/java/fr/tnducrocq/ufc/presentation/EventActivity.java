@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,6 +33,7 @@ import fr.tnducrocq.ufc.data.entity.event.EventMedia;
 import fr.tnducrocq.ufc.presentation.app.App;
 import fr.tnducrocq.ufc.presentation.ui.event.EventFightsRecyclerViewAdapter;
 import fr.tnducrocq.ufc.presentation.ui.event.EventInformations;
+import fr.tnducrocq.ufc.presentation.ui.utils.PaletteColors;
 import fr.tnducrocq.ufc.presentation.ui.utils.PresentationUtils;
 import im.ene.toro.widget.Container;
 import rx.Observable;
@@ -43,15 +47,12 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
 
     private static final String TAG = "EventActivity";
 
-    private static final String ARG_EVENT_ID = "event-id";
-    private static final String ARG_EVENT_TITLE = "event-title";
-    private static final String ARG_EVENT_IMAGE = "event-feature-image";
-    private static final String ARG_EVENT_COLOR = "event-feature-color";
+    private static final String ARG_EVENT = "event";
+    private static final String ARG_EVENT_PALETTE = "event-palette";
 
-    private String mEventId;
-    private String mEventTitle;
-    private String mEventFeatureImage;
-    private int mEventColor;
+    private Event mEvent;
+    private PaletteColors mEventPalette;
+    private EventInformations mDetail;
 
     @BindView(R.id.event_fights_list)
     public Container mRecyclerView;
@@ -68,12 +69,10 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    public static Intent newIntent(Context context, Event event, int color) {
+    public static Intent newIntent(@NonNull Context context, @NonNull Event event, @NonNull PaletteColors palette) {
         Intent intent = new Intent(context, EventActivity.class);
-        intent.putExtra(ARG_EVENT_ID, event.id());
-        intent.putExtra(ARG_EVENT_TITLE, event.getBaseTitle());
-        intent.putExtra(ARG_EVENT_IMAGE, event.getFeatureImage());
-        intent.putExtra(ARG_EVENT_COLOR, color);
+        intent.putExtra(ARG_EVENT, event);
+        intent.putExtra(ARG_EVENT_PALETTE, palette);
         return intent;
     }
 
@@ -84,18 +83,15 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
         ButterKnife.bind(this);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            mEventId = bundle.getString(ARG_EVENT_ID);
-            mEventTitle = bundle.getString(ARG_EVENT_TITLE);
-            mEventFeatureImage = bundle.getString(ARG_EVENT_IMAGE);
-            mEventColor = bundle.getInt(ARG_EVENT_COLOR);
-        }
+        mEvent = getIntent().getParcelableExtra(ARG_EVENT);
+        mEventPalette = getIntent().getParcelableExtra(ARG_EVENT_PALETTE);
 
-        mToolbarLayout.setBackgroundColor(mEventColor);
-        mToolbarLayout.setStatusBarScrimColor(mEventColor);
-        mToolbarLayout.setContentScrimColor(mEventColor);
-        mToolbar.setTitle(mEventTitle);
+        mToolbarLayout.setBackgroundColor(mEventPalette.rgb);
+        mToolbarLayout.setStatusBarScrimColor(mEventPalette.rgb);
+        mToolbarLayout.setContentScrimColor(mEventPalette.rgb);
+
+        mToolbar.setTitle(mEvent.getTitleTagLine());
+
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -107,7 +103,7 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
         Bitmap placeholder = BitmapFactory.decodeResource(getResources(), R.drawable.event_placeholder);
         mImageView.setImageBitmap(placeholder);
         Glide.with(this) //
-                .load(mEventFeatureImage) //
+                .load(mEvent.getFeatureImage()) //
                 .asBitmap() //
                 .priority(Priority.IMMEDIATE) //
                 .diskCacheStrategy(DiskCacheStrategy.ALL) //
@@ -125,8 +121,8 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        Observable<List<EventFight>> obsEventFights = App.getInstance().getEventRepository().getEventFight(mEventId);
-        Observable<List<EventMedia>> obsEventMedias = App.getInstance().getEventRepository().getEventMedia(mEventId);
+        Observable<List<EventFight>> obsEventFights = App.getInstance().getEventRepository().getEventFight(mEvent.id());
+        Observable<List<EventMedia>> obsEventMedias = App.getInstance().getEventRepository().getEventMedia(mEvent.id());
 
         Observable.zip(obsEventFights, obsEventMedias, (eventFights, eventMedias) -> {
             EventInformations detail = new EventInformations();
@@ -145,9 +141,11 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
 
         @Override
         public void onCompleted() {
+            EventActivity.this.mDetail = mDetail;
             if (mDetail != null) {
                 mAdapter = new EventFightsRecyclerViewAdapter(mDetail, EventActivity.this);
                 mRecyclerView.setAdapter(mAdapter);
+                EventActivity.this.invalidateOptionsMenu();
             }
         }
 
@@ -163,9 +161,29 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        //R.menu.menu est l'id de notre menu
+        inflater.inflate(R.menu.menu_event, menu);
+        return true;
+    }
+
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem register = menu.findItem(R.id.action_video);
+        boolean hide = mDetail == null || mDetail.medias == null || mDetail.medias.isEmpty();
+        register.setVisible(!hide);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         if (menuItem.getItemId() == android.R.id.home) {
             onBackPressed();
+            return true;
+        } else if (menuItem.getItemId() == R.id.action_video) {
+            Intent intent = PlayerActivity.newIntent(this, mDetail.medias.get(0).getMobileVideoUrl());
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(menuItem);

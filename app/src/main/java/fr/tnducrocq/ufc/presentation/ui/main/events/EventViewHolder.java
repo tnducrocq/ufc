@@ -25,6 +25,7 @@ import butterknife.ButterKnife;
 import fr.tnducrocq.ufc.data.entity.event.Event;
 import fr.tnducrocq.ufc.presentation.EventActivity;
 import fr.tnducrocq.ufc.presentation.R;
+import fr.tnducrocq.ufc.presentation.ui.utils.PaletteColors;
 
 import static fr.tnducrocq.ufc.presentation.ui.utils.ColorUtils.fetchDominantSwatch;
 import static fr.tnducrocq.ufc.presentation.ui.utils.ColorUtils.setDrawableColor;
@@ -116,12 +117,7 @@ public class EventViewHolder extends RecyclerView.ViewHolder {
                 });
 
         posterImage.setOnClickListener(v -> {
-            int color = posterImage.getResources().getColor(R.color.colorPrimaryDark);
-            if (mSwatch != null) {
-                color = mSwatch.getRgb();
-            }
-
-            Intent intent = EventActivity.newIntent(v.getContext(), event, color);
+            Intent intent = EventActivity.newIntent(v.getContext(), event, PaletteColors.fromSwatch(mSwatch));
             ActivityOptionsCompat options = ActivityOptionsCompat.
                     makeSceneTransitionAnimation((Activity) v.getContext(), (View) posterImage, "profile");
             v.getContext().startActivity(intent, options.toBundle());

@@ -91,7 +91,6 @@
         <item name="android:background">@color/colorPrimaryDark</item>
     </style>
 
-
     <!-- Other Style-->
     <style name="main.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 

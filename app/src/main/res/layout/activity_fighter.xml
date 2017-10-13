@@ -79,7 +79,7 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                app:lineWidth="50dp"
+                app:lineWidth="26dp"
                 app:remaining="%d / %d réussi"
                 app:title="Frappes"/>
 
@@ -97,46 +97,46 @@
             </fr.tnducrocq.ufc.presentation.ui.view.CardPieView>
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="#F1F5F8"
-                android:orientation="horizontal"
-                android:weightSum="2">
+            <!--  <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="16dp"
+                  android:background="#F1F5F8"
+                  android:orientation="horizontal"
+                  android:weightSum="2">
 
-                <fr.tnducrocq.ufc.presentation.ui.view.CardPieView
-                    android:id="@+id/fighter_kick_card2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_weight="1"
-                    app:lineWidth="5dp"
-                    app:percentageAppearance="?android:attr/textAppearanceMedium"
-                    app:remainingAppearance="?android:attr/textAppearanceSmall"
-                    app:title="Frappes"
-                    app:titleAppearance="?android:attr/textAppearanceMedium">
+                  <fr.tnducrocq.ufc.presentation.ui.view.CardPieView
+                      android:id="@+id/fighter_kick_card2"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginBottom="16dp"
+                      android:layout_marginLeft="16dp"
+                      android:layout_marginRight="8dp"
+                      android:layout_weight="1"
+                      app:lineWidth="5dp"
+                      app:percentageAppearance="?android:attr/textAppearanceMedium"
+                      app:remainingAppearance="?android:attr/textAppearanceSmall"
+                      app:title="Frappes"
+                      app:titleAppearance="?android:attr/textAppearanceMedium">
 
-                </fr.tnducrocq.ufc.presentation.ui.view.CardPieView>
+                  </fr.tnducrocq.ufc.presentation.ui.view.CardPieView>
 
-                <fr.tnducrocq.ufc.presentation.ui.view.CardPieView
-                    android:id="@+id/fighter_grappling_card2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_weight="1"
-                    app:lineWidth="5dp"
-                    app:percentageAppearance="?android:attr/textAppearanceSmall"
-                    app:remainingAppearance="?android:attr/textAppearanceSmall"
-                    app:title="Grappling"
-                    app:titleAppearance="?android:attr/textAppearanceMedium">
+                  <fr.tnducrocq.ufc.presentation.ui.view.CardPieView
+                      android:id="@+id/fighter_grappling_card2"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginLeft="8dp"
+                      android:layout_marginRight="16dp"
+                      android:layout_weight="1"
+                      app:lineWidth="5dp"
+                      app:percentageAppearance="?android:attr/textAppearanceSmall"
+                      app:remainingAppearance="?android:attr/textAppearanceSmall"
+                      app:title="Grappling"
+                      app:titleAppearance="?android:attr/textAppearanceMedium">
 
-                </fr.tnducrocq.ufc.presentation.ui.view.CardPieView>
+                  </fr.tnducrocq.ufc.presentation.ui.view.CardPieView>
 
-            </LinearLayout>
+              </LinearLayout>-->
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
