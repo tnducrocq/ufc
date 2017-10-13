@@ -89,7 +89,7 @@ public class FighterActivity extends AppCompatActivity {
         Glide.with(this).
                 load(mFighter.getLeftFullBodyImage()).
                 asBitmap().priority(Priority.IMMEDIATE).diskCacheStrategy(DiskCacheStrategy.RESULT).
-                placeholder(R.drawable.fighter_placeholder).
+                placeholder(R.drawable.fighter_placeholder_red).
                 animate(R.anim.fade_in).
                 diskCacheStrategy(DiskCacheStrategy.RESULT).
                 into(new ImageViewTarget<Bitmap>(mImageView) {
