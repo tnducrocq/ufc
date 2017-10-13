@@ -1,4 +1,4 @@
-package fr.tnducrocq.ufc.presentation.ui.main.fighter;
+package fr.tnducrocq.ufc.presentation.ui.main.fighters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -23,11 +23,11 @@ import fr.tnducrocq.ufc.presentation.ui.base.AbstractFighterAdapter;
  * Created by tony on 09/08/2017.
  */
 
-public class FighterAdapter extends AbstractFighterAdapter<Fighter> {
+public class FightersAdapter extends AbstractFighterAdapter<Fighter> {
 
-    private FighterFragment.OnFighterFragmentInteractionListener mListener;
+    private FightersFragment.OnFighterFragmentInteractionListener mListener;
 
-    public FighterAdapter(@NonNull Context context, FighterFragment.OnFighterFragmentInteractionListener listener) {
+    public FightersAdapter(@NonNull Context context, FightersFragment.OnFighterFragmentInteractionListener listener) {
         super(context);
         mListener = listener;
     }

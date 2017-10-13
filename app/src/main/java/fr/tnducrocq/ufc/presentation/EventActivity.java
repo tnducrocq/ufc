@@ -2,6 +2,8 @@ package fr.tnducrocq.ufc.presentation;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -10,11 +12,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.ImageViewTarget;
 
 import java.util.List;
 
@@ -23,8 +27,10 @@ import butterknife.ButterKnife;
 import fr.tnducrocq.ufc.data.entity.event.Event;
 import fr.tnducrocq.ufc.data.entity.event.EventFight;
 import fr.tnducrocq.ufc.data.entity.event.EventMedia;
-import fr.tnducrocq.ufc.presentation.ui.event.details.EventFightsRecyclerViewAdapter;
-import fr.tnducrocq.ufc.presentation.ui.event.details.EventInformations;
+import fr.tnducrocq.ufc.presentation.app.App;
+import fr.tnducrocq.ufc.presentation.ui.event.EventFightsRecyclerViewAdapter;
+import fr.tnducrocq.ufc.presentation.ui.event.EventInformations;
+import fr.tnducrocq.ufc.presentation.ui.utils.PresentationUtils;
 import im.ene.toro.widget.Container;
 import rx.Observable;
 import rx.Observer;
@@ -33,9 +39,9 @@ import rx.Observer;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class EventFightsActivity extends AppCompatActivity implements EventFightsRecyclerViewAdapter.OnEventFightsInteractionListener {
+public class EventActivity extends AppCompatActivity implements EventFightsRecyclerViewAdapter.OnEventFightsInteractionListener {
 
-    private static final String TAG = "EventFightsActivity";
+    private static final String TAG = "EventActivity";
 
     private static final String ARG_EVENT_ID = "event-id";
     private static final String ARG_EVENT_TITLE = "event-title";
@@ -56,7 +62,6 @@ public class EventFightsActivity extends AppCompatActivity implements EventFight
     @BindView(R.id.event_fights_toolbar)
     public Toolbar mToolbar;
 
-
     @BindView(R.id.toolbar_layout)
     public CollapsingToolbarLayout mToolbarLayout;
 
@@ -64,7 +69,7 @@ public class EventFightsActivity extends AppCompatActivity implements EventFight
     private RecyclerView.LayoutManager mLayoutManager;
 
     public static Intent newIntent(Context context, Event event, int color) {
-        Intent intent = new Intent(context, EventFightsActivity.class);
+        Intent intent = new Intent(context, EventActivity.class);
         intent.putExtra(ARG_EVENT_ID, event.id());
         intent.putExtra(ARG_EVENT_TITLE, event.getBaseTitle());
         intent.putExtra(ARG_EVENT_IMAGE, event.getFeatureImage());
@@ -75,9 +80,9 @@ public class EventFightsActivity extends AppCompatActivity implements EventFight
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event_fights);
-        //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        setContentView(R.layout.activity_event);
         ButterKnife.bind(this);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -95,6 +100,12 @@ public class EventFightsActivity extends AppCompatActivity implements EventFight
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        int statusBarHeight = PresentationUtils.getStatusBarHeight(getResources());
+        mToolbar.getLayoutParams().height += statusBarHeight;
+        mToolbar.setPadding(0, statusBarHeight, 0, 0);
+
+        Bitmap placeholder = BitmapFactory.decodeResource(getResources(), R.drawable.event_placeholder);
+        mImageView.setImageBitmap(placeholder);
         Glide.with(this) //
                 .load(mEventFeatureImage) //
                 .asBitmap() //
@@ -102,14 +113,16 @@ public class EventFightsActivity extends AppCompatActivity implements EventFight
                 .diskCacheStrategy(DiskCacheStrategy.ALL) //
                 .placeholder(R.drawable.event_placeholder) //
                 .animate(R.anim.fade_in) //
-                .into(mImageView);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
+                .into(new ImageViewTarget<Bitmap>(mImageView) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        mImageView.setImageBitmap(resource);
+                    }
+                });
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         Observable<List<EventFight>> obsEventFights = App.getInstance().getEventRepository().getEventFight(mEventId);
@@ -133,7 +146,7 @@ public class EventFightsActivity extends AppCompatActivity implements EventFight
         @Override
         public void onCompleted() {
             if (mDetail != null) {
-                mAdapter = new EventFightsRecyclerViewAdapter(mDetail, EventFightsActivity.this);
+                mAdapter = new EventFightsRecyclerViewAdapter(mDetail, EventActivity.this);
                 mRecyclerView.setAdapter(mAdapter);
             }
         }
@@ -152,8 +165,7 @@ public class EventFightsActivity extends AppCompatActivity implements EventFight
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         if (menuItem.getItemId() == android.R.id.home) {
-            //supportFinishAfterTransition();
-            finish();
+            onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(menuItem);
@@ -161,7 +173,7 @@ public class EventFightsActivity extends AppCompatActivity implements EventFight
 
     @Override
     public void onListFragmentInteraction(EventFight item) {
-        Intent intent = EventFightActivity.newIntent(this, item);
+        Intent intent = FightActivity.newIntent(this, item);
         startActivity(intent);
     }
 }

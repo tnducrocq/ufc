@@ -1,4 +1,4 @@
-package fr.tnducrocq.ufc.presentation.ui.event.details;
+package fr.tnducrocq.ufc.presentation.ui.event;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,11 +12,11 @@ import fr.tnducrocq.ufc.data.entity.event.Event;
 import fr.tnducrocq.ufc.data.entity.event.EventFight;
 import fr.tnducrocq.ufc.data.entity.event.EventMedia;
 import fr.tnducrocq.ufc.presentation.R;
-import fr.tnducrocq.ufc.presentation.ui.main.event.EventFragment;
+import fr.tnducrocq.ufc.presentation.ui.main.events.EventsFragment;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Event} and makes a call to the
- * specified {@link EventFragment.OnEventFragmentInteractionListener}.
+ * specified {@link EventsFragment.OnEventFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class EventFightsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -72,7 +72,9 @@ public class EventFightsRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         if (viewType == 0) {
             ((EventMediasViewHolder) holder).bindData(mMedias);
         } else {
-            EventFight fight = mFights.get(position - 1);
+            boolean hasMedia = !mMedias.isEmpty();
+            int index = hasMedia ? position - 1 : position;
+            EventFight fight = mFights.get(index);
             EventFightViewHolder eHolder = (EventFightViewHolder) holder;
             eHolder.bindData(fight);
             eHolder.itemView.setOnClickListener(view -> {

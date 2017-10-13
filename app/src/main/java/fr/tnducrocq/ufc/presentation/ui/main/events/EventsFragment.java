@@ -1,4 +1,4 @@
-package fr.tnducrocq.ufc.presentation.ui.main.event;
+package fr.tnducrocq.ufc.presentation.ui.main.events;
 
 
 import android.content.Context;
@@ -17,7 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import fr.tnducrocq.ufc.data.entity.event.Event;
-import fr.tnducrocq.ufc.presentation.App;
+import fr.tnducrocq.ufc.presentation.app.App;
 import fr.tnducrocq.ufc.presentation.R;
 import rx.Observable;
 import rx.Observer;
@@ -26,14 +26,14 @@ import rx.Observer;
  * Created by tony on 01/08/2017.
  */
 
-public abstract class EventFragment extends Fragment {
+public abstract class EventsFragment extends Fragment {
 
-    private static final String TAG = "EventFragment";
+    private static final String TAG = "EventsFragment";
 
     @BindView(R.id.list)
     protected RecyclerView mRecyclerView;
 
-    protected EventFragment.OnEventFragmentInteractionListener mListener;
+    protected EventsFragment.OnEventFragmentInteractionListener mListener;
     protected Unbinder unbinder;
 
     public interface OnEventFragmentInteractionListener {
@@ -65,10 +65,10 @@ public abstract class EventFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof EventFragment.OnEventFragmentInteractionListener) {
-            mListener = (EventFragment.OnEventFragmentInteractionListener) context;
+        if (context instanceof EventsFragment.OnEventFragmentInteractionListener) {
+            mListener = (EventsFragment.OnEventFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString() + " must implement EventFragment.OnEventFragmentInteractionListener");
+            throw new RuntimeException(context.toString() + " must implement EventsFragment.OnEventFragmentInteractionListener");
         }
     }
 
@@ -96,7 +96,7 @@ public abstract class EventFragment extends Fragment {
                     @Override
                     public void onCompleted() {
                         if (mEvents != null) {
-                            mRecyclerView.setAdapter(new EventRecyclerViewAdapter(mEvents, getActivity(), mListener));
+                            mRecyclerView.setAdapter(new EventsRecyclerViewAdapter(mEvents, getActivity(), mListener));
                         }
                     }
 

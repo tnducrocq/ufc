@@ -20,9 +20,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import fr.tnducrocq.ufc.data.entity.event.EventFight;
 
-public class EventFightActivity extends AppCompatActivity {
+public class FightActivity extends AppCompatActivity {
 
-    private static final String TAG = "EventFightActivity";
+    private static final String TAG = "FightActivity";
     private static final String ARG_EVENT_FIGHT = "event-fight";
 
     private EventFight mEventFight;
@@ -46,7 +46,7 @@ public class EventFightActivity extends AppCompatActivity {
     public Toolbar mToolbar;
 
     public static Intent newIntent(Context context, EventFight fight) {
-        Intent intent = new Intent(context, EventFightActivity.class);
+        Intent intent = new Intent(context, FightActivity.class);
         intent.putExtra(ARG_EVENT_FIGHT, fight);
         return intent;
     }
@@ -54,7 +54,7 @@ public class EventFightActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event_fight);
+        setContentView(R.layout.activity_fight);
         ButterKnife.bind(this);
 
         mEventFight = (EventFight) getIntent().getParcelableExtra(ARG_EVENT_FIGHT);

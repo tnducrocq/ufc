@@ -78,6 +78,7 @@ dependencies {
     compile 'com.github.florent37:diagonallayout:1.0.6'
 
     compile 'com.github.bmarrdev:android-DecoView-charting:v0.9.3'
+    compile 'com.github.iammert:ScalingLayout:1.0'
 
     /* Testing Libraries */
     testCompile testLibs.mockito

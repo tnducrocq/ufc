@@ -8,5 +8,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layoutManager="LinearLayoutManager"
-    tools:context="fr.tnducrocq.ufc.presentation.ui.main.event.PastEventFragment"
+    tools:context="fr.tnducrocq.ufc.presentation.ui.main.events.PastEventsFragment"
     tools:listitem="@layout/adapter_event_item"/>

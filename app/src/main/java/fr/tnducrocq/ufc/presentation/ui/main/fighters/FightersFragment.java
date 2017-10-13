@@ -1,4 +1,4 @@
-package fr.tnducrocq.ufc.presentation.ui.main.fighter;
+package fr.tnducrocq.ufc.presentation.ui.main.fighters;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -20,9 +20,9 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
 import fr.tnducrocq.ufc.data.utils.WeightCategory;
-import fr.tnducrocq.ufc.presentation.App;
+import fr.tnducrocq.ufc.presentation.app.App;
 import fr.tnducrocq.ufc.presentation.R;
-import fr.tnducrocq.ufc.presentation.ui.main.event.EventFragment;
+import fr.tnducrocq.ufc.presentation.ui.main.events.EventsFragment;
 import rx.Observable;
 import rx.Observer;
 
@@ -30,11 +30,11 @@ import rx.Observer;
 /**
  * A fragment representing a list of Items.
  * <p/>
- * Activities containing this fragment MUST implement the {@link EventFragment.OnEventFragmentInteractionListener}
+ * Activities containing this fragment MUST implement the {@link EventsFragment.OnEventFragmentInteractionListener}
  * interface.
  */
-public class FighterFragment extends Fragment {
-    private static final String TAG = "FighterFragment";
+public class FightersFragment extends Fragment {
+    private static final String TAG = "FightersFragment";
     private static final WeightCategory[] CATEGORIES = new WeightCategory[]{
             // MEN
             WeightCategory.HEAVYWEIGHT, //
@@ -58,9 +58,9 @@ public class FighterFragment extends Fragment {
         void onListFragmentInteraction(Fighter item);
     }
 
-    private FighterFragment.OnFighterFragmentInteractionListener mListener;
-    private Map<WeightCategory, FighterAdapter> mFighterAdapters;
-    private FighterTypeAdapter mFighterCategoryAdapter;
+    private FightersFragment.OnFighterFragmentInteractionListener mListener;
+    private Map<WeightCategory, FightersAdapter> mFighterAdapters;
+    private CategoriesAdapter mFighterCategoryAdapter;
 
     @BindView(R.id.boxers_list)
     RecyclerView mRecyclerView;
@@ -71,11 +71,11 @@ public class FighterFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public FighterFragment() {
+    public FightersFragment() {
     }
 
-    public static FighterFragment newInstance(int columnCount) {
-        FighterFragment fragment = new FighterFragment();
+    public static FightersFragment newInstance(int columnCount) {
+        FightersFragment fragment = new FightersFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -96,14 +96,14 @@ public class FighterFragment extends Fragment {
             Context context = view.getContext();
 
             mFighterAdapters = new LinkedHashMap<>();
-            mFighterCategoryAdapter = new FighterTypeAdapter(context, mListener);
+            mFighterCategoryAdapter = new CategoriesAdapter(context, mListener);
             mRecyclerView.setAdapter(mFighterCategoryAdapter);
 
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
             for (WeightCategory category : CATEGORIES) {
-                mFighterAdapters.put(category, new FighterAdapter(context, mListener));
+                mFighterAdapters.put(category, new FightersAdapter(context, mListener));
                 requestCategory(category);
             }
         }
@@ -113,10 +113,10 @@ public class FighterFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof EventFragment.OnEventFragmentInteractionListener) {
-            mListener = (FighterFragment.OnFighterFragmentInteractionListener) context;
+        if (context instanceof EventsFragment.OnEventFragmentInteractionListener) {
+            mListener = (FightersFragment.OnFighterFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString() + " must implement EventFragment.OnEventFragmentInteractionListener");
+            throw new RuntimeException(context.toString() + " must implement EventsFragment.OnEventFragmentInteractionListener");
         }
     }
 
@@ -149,10 +149,10 @@ public class FighterFragment extends Fragment {
                                 return f1.getLastName().compareTo(f2.getLastName());
                             });
                             mFighterAdapters.get(category).appendData(mFighters);
-                            FighterAdapter adapter = mFighterAdapters.get(category);
+                            FightersAdapter adapter = mFighterAdapters.get(category);
 
                             String categoryTitle = getContext().getString(category.getResourceId());
-                            FighterTypeAdapter.FighterCategoryWrapper wrapper = FighterTypeAdapter.FighterCategoryWrapper.wrap(categoryTitle, category, adapter, R.color.red_color);
+                            CategoriesAdapter.FighterCategoryWrapper wrapper = CategoriesAdapter.FighterCategoryWrapper.wrap(categoryTitle, category, adapter, R.color.red_color);
                             mFighterCategoryAdapter.addItem(wrapper);
                         }
                     }

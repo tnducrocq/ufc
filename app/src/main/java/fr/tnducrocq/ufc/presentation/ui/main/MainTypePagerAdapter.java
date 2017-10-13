@@ -6,9 +6,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import fr.tnducrocq.ufc.presentation.R;
-import fr.tnducrocq.ufc.presentation.ui.main.event.FutureEventFragment;
-import fr.tnducrocq.ufc.presentation.ui.main.event.PastEventFragment;
-import fr.tnducrocq.ufc.presentation.ui.main.fighter.FighterFragment;
+import fr.tnducrocq.ufc.presentation.ui.main.events.FutureEventsFragment;
+import fr.tnducrocq.ufc.presentation.ui.main.events.PastEventsFragment;
+import fr.tnducrocq.ufc.presentation.ui.main.fighters.FightersFragment;
 
 /**
  * Created by tony on 31/07/2017.
@@ -45,11 +45,11 @@ public class MainTypePagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new FutureEventFragment();
+                return new FutureEventsFragment();
             case 1:
-                return new PastEventFragment();
+                return new PastEventsFragment();
             case 2:
-                return new FighterFragment();
+                return new FightersFragment();
         }
         return null;
     }

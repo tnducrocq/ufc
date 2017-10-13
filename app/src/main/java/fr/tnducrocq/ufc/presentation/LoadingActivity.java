@@ -8,6 +8,7 @@ import java.util.List;
 
 import fr.tnducrocq.ufc.data.entity.event.Event;
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
+import fr.tnducrocq.ufc.presentation.app.App;
 import rx.Observable;
 import rx.Observer;
 import rx.functions.Func2;

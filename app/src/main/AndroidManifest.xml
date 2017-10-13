@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
-        android:name=".App"
+        android:name=".app.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/main">
         <meta-data
-            android:name="fr.tnducrocq.ufc.presentation.CustomCachingGlideModule"
+            android:name="fr.tnducrocq.ufc.presentation.app.CustomCachingGlideModule"
             android:value="GlideModule"/>
 
         <activity android:name=".LoadingActivity">
@@ -27,7 +27,7 @@
         <activity android:name=".MainActivity"/>
 
         <activity
-            android:name=".EventFightsActivity"
+            android:name=".EventActivity"
             android:theme="@style/second"/>
 
         <activity
@@ -35,7 +35,7 @@
             android:theme="@style/second"/>
 
         <activity
-            android:name=".EventFightActivity"
+            android:name=".FightActivity"
             android:label="@string/title_activity_event_fight"
             android:theme="@style/second"/>
     </application>

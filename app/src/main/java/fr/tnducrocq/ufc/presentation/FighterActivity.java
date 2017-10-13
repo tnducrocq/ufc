@@ -23,11 +23,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
 import fr.tnducrocq.ufc.data.entity.fighter.FighterDetails;
+import fr.tnducrocq.ufc.presentation.app.App;
 import fr.tnducrocq.ufc.presentation.ui.view.CardPieView;
 import rx.Observable;
 import rx.Observer;
 
-import static fr.tnducrocq.ufc.presentation.App.getInstance;
+import static fr.tnducrocq.ufc.presentation.app.App.getInstance;
 
 /**
  * Created by tony on 11/08/2017.

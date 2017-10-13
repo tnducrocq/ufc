@@ -1,4 +1,4 @@
-package fr.tnducrocq.ufc.presentation;
+package fr.tnducrocq.ufc.presentation.app;
 
 import android.content.Context;
 

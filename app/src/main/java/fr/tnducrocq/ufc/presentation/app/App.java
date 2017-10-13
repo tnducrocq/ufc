@@ -1,4 +1,4 @@
-package fr.tnducrocq.ufc.presentation;
+package fr.tnducrocq.ufc.presentation.app;
 
 import android.content.Context;
 import android.support.multidex.MultiDexApplication;
@@ -28,11 +28,11 @@ public class App extends MultiDexApplication {
         return instance;
     }
 
-    Context context;
-    BaseSchedulerProvider schedulerProvider;
-    FighterRepository fighterRepository;
-    EventRepository eventRepository;
-    FighterDetailsRepository fighterDetailsRepository;
+    public Context context;
+    public BaseSchedulerProvider schedulerProvider;
+    public FighterRepository fighterRepository;
+    public EventRepository eventRepository;
+    public FighterDetailsRepository fighterDetailsRepository;
 
     @Override
     public void onCreate() {

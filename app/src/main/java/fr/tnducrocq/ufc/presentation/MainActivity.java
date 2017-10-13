@@ -27,13 +27,13 @@ import fr.tnducrocq.ufc.data.entity.event.Event;
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
 import fr.tnducrocq.ufc.data.utils.WeightCategory;
 import fr.tnducrocq.ufc.presentation.ui.main.MainTypePagerAdapter;
-import fr.tnducrocq.ufc.presentation.ui.main.event.EventFragment;
-import fr.tnducrocq.ufc.presentation.ui.main.fighter.FighterFragment;
+import fr.tnducrocq.ufc.presentation.ui.main.events.EventsFragment;
+import fr.tnducrocq.ufc.presentation.ui.main.fighters.FightersFragment;
 import fr.tnducrocq.ufc.presentation.ui.utils.PresentationUtils;
 import fr.tnducrocq.ufc.presentation.ui.view.MainPager;
 
 
-public class MainActivity extends AppCompatActivity implements EventFragment.OnEventFragmentInteractionListener, FighterFragment.OnFighterFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements EventsFragment.OnEventFragmentInteractionListener, FightersFragment.OnFighterFragmentInteractionListener {
 
 
     public static Intent newIntent(Context context) {
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements EventFragment.OnE
     @Override
     public void onListFragmentInteraction(Event item) {
         Log.d("MainActivity", item.toString());
-       /* Intent intent = EventFightsActivity.newIntent(this, item, color);
+       /* Intent intent = EventActivity.newIntent(this, item, color);
         startActivity(intent);*/
     }
 

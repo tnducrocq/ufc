@@ -44,7 +44,6 @@
                     app:layout_collapseMode="parallax"/>
             </LinearLayout>
 
-
             <android.support.v7.widget.Toolbar
                 android:id="@+id/fighter_toolbar"
                 android:layout_width="match_parent"
@@ -63,8 +62,8 @@
         android:background="#F1F5F8"
         android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="fr.tnducrocq.ufc.presentation.EventFightActivity"
-        tools:showIn="@layout/activity_event_fight">
+        tools:context="fr.tnducrocq.ufc.presentation.FightActivity"
+        tools:showIn="@layout/activity_fight">
 
         <LinearLayout
             android:layout_width="match_parent"

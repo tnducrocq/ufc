@@ -50,7 +50,7 @@ public class CardPieView extends CardView {
 
     public CardPieView(Context context) {
         super(context);
-        inflate(getContext(), R.layout.card_pie_view, this);
+        inflate(getContext(), R.layout.view_card_pie, this);
         ButterKnife.bind(this);
     }
 
@@ -65,7 +65,7 @@ public class CardPieView extends CardView {
     }
 
     private void init(Context context, AttributeSet attrs) {
-        inflate(getContext(), R.layout.card_pie_view, this);
+        inflate(getContext(), R.layout.view_card_pie, this);
         ButterKnife.bind(this);
 
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CardPieView, 0, 0);

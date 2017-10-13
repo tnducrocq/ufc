@@ -1,4 +1,4 @@
-package fr.tnducrocq.ufc.presentation.ui.event.details;
+package fr.tnducrocq.ufc.presentation.ui.event;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;

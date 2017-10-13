@@ -1,4 +1,4 @@
-package fr.tnducrocq.ufc.presentation.ui.main.fighter;
+package fr.tnducrocq.ufc.presentation.ui.main.fighters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -17,16 +17,16 @@ import fr.tnducrocq.ufc.presentation.ui.base.AbstractFighterAdapter;
  * Created by tony on 09/08/2017.
  */
 
-public class FighterTypeAdapter extends AbstractFighterAdapter<FighterTypeAdapter.FighterCategoryWrapper> {
+public class CategoriesAdapter extends AbstractFighterAdapter<CategoriesAdapter.FighterCategoryWrapper> {
 
-    private final FighterFragment.OnFighterFragmentInteractionListener mListener;
+    private final FightersFragment.OnFighterFragmentInteractionListener mListener;
 
-    public FighterTypeAdapter(@NonNull Context context, FighterFragment.OnFighterFragmentInteractionListener listener) {
+    public CategoriesAdapter(@NonNull Context context, FightersFragment.OnFighterFragmentInteractionListener listener) {
         super(context);
         mListener = listener;
     }
 
-    class TypeViewHolder extends GenericViewHolder implements View.OnClickListener {
+    class CategoryViewHolder extends GenericViewHolder implements View.OnClickListener {
 
         @BindView(R.id.fighter_list)
         RecyclerView list;
@@ -37,7 +37,7 @@ public class FighterTypeAdapter extends AbstractFighterAdapter<FighterTypeAdapte
         @BindView(R.id.more)
         TextView more;
 
-        TypeViewHolder(View itemView) {
+        CategoryViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             list.setNestedScrollingEnabled(false);
@@ -62,9 +62,9 @@ public class FighterTypeAdapter extends AbstractFighterAdapter<FighterTypeAdapte
     }
 
     @Override
-    public TypeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View root = inflater.inflate(R.layout.adapter_fighter_type_item, parent, false);
-        return new TypeViewHolder(root);
+        return new CategoryViewHolder(root);
     }
 
     public static class FighterCategoryWrapper {
