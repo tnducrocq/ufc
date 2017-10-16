@@ -13,7 +13,7 @@ import rx.Observable;
  * Created by tony on 01/08/2017.
  */
 
-public class PastEventsFragment extends EventsFragment {
+public class PastEventsFragment extends AbstractEventsFragment {
 
     public static PastEventsFragment newFragment() {
         PastEventsFragment fragment = new PastEventsFragment();

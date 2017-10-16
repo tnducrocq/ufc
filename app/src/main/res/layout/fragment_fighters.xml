@@ -10,5 +10,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="fr.tnducrocq.ufc.presentation.ui.main.fighters.FightersFragment"
+    tools:context="fr.tnducrocq.ufc.presentation.ui.main.FightersFragment"
     tools:listitem="@layout/adapter_fighter_type_item"/>

@@ -1,4 +1,4 @@
-package fr.tnducrocq.ufc.presentation.ui.main.fighters;
+package fr.tnducrocq.ufc.presentation.ui.main;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -22,7 +22,9 @@ import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
 import fr.tnducrocq.ufc.data.utils.WeightCategory;
 import fr.tnducrocq.ufc.presentation.app.App;
 import fr.tnducrocq.ufc.presentation.R;
-import fr.tnducrocq.ufc.presentation.ui.main.events.EventsFragment;
+import fr.tnducrocq.ufc.presentation.ui.main.events.AbstractEventsFragment;
+import fr.tnducrocq.ufc.presentation.ui.main.fighters.CategoriesAdapter;
+import fr.tnducrocq.ufc.presentation.ui.main.fighters.FightersAdapter;
 import rx.Observable;
 import rx.Observer;
 
@@ -30,7 +32,7 @@ import rx.Observer;
 /**
  * A fragment representing a list of Items.
  * <p/>
- * Activities containing this fragment MUST implement the {@link EventsFragment.OnEventFragmentInteractionListener}
+ * Activities containing this fragment MUST implement the {@link AbstractEventsFragment.OnEventFragmentInteractionListener}
  * interface.
  */
 public class FightersFragment extends Fragment {
@@ -113,10 +115,10 @@ public class FightersFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof EventsFragment.OnEventFragmentInteractionListener) {
+        if (context instanceof AbstractEventsFragment.OnEventFragmentInteractionListener) {
             mListener = (FightersFragment.OnFighterFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString() + " must implement EventsFragment.OnEventFragmentInteractionListener");
+            throw new RuntimeException(context.toString() + " must implement AbstractEventsFragment.OnEventFragmentInteractionListener");
         }
     }
 

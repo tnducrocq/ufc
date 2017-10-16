@@ -26,14 +26,14 @@ import rx.Observer;
  * Created by tony on 01/08/2017.
  */
 
-public abstract class EventsFragment extends Fragment {
+public abstract class AbstractEventsFragment extends Fragment {
 
-    private static final String TAG = "EventsFragment";
+    private static final String TAG = "AbstractEventsFragment";
 
     @BindView(R.id.list)
     protected RecyclerView mRecyclerView;
 
-    protected EventsFragment.OnEventFragmentInteractionListener mListener;
+    protected AbstractEventsFragment.OnEventFragmentInteractionListener mListener;
     protected Unbinder unbinder;
 
     public interface OnEventFragmentInteractionListener {
@@ -65,10 +65,10 @@ public abstract class EventsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof EventsFragment.OnEventFragmentInteractionListener) {
-            mListener = (EventsFragment.OnEventFragmentInteractionListener) context;
+        if (context instanceof AbstractEventsFragment.OnEventFragmentInteractionListener) {
+            mListener = (AbstractEventsFragment.OnEventFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString() + " must implement EventsFragment.OnEventFragmentInteractionListener");
+            throw new RuntimeException(context.toString() + " must implement AbstractEventsFragment.OnEventFragmentInteractionListener");
         }
     }
 

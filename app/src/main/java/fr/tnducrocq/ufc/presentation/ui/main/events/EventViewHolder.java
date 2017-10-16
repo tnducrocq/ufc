@@ -90,7 +90,7 @@ public class EventViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    public void bindData(final Event event, EventsFragment.OnEventFragmentInteractionListener listener) {
+    public void bindData(final Event event, AbstractEventsFragment.OnEventFragmentInteractionListener listener) {
 
         String date = DateFormatUtils.format(event.getEventDate(), "dd/MM/yyyy");
         releaseYear.setText(date);

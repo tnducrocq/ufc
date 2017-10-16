@@ -12,6 +12,7 @@ import butterknife.ButterKnife;
 import fr.tnducrocq.ufc.data.utils.WeightCategory;
 import fr.tnducrocq.ufc.presentation.R;
 import fr.tnducrocq.ufc.presentation.ui.base.AbstractFighterAdapter;
+import fr.tnducrocq.ufc.presentation.ui.main.FightersFragment;
 
 /**
  * Created by tony on 09/08/2017.

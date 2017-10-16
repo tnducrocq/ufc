@@ -10,11 +10,11 @@ import java.util.List;
 import fr.tnducrocq.ufc.data.entity.event.Event;
 import fr.tnducrocq.ufc.data.entity.event.EventFight;
 import fr.tnducrocq.ufc.presentation.R;
-import fr.tnducrocq.ufc.presentation.ui.main.events.EventsFragment;
+import fr.tnducrocq.ufc.presentation.ui.main.events.AbstractEventsFragment;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Event} and makes a call to the
- * specified {@link EventsFragment.OnEventFragmentInteractionListener}.
+ * specified {@link AbstractEventsFragment.OnEventFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class EventFightsRecyclerViewAdapter extends RecyclerView.Adapter<EventFightViewHolder> {

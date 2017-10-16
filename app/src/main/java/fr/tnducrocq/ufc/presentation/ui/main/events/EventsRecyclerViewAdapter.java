@@ -13,17 +13,17 @@ import fr.tnducrocq.ufc.presentation.R;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Event} and makes a call to the
- * specified {@link EventsFragment.OnEventFragmentInteractionListener}.
+ * specified {@link AbstractEventsFragment.OnEventFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventViewHolder> {
 
     private final List<Event> mValues;
     private final Context mContext;
-    private final EventsFragment.OnEventFragmentInteractionListener mListener;
+    private final AbstractEventsFragment.OnEventFragmentInteractionListener mListener;
 
 
-    public EventsRecyclerViewAdapter(List<Event> items, Context context, EventsFragment.OnEventFragmentInteractionListener listener) {
+    public EventsRecyclerViewAdapter(List<Event> items, Context context, AbstractEventsFragment.OnEventFragmentInteractionListener listener) {
         mValues = items;
         mContext = context;
         mListener = listener;

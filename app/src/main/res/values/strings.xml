@@ -1,13 +1,16 @@
 <resources>
     <string name="app_name">UFC</string>
+    <string name="media_layout_manager" translatable="false">LinearLayoutManager</string>
+
     <string name="more_label">View All</string>
 
     <!-- Menu -->
-    <string name="future_events">Schedule event</string>
-    <string name="past_events">Past event</string>
-    <string name="boxers">Fighters</string>
+    <string name="events">Events</string>
+    <string name="fighters">Fighters</string>
 
-    <string name="media_layout_manager" translatable="false">LinearLayoutManager</string>
+    <string name="past_events">PAST EVENT</string>
+    <string name="future_events">UPCOMING EVENTS</string>
+
 
     <!-- Drawer -->
     <string name="settings_item">Settings</string>

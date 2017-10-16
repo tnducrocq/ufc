@@ -26,14 +26,14 @@ import butterknife.ButterKnife;
 import fr.tnducrocq.ufc.data.entity.event.Event;
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
 import fr.tnducrocq.ufc.data.utils.WeightCategory;
+import fr.tnducrocq.ufc.presentation.ui.main.FightersFragment;
 import fr.tnducrocq.ufc.presentation.ui.main.MainTypePagerAdapter;
-import fr.tnducrocq.ufc.presentation.ui.main.events.EventsFragment;
-import fr.tnducrocq.ufc.presentation.ui.main.fighters.FightersFragment;
+import fr.tnducrocq.ufc.presentation.ui.main.events.AbstractEventsFragment;
 import fr.tnducrocq.ufc.presentation.ui.utils.PresentationUtils;
 import fr.tnducrocq.ufc.presentation.ui.view.MainPager;
 
 
-public class MainActivity extends AppCompatActivity implements EventsFragment.OnEventFragmentInteractionListener, FightersFragment.OnFighterFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements AbstractEventsFragment.OnEventFragmentInteractionListener, FightersFragment.OnFighterFragmentInteractionListener {
 
 
     public static Intent newIntent(Context context) {
@@ -42,21 +42,21 @@ public class MainActivity extends AppCompatActivity implements EventsFragment.On
     }
 
     @BindView(R.id.actionBar)
-    protected Toolbar actionBar;
+    protected Toolbar mToolbar;
 
     @BindView(R.id.drawerLayout)
-    protected DrawerLayout drawerLayout;
+    protected DrawerLayout mDrawerLayout;
 
     @BindView(R.id.navigation)
-    protected NavigationView navigationView;
+    protected NavigationView mNavigationView;
 
     @BindView(R.id.bottom_navigation)
-    protected BottomBar bottomNavigation;
+    protected BottomBar mBottomNavigation;
 
     @BindView(R.id.main_pager)
-    protected MainPager mainPager;
+    protected MainPager mMainPager;
 
-    private ActionBarDrawerToggle drawerToggle;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,55 +69,50 @@ public class MainActivity extends AppCompatActivity implements EventsFragment.On
 
     private void setBottomNavigation() {
         final int duration = getResources().getInteger(R.integer.page_fade_duration);
-        bottomNavigation.setOnTabSelectListener((tabId -> mainPager.animate().alpha(0).setDuration(duration).setListener(new AnimatorListenerAdapter() {
+        mBottomNavigation.setOnTabSelectListener((tabId -> mMainPager.animate().alpha(0).setDuration(duration).setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 switch (tabId) {
-                    case R.id.future_events:
-                        actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(MainActivity.this, R.color.colorFutureEvent)));
-                        actionBar.setTitle(R.string.future_events);
-                        mainPager.setCurrentItem(0, false);
+                    case R.id.events:
+                        mToolbar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary)));
+                        mToolbar.setTitle(R.string.events);
+                        mMainPager.setCurrentItem(0, false);
                         break;
-                    case R.id.past_events:
-                        actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(MainActivity.this, R.color.colorPastEvent)));
-                        actionBar.setTitle(R.string.past_events);
-                        mainPager.setCurrentItem(1, false);
-                        break;
-                    case R.id.boxers:
-                        actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(MainActivity.this, R.color.colorBoxer)));
-                        actionBar.setTitle(R.string.boxers);
-                        mainPager.setCurrentItem(2, false);
+                    case R.id.fighters:
+                        mToolbar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary)));
+                        mToolbar.setTitle(R.string.fighters);
+                        mMainPager.setCurrentItem(1, false);
                         break;
                 }
-                mainPager.animate().alpha(1.f).setDuration(duration).setListener(null).start();
+                mMainPager.animate().alpha(1.f).setDuration(duration).setListener(null).start();
             }
         }).start()));
     }
 
     private void setMovieTypePager() {
-        mainPager.setAdapter(new MainTypePagerAdapter(getSupportFragmentManager(), this));
-        mainPager.setOffscreenPageLimit(2);
+        mMainPager.setAdapter(new MainTypePagerAdapter(getSupportFragmentManager(), this));
+        mMainPager.setOffscreenPageLimit(2);
     }
 
     private void setActionBar() {
         int statusBarHeight = PresentationUtils.getStatusBarHeight(getResources());
-        actionBar.getLayoutParams().height += statusBarHeight;
-        actionBar.setPadding(0, statusBarHeight, 0, 0);
-        setSupportActionBar(actionBar);
-        navigationView.setCheckedItem(R.id.future_events);
+        mToolbar.getLayoutParams().height += statusBarHeight;
+        mToolbar.setPadding(0, statusBarHeight, 0, 0);
+        setSupportActionBar(mToolbar);
+        mNavigationView.setCheckedItem(R.id.events);
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        drawerToggle.syncState();
+        mDrawerToggle.syncState();
     }
 
     private void setDrawer() {
-        this.drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, actionBar, 0, 0);
-        drawerLayout.setDrawerListener(drawerToggle);
-        navigationView.setNavigationItemSelectedListener(item -> {
+        this.mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, 0, 0);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mNavigationView.setNavigationItemSelectedListener(item -> {
             item.setChecked(true);
             switch (item.getItemId()) {
                 case R.id.settings:
@@ -145,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements EventsFragment.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     public void inject() {

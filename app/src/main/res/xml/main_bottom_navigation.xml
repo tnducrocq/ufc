@@ -1,20 +1,15 @@
 <tabs>
     <tab
         badgeHidesWhenActive="true"
-        barColorWhenSelected="@color/colorFutureEvent"
+        barColorWhenSelected="@color/colorPrimary"
         icon="@drawable/ic_events"
-        id="@+id/future_events"
-        title="@string/future_events"/>
+        id="@+id/events"
+        title="@string/events"/>
+
     <tab
         badgeHidesWhenActive="true"
-        barColorWhenSelected="@color/colorPastEvent"
-        icon="@drawable/ic_past_events"
-        id="@+id/past_events"
-        title="@string/past_events"/>
-    <tab
-        badgeHidesWhenActive="true"
-        barColorWhenSelected="@color/colorBoxer"
-        icon="@drawable/ic_boxing"
-        id="@+id/boxers"
-        title="@string/boxers"/>
+        barColorWhenSelected="@color/colorPrimary"
+        icon="@drawable/ic_fighters"
+        id="@+id/fighters"
+        title="@string/fighters"/>
 </tabs>
