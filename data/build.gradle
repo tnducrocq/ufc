@@ -28,7 +28,7 @@ android {
 dependencies {
 
     compile project(':jsoup-annotations-library')
-    
+
     compile libs.supportAppCompat
 
     //Java 8 / annotations...
@@ -46,6 +46,7 @@ dependencies {
     compile libs.gson
 
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+    compile 'com.annimon:stream:1.1.9'
 
     /* Testing Libraries */
     testCompile testLibs.mockito

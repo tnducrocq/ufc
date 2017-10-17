@@ -10,4 +10,6 @@ public interface FighterDataSource extends IDataSource<Fighter> {
 
     Observable<List<Fighter>> get(WeightCategory type);
 
+    Observable<List<Fighter>> getChampions();
+
 }

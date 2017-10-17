@@ -8,16 +8,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 
 import com.roughike.bottombar.BottomBar;
 
@@ -26,15 +23,15 @@ import butterknife.ButterKnife;
 import fr.tnducrocq.ufc.data.entity.event.Event;
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
 import fr.tnducrocq.ufc.data.utils.WeightCategory;
-import fr.tnducrocq.ufc.presentation.ui.main.FightersFragment;
 import fr.tnducrocq.ufc.presentation.ui.main.MainTypePagerAdapter;
 import fr.tnducrocq.ufc.presentation.ui.main.events.AbstractEventsFragment;
-import fr.tnducrocq.ufc.presentation.ui.utils.PresentationUtils;
+import fr.tnducrocq.ufc.presentation.ui.main.fighters.OnFighterFragmentInteractionListener;
 import fr.tnducrocq.ufc.presentation.ui.view.MainPager;
 
 
-public class MainActivity extends AppCompatActivity implements AbstractEventsFragment.OnEventFragmentInteractionListener, FightersFragment.OnFighterFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements AbstractEventsFragment.OnEventFragmentInteractionListener, OnFighterFragmentInteractionListener {
 
+    private static final String TAG = "MainActivity";
 
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -44,8 +41,8 @@ public class MainActivity extends AppCompatActivity implements AbstractEventsFra
     @BindView(R.id.actionBar)
     protected Toolbar mToolbar;
 
-    @BindView(R.id.drawerLayout)
-    protected DrawerLayout mDrawerLayout;
+    @BindView(R.id.appBarLayout)
+    protected AppBarLayout mAppBarLayout;
 
     @BindView(R.id.navigation)
     protected NavigationView mNavigationView;
@@ -55,14 +52,13 @@ public class MainActivity extends AppCompatActivity implements AbstractEventsFra
 
     @BindView(R.id.main_pager)
     protected MainPager mMainPager;
-
-    private ActionBarDrawerToggle mDrawerToggle;
+    protected MainTypePagerAdapter mMainTypePagerAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         ButterKnife.bind(this);
         setUI();
     }
@@ -90,43 +86,20 @@ public class MainActivity extends AppCompatActivity implements AbstractEventsFra
         }).start()));
     }
 
-    private void setMovieTypePager() {
-        mMainPager.setAdapter(new MainTypePagerAdapter(getSupportFragmentManager(), this));
-        mMainPager.setOffscreenPageLimit(2);
-    }
 
-    private void setActionBar() {
-        int statusBarHeight = PresentationUtils.getStatusBarHeight(getResources());
-        mToolbar.getLayoutParams().height += statusBarHeight;
-        mToolbar.setPadding(0, statusBarHeight, 0, 0);
-        setSupportActionBar(mToolbar);
-        mNavigationView.setCheckedItem(R.id.events);
+    private void setMovieTypePager() {
+        mMainTypePagerAdapter = new MainTypePagerAdapter(getSupportFragmentManager(), this);
+        mMainPager.setAdapter(mMainTypePagerAdapter);
+        mMainPager.setOffscreenPageLimit(2);
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
-    }
-
-    private void setDrawer() {
-        this.mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, 0, 0);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        mNavigationView.setNavigationItemSelectedListener(item -> {
-            item.setChecked(true);
-            switch (item.getItemId()) {
-                case R.id.settings:
-                    //startActivity(new Intent(this, SettingsActivity.class));
-                    return true;
-
-            }
-            return false;
-        });
     }
 
     private void setUI() {
-        setDrawer();
-        setActionBar();
+        mNavigationView.setCheckedItem(R.id.events);
         setMovieTypePager();
         setBottomNavigation();
     }
@@ -136,15 +109,6 @@ public class MainActivity extends AppCompatActivity implements AbstractEventsFra
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
-    }
-
-    public void inject() {
-        //App.appInstance().appComponent().inject(this);
     }
 
     public void handleEvent(@NonNull Object event) {
@@ -165,13 +129,20 @@ public class MainActivity extends AppCompatActivity implements AbstractEventsFra
 
     @Override
     public void onListFragmentInteraction(Fighter item) {
-        Intent intent = FighterActivity.newIntent(this, item);
-        startActivity(intent);
+
     }
 
     @Override
     public void onBackPressed() {
         //finish();
         moveTaskToBack(true);
+    }
+
+    public static class CollapsingChangedEvent {
+        public boolean collasped;
+
+        public CollapsingChangedEvent(boolean collasped) {
+            this.collasped = collasped;
+        }
     }
 }

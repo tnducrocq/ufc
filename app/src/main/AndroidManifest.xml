@@ -28,16 +28,15 @@
 
         <activity
             android:name=".EventActivity"
-            android:theme="@style/second"/>
+            android:theme="@style/secondary"/>
 
         <activity
             android:name=".FighterActivity"
-            android:theme="@style/second"/>
+            android:theme="@style/secondary"/>
 
         <activity
             android:name=".FightActivity"
-            android:label="@string/title_activity_event_fight"
-            android:theme="@style/second"/>
+            android:label="@string/title_activity_event_fight"/>
 
         <activity
             android:name=".PlayerActivity"

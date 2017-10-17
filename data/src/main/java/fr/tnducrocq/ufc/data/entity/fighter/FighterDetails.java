@@ -28,16 +28,16 @@ public class FighterDetails implements HasId, Parcelable {
     @Text(value = "#fighter-details h1", optional = false)
     private String name;
 
-    @Text(value = "td#fighter-nickname", optional = false)
+    @Text(value = "td#fighter-nickname", optional = true)
     private String nickname;
 
-    @Text(value = "td#fighter-from", optional = false)
+    @Text(value = "td#fighter-from", optional = true)
     private String hometown;
 
-    @Text(value = "td#fighter-lives-in", optional = false)
+    @Text(value = "td#fighter-lives-in", optional = true)
     private String location;
 
-    @Text(value = "td#fighter-age", optional = false)
+    @Text(value = "td#fighter-age", optional = true)
     private String age;
 
     private String height;
@@ -98,7 +98,7 @@ public class FighterDetails implements HasId, Parcelable {
         }
     }
 
-    @Text(value = "td#fighter-skill-record", optional = false)
+    @Text(value = "td#fighter-skill-record", optional = true)
     private String record;
 
     @Text(value = "td#fighter-college", optional = true)

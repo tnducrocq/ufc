@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
-import fr.tnducrocq.ufc.data.entity.fighter.FighterDetails;
 import fr.tnducrocq.ufc.data.source.local.FighterDataSource;
 import fr.tnducrocq.ufc.data.source.remote.RemoteFighters;
 import fr.tnducrocq.ufc.data.utils.WeightCategory;
@@ -27,6 +26,11 @@ public class FighterRepository extends AbstractRepository<Fighter, FighterDataSo
 
     @Override
     public Observable<List<Fighter>> get(WeightCategory type) {
-        return localSource.get(type).doOnNext(this::cacheData);
+        return localSource.get(type);
+    }
+
+    @Override
+    public Observable<List<Fighter>> getChampions() {
+        return localSource.getChampions();
     }
 }

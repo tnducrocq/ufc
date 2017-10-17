@@ -20,7 +20,7 @@ public class FakeDataProvider {
     public static final int FAKE_FIGHTER_DRAWS = 0;
     public static final String FAKE_FIGHTER_FIRST_NAME = "first_name";
     public static final String FAKE_FIGHTER_FAKE_FIGHTER_STATUS = "fighter_status";
-    public static final String FAKE_FIGHTER_RANK = "rank";
+    public static final int FAKE_FIGHTER_RANK = 1;
     public static final String FAKE_FIGHTER_POUND_FOR_POUND_RANK = "pound_for_pound_rank";
     public static final String FAKE_FIGHTER_THUMBNAIL = "thumbnail";
     public static final String FAKE_FIGHTER_BELT_THUMBNAIL = "belt_thumbnail";

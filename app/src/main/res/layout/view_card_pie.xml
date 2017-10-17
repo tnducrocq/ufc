@@ -25,6 +25,7 @@
             android:layout_centerVertical="true"
             android:text="48%"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/colorPrimary"
             android:textSize="40sp"/>
 
         <TextView

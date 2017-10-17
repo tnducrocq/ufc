@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import fr.tnducrocq.ufc.presentation.R;
+import fr.tnducrocq.ufc.presentation.ui.champions.ChampionsFragment;
 
 /**
  * Created by tony on 31/07/2017.
@@ -42,9 +43,8 @@ public class MainTypePagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return new EventsFragment();
             case 1:
-                return new FightersFragment();
+                return new ChampionsFragment();//new FightersFragment();
         }
         return null;
     }
-
 }

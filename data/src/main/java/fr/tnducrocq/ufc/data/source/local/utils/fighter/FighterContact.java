@@ -117,7 +117,7 @@ public class FighterContact {
         final Integer draws = cursor.getInt(cursor.getColumnIndex(Fighters.FIGHTER_DRAWS));
         final String first_name = cursor.getString(cursor.getColumnIndex(Fighters.FIGHTER_FIRST_NAME));
         final String fighter_status = cursor.getString(cursor.getColumnIndex(Fighters.FIGHTER_FIGHTER_STATUS));
-        final String rank = cursor.getString(cursor.getColumnIndex(Fighters.FIGHTER_RANK));
+        final Integer rank = cursor.getInt(cursor.getColumnIndex(Fighters.FIGHTER_RANK));
         final String pound_for_pound_rank = cursor.getString(cursor.getColumnIndex(Fighters.FIGHTER_POUND_FOR_POUND_RANK));
         final String thumbnail = cursor.getString(cursor.getColumnIndex(Fighters.FIGHTER_THUMBNAIL));
         final String belt_thumbnail = cursor.getString(cursor.getColumnIndex(Fighters.FIGHTER_BELT_THUMBNAIL));

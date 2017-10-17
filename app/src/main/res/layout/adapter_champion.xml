@@ -1,0 +1,82 @@
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/spacing_medium"
+    app:cardCornerRadius="@dimen/cardview_default_radius"
+    app:cardElevation="@dimen/cardview_default_elevation">
+
+
+    <com.ritesh.ratiolayout.RatioLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorChampionBackground"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:fixed_attribute="WIDTH"
+        app:horizontal_ratio="16"
+        app:vertical_ratio="5">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:layout_marginLeft="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/champion_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CHAMPION "
+                    android:textColor="@color/colorChampionTextColor"
+                    android:textSize="12sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/champion_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/champion_title"
+                    android:text="POID LOURD"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"/>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/champion_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DEMETRIOUS"
+                android:textColor="@color/colorChampionTextColor"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/champion_first_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="JOHNSON"
+                android:textColor="@color/colorChampionTextColor"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/champion_image"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scaleType="matrix"
+            android:src="@drawable/fighter_placeholder_red"/>
+
+    </com.ritesh.ratiolayout.RatioLinearLayout>
+
+
+</android.support.v7.widget.CardView>

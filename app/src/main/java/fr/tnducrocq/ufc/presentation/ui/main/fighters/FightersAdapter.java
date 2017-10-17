@@ -18,7 +18,6 @@ import butterknife.ButterKnife;
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
 import fr.tnducrocq.ufc.presentation.R;
 import fr.tnducrocq.ufc.presentation.ui.base.AbstractFighterAdapter;
-import fr.tnducrocq.ufc.presentation.ui.main.FightersFragment;
 
 /**
  * Created by tony on 09/08/2017.
@@ -26,9 +25,9 @@ import fr.tnducrocq.ufc.presentation.ui.main.FightersFragment;
 
 public class FightersAdapter extends AbstractFighterAdapter<Fighter> {
 
-    private FightersFragment.OnFighterFragmentInteractionListener mListener;
+    private OnFighterFragmentInteractionListener mListener;
 
-    public FightersAdapter(@NonNull Context context, FightersFragment.OnFighterFragmentInteractionListener listener) {
+    public FightersAdapter(@NonNull Context context, OnFighterFragmentInteractionListener listener) {
         super(context);
         mListener = listener;
     }

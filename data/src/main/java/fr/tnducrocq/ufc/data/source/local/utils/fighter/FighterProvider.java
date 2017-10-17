@@ -54,4 +54,18 @@ public class FighterProvider extends AbstractProvider<Fighter, FighterSQLHelper>
         }
         return null;
     }
+
+    public List<Fighter> getChampions() {
+        final QueryBuilder builder = new QueryBuilder().table(FighterContact.Tables.FIGHTERS).where(FighterContact.Fighters.FIGHTER_TITLE_HOLDER + "=?", "1");
+        Cursor cursor = builder.query(db, null, FighterContact.Fighters.FIGHTER_WEIGHT_CLASS);
+        if (cursor.moveToFirst()) {
+            List<Fighter> fighterList = new ArrayList<>();
+            do {
+                fighterList.add(convertToObject(cursor));
+            } while (cursor.moveToNext());
+
+            return fighterList;
+        }
+        return null;
+    }
 }

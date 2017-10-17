@@ -53,7 +53,7 @@ public class Fighter implements HasId, Parcelable {
 
     @SerializedName("rank")
     @Expose
-    private String rank;
+    private String _rank;
 
     @SerializedName("pound_for_pound_rank")
     @Expose
@@ -179,12 +179,24 @@ public class Fighter implements HasId, Parcelable {
         this.fighterStatus = fighterStatus;
     }
 
-    public String getRank() {
-        return rank;
+    public int getRank() {
+        try {
+            return Integer.valueOf(_rank);
+        } catch (NumberFormatException e) {
+            return Integer.MAX_VALUE;
+        }
     }
 
-    public void setRank(String rank) {
-        this.rank = rank;
+    public void setRank(int rank) {
+        this._rank = Integer.toString(rank);
+    }
+
+    public String get_rank() {
+        return _rank;
+    }
+
+    public void set_rank(String _rank) {
+        this._rank = _rank;
     }
 
     public String getPoundForPoundRank() {
@@ -261,7 +273,7 @@ public class Fighter implements HasId, Parcelable {
         dest.writeValue(this.draws);
         dest.writeString(this.firstName);
         dest.writeString(this.fighterStatus);
-        dest.writeString(this.rank);
+        dest.writeValue(this._rank);
         dest.writeString(this.poundForPoundRank);
         dest.writeString(this.thumbnail);
         dest.writeString(this.beltThumbnail);
@@ -283,7 +295,7 @@ public class Fighter implements HasId, Parcelable {
         this.draws = (Integer) in.readValue(Integer.class.getClassLoader());
         this.firstName = in.readString();
         this.fighterStatus = in.readString();
-        this.rank = in.readString();
+        this._rank = in.readString();
         this.poundForPoundRank = in.readString();
         this.thumbnail = in.readString();
         this.beltThumbnail = in.readString();
@@ -320,7 +332,7 @@ public class Fighter implements HasId, Parcelable {
         sb.append(", draws=").append(draws);
         sb.append(", firstName='").append(firstName).append('\'');
         sb.append(", fighterStatus='").append(fighterStatus).append('\'');
-        sb.append(", rank='").append(rank).append('\'');
+        sb.append(", rank='").append(getRank()).append('\'');
         sb.append(", poundForPoundRank='").append(poundForPoundRank).append('\'');
         sb.append(", thumbnail='").append(thumbnail).append('\'');
         sb.append(", beltThumbnail='").append(beltThumbnail).append('\'');

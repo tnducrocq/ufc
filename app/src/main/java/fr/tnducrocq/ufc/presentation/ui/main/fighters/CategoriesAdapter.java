@@ -12,7 +12,6 @@ import butterknife.ButterKnife;
 import fr.tnducrocq.ufc.data.utils.WeightCategory;
 import fr.tnducrocq.ufc.presentation.R;
 import fr.tnducrocq.ufc.presentation.ui.base.AbstractFighterAdapter;
-import fr.tnducrocq.ufc.presentation.ui.main.FightersFragment;
 
 /**
  * Created by tony on 09/08/2017.
@@ -20,9 +19,10 @@ import fr.tnducrocq.ufc.presentation.ui.main.FightersFragment;
 
 public class CategoriesAdapter extends AbstractFighterAdapter<CategoriesAdapter.FighterCategoryWrapper> {
 
-    private final FightersFragment.OnFighterFragmentInteractionListener mListener;
 
-    public CategoriesAdapter(@NonNull Context context, FightersFragment.OnFighterFragmentInteractionListener listener) {
+    private final OnFighterFragmentInteractionListener mListener;
+
+    public CategoriesAdapter(@NonNull Context context, OnFighterFragmentInteractionListener listener) {
         super(context);
         mListener = listener;
     }

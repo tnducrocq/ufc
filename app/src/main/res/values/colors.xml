@@ -1,13 +1,13 @@
 <resources>
 
-    <color name="colorPrimary">#d20909</color>
-    <color name="colorPrimaryDark">#37474F</color>
-    <color name="colorAccent">#09d2d2</color>
-    <!--<color name="colorAccent">#09d2d2</color>-->
-
+    <color name="colorPrimary">#000000</color>
+    <color name="colorAccent">#d20909</color>
 
     <color name="colorSerieBack">#FFE2E2E2</color>
     <color name="colorSerieItem1">#FFFF8800</color>
+
+    <color name="colorChampionBackground">#242424</color>
+    <color name="colorChampionTextColor">#DA192B</color>
 
     <color name="colorEventItemBackground">#d8e0d8</color>
     <color name="colorEventItemTitleColor">#7b7f7b</color>

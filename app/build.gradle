@@ -80,7 +80,8 @@ dependencies {
     compile 'com.github.bmarrdev:android-DecoView-charting:v0.9.3'
     compile 'com.github.iammert:ScalingLayout:1.0'
     compile 'com.afollestad:easyvideoplayer:0.3.0'
-
+    compile 'org.greenrobot:eventbus:3.0.0'
+    
     /* Testing Libraries */
     testCompile testLibs.mockito
     testCompile testLibs.espresso
