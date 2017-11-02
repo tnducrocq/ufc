@@ -1,0 +1,173 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/spacing_large"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fighter_1_surname"
+                style="@style/AppTheme.Surname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:letterSpacing="0.5"
+                android:textAllCaps="true"
+                android:textColor="@color/colorAccent"
+                tools:text="THE NOTORIOUS"/>
+
+            <TextView
+                android:id="@+id/fighter_1_name"
+                style="@style/AppTheme.Body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/black"
+                tools:text="CONNOR MCGREGOR"/>
+
+            <TextView
+                android:id="@+id/fighter_1_stat"
+                style="@style/AppTheme.Body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/colorEventItemTitleColor"
+                tools:text="21-3-0 (W-L-D)"/>
+
+            <com.ritesh.ratiolayout.RatioFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:fixed_attribute="WIDTH"
+                app:horizontal_ratio="300"
+                app:vertical_ratio="195">
+
+                <ImageView
+                    android:id="@+id/fighter_1_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/fighter_placeholder"/>
+
+            </com.ritesh.ratiolayout.RatioFrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fighter_2_surname"
+                style="@style/AppTheme.Surname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:letterSpacing="0.5"
+                android:textAllCaps="true"
+                android:textColor="@color/colorAccent"
+                tools:text="THE NOTORIOUS"/>
+
+            <TextView
+                android:id="@+id/fighter_2_name"
+                style="@style/AppTheme.Body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/black"
+                tools:text="CONNOR MCGREGOR"/>
+
+            <TextView
+                android:id="@+id/fighter_2_stat"
+                style="@style/AppTheme.Body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/colorEventItemTitleColor"
+                tools:text="21-3-0 (W-L-D)"/>
+
+            <com.ritesh.ratiolayout.RatioFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:fixed_attribute="WIDTH"
+                app:horizontal_ratio="300"
+                app:vertical_ratio="195">
+
+                <ImageView
+                    android:id="@+id/fighter_2_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/fighter_placeholder"/>
+
+            </com.ritesh.ratiolayout.RatioFrameLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <TextView
+            android:id="@+id/fighter_1_state"
+            style="@style/AppTheme.Headline"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBaseline="@+id/fight_row_title"
+            android:layout_alignBottom="@+id/fight_row_title"
+            android:layout_toStartOf="@+id/fight_row_title"
+            android:gravity="center"
+            android:letterSpacing="0.5"
+            android:textAllCaps="true"
+            android:textColor="@color/redCorner"
+            tools:text="WIN"/>
+
+        <TextView
+            android:id="@+id/fight_row_title"
+            style="@style/AppTheme.Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            tools:text=""/>
+
+        <TextView
+            android:id="@+id/fighter_2_state"
+            style="@style/AppTheme.Headline"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/fight_row_title"
+            android:gravity="center"
+            android:letterSpacing="0.5"
+            android:textAllCaps="true"
+            android:textColor="@color/blueCorner"
+            tools:text="LOOSE"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/mid_grey"/>
+    </RelativeLayout>
+
+</LinearLayout>

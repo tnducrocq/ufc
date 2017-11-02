@@ -118,8 +118,7 @@ public class EventViewHolder extends RecyclerView.ViewHolder {
 
         posterImage.setOnClickListener(v -> {
             Intent intent = EventActivity.newIntent(v.getContext(), event, PaletteColors.fromSwatch(mSwatch));
-            ActivityOptionsCompat options = ActivityOptionsCompat.
-                    makeSceneTransitionAnimation((Activity) v.getContext(), (View) posterImage, "profile");
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) v.getContext(), (View) posterImage, "event_detail");
             v.getContext().startActivity(intent, options.toBundle());
             listener.onListFragmentInteraction(event);
         });

@@ -8,10 +8,17 @@
 
     <color name="colorChampionBackground">#242424</color>
     <color name="colorChampionTextColor">#DA192B</color>
+    <color name="transparent">#00FFFFFF</color>
+
+    <color name="redCorner">#DA192B</color>
+    <color name="blueCorner">#4553D4</color>
 
     <color name="colorEventItemBackground">#d8e0d8</color>
     <color name="colorEventItemTitleColor">#7b7f7b</color>
     <color name="colorEventItemBodyColor">#606360</color>
+
+    <color name="colorEventUpNext">#818383</color>
+    <color name="black">#FF000000</color>
 
     <!-- common colours -->
     <color name="white">#ffffff</color>

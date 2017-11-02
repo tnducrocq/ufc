@@ -35,8 +35,7 @@
             android:theme="@style/secondary"/>
 
         <activity
-            android:name=".FightActivity"
-            android:label="@string/title_activity_event_fight"/>
+            android:name=".FightActivity"/>
 
         <activity
             android:name=".PlayerActivity"

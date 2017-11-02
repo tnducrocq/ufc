@@ -33,9 +33,8 @@
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/event_placeholder"
-                android:transitionName="profile"/>
+                android:transitionName="event_detail"/>
         </com.ritesh.ratiolayout.RatioRelativeLayout>
-
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/details_background"

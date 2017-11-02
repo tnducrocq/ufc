@@ -3,13 +3,12 @@ package fr.tnducrocq.ufc.presentation;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -17,12 +16,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.ImageViewTarget;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,14 +36,9 @@ import fr.tnducrocq.ufc.presentation.ui.event.EventFightsRecyclerViewAdapter;
 import fr.tnducrocq.ufc.presentation.ui.event.EventInformations;
 import fr.tnducrocq.ufc.presentation.ui.utils.PaletteColors;
 import fr.tnducrocq.ufc.presentation.ui.utils.PresentationUtils;
-import im.ene.toro.widget.Container;
 import rx.Observable;
 import rx.Observer;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
 public class EventActivity extends AppCompatActivity implements EventFightsRecyclerViewAdapter.OnEventFightsInteractionListener {
 
     private static final String TAG = "EventActivity";
@@ -55,7 +51,7 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
     private EventInformations mDetail;
 
     @BindView(R.id.event_fights_list)
-    public Container mRecyclerView;
+    public RecyclerView mRecyclerView;
 
     @BindView(R.id.event_fights_image)
     public ImageView mImageView;
@@ -63,11 +59,16 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
     @BindView(R.id.event_fights_toolbar)
     public Toolbar mToolbar;
 
+    @BindView(R.id.event_fights_title)
+    public TextView mTitle;
+
+    @BindView(R.id.event_fights_subhead)
+    public TextView mSubhead;
+
     @BindView(R.id.toolbar_layout)
     public CollapsingToolbarLayout mToolbarLayout;
 
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
 
     public static Intent newIntent(@NonNull Context context, @NonNull Event event, @NonNull PaletteColors palette) {
         Intent intent = new Intent(context, EventActivity.class);
@@ -86,22 +87,26 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
         mEvent = getIntent().getParcelableExtra(ARG_EVENT);
         mEventPalette = getIntent().getParcelableExtra(ARG_EVENT_PALETTE);
 
-        mToolbarLayout.setBackgroundColor(mEventPalette.rgb);
         mToolbarLayout.setStatusBarScrimColor(mEventPalette.rgb);
         mToolbarLayout.setContentScrimColor(mEventPalette.rgb);
-
-        mToolbar.setTitle(mEvent.getTitleTagLine());
+        mToolbarLayout.setTitle(mEvent.getTitleTagLine().toUpperCase());
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        if (new Date().after(mEvent.getEventDate())) {
+            mSubhead.setText(getString(R.string.event_past_title));
+        } else {
+            mSubhead.setText(getString(R.string.event_future_title));
+        }
+        mTitle.setText(mEvent.getBaseTitle());
+
+
         int statusBarHeight = PresentationUtils.getStatusBarHeight(getResources());
         mToolbar.getLayoutParams().height += statusBarHeight;
         mToolbar.setPadding(0, statusBarHeight, 0, 0);
 
-        Bitmap placeholder = BitmapFactory.decodeResource(getResources(), R.drawable.event_placeholder);
-        mImageView.setImageBitmap(placeholder);
         Glide.with(this) //
                 .load(mEvent.getFeatureImage()) //
                 .asBitmap() //
@@ -116,10 +121,15 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
                     }
                 });
 
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return position == 0 ? 2 : 1;
+            }
+        });
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setLayoutManager(layoutManager);
 
         Observable<List<EventFight>> obsEventFights = App.getInstance().getEventRepository().getEventFight(mEvent.id());
         Observable<List<EventMedia>> obsEventMedias = App.getInstance().getEventRepository().getEventMedia(mEvent.id());
@@ -136,8 +146,8 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
 
     public class ObserverEventInformations implements Observer<EventInformations> {
 
-        private EventInformations mDetail;
-        private Throwable mError;
+        protected EventInformations mDetail;
+        protected Throwable mError;
 
         @Override
         public void onCompleted() {
@@ -164,7 +174,6 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
-        //R.menu.menu est l'id de notre menu
         inflater.inflate(R.menu.menu_event, menu);
         return true;
     }

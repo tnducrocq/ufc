@@ -4,8 +4,8 @@ ext {
     configuration =
             [
                     package                  : "fr.tnducrocq.ufc",
-                    buildToolVersion         : "26.0.1",
-                    buildToolsVersion        : "26.0.1",
+                    buildToolVersion         : "26.0.2",
+                    buildToolsVersion        : "26.0.2",
                     compileSdkVersion        : 26,
                     minSdkVersion            : 21,
                     targetSdkVersion         : 26,

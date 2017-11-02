@@ -11,6 +11,10 @@
     <string name="past_events">PAST EVENT</string>
     <string name="future_events">UPCOMING EVENTS</string>
 
+    <string name="event_vs">VS</string>
+    <string name="event_title">UFC FIGHT NIGHT</string>
+    <string name="event_future_title">UP NEXT</string>
+    <string name="event_past_title">OUTCOME</string>
 
     <!-- Drawer -->
     <string name="settings_item">Settings</string>

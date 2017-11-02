@@ -81,7 +81,8 @@ dependencies {
     compile 'com.github.iammert:ScalingLayout:1.0'
     compile 'com.afollestad:easyvideoplayer:0.3.0'
     compile 'org.greenrobot:eventbus:3.0.0'
-    
+    compile 'com.makeramen:roundedimageview:2.2.1'
+
     /* Testing Libraries */
     testCompile testLibs.mockito
     testCompile testLibs.espresso

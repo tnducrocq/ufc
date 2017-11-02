@@ -47,5 +47,8 @@
     <dimen name="drag_dismiss_distance">112dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="vs_size">44dp</dimen>
+
+    <dimen name="vs_size_min">22dp</dimen>
 
 </resources>

@@ -66,9 +66,15 @@ public class EventFight implements Parcelable {
     @SerializedName("is_prelim")
     @Expose
     private Boolean isPrelim;
-    @SerializedName("fighter1odds")
+
+    @SerializedName("fighter1_nickname")
     @Expose
     private String fighter1Nickname;
+
+    @SerializedName("fighter2_nickname")
+    @Expose
+    private String fighter2Nickname;
+
     @SerializedName("fighter1_wins")
     @Expose
     private Integer fighter1Wins;
@@ -347,6 +353,14 @@ public class EventFight implements Parcelable {
 
     public void setFighter1Nickname(String fighter1Nickname) {
         this.fighter1Nickname = fighter1Nickname;
+    }
+
+    public String getFighter2Nickname() {
+        return fighter2Nickname;
+    }
+
+    public void setFighter2Nickname(String fighter2Nickname) {
+        this.fighter2Nickname = fighter2Nickname;
     }
 
     public Integer getFighter1Wins() {
@@ -733,6 +747,7 @@ public class EventFight implements Parcelable {
         dest.writeValue(this.isMainEvent);
         dest.writeValue(this.isPrelim);
         dest.writeString(this.fighter1Nickname);
+        dest.writeString(this.fighter2Nickname);
         dest.writeValue(this.fighter1Wins);
         dest.writeValue(this.fighter1Statid);
         dest.writeValue(this.fighter1Losses);
@@ -798,6 +813,7 @@ public class EventFight implements Parcelable {
         this.isMainEvent = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.isPrelim = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.fighter1Nickname = in.readString();
+        this.fighter2Nickname = in.readString();
         this.fighter1Wins = (Integer) in.readValue(Integer.class.getClassLoader());
         this.fighter1Statid = (Integer) in.readValue(Integer.class.getClassLoader());
         this.fighter1Losses = (Integer) in.readValue(Integer.class.getClassLoader());
