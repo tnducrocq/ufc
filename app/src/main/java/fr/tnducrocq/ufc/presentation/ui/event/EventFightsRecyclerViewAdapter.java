@@ -27,8 +27,8 @@ public class EventFightsRecyclerViewAdapter extends RecyclerView.Adapter<EventFi
         void onListFragmentInteraction(EventFight item);
     }
 
-    public EventFightsRecyclerViewAdapter(EventInformations details, EventFightsRecyclerViewAdapter.OnEventFightsInteractionListener listener) {
-        mFights = details.fights;
+    public EventFightsRecyclerViewAdapter(List<EventFight> fights, EventFightsRecyclerViewAdapter.OnEventFightsInteractionListener listener) {
+        mFights = fights;
         mListener = listener;
     }
 

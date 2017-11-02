@@ -8,17 +8,17 @@
 
     <TextView
         android:id="@+id/fight_row_fighter1"
-        android:layout_marginRight="@dimen/spacing_medium"
-        style="@style/AppTheme.Body2"
+        style="@style/AppTheme.Headline"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignBaseline="@+id/fight_row_title"
         android:layout_alignBottom="@+id/fight_row_title"
         android:layout_toStartOf="@+id/fight_row_title"
         android:gravity="center"
+        android:letterSpacing="0.5"
         android:textAllCaps="true"
         android:textColor="@color/redCorner"
-        tools:text="1"/>
+        tools:text="WIN"/>
 
 
     <TextView
@@ -30,21 +30,21 @@
         android:gravity="center"
         android:textAllCaps="true"
         android:textColor="@color/black"
-        tools:text="KNOCKDOWNS"/>
+        tools:text=""/>
 
 
     <TextView
         android:id="@+id/fight_row_fighter2"
-        android:layout_marginLeft="@dimen/spacing_medium"
-        style="@style/AppTheme.Body2"
+        style="@style/AppTheme.Headline"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/fight_row_title"
         android:gravity="center"
+        android:letterSpacing="0.5"
         android:textAllCaps="true"
         android:textColor="@color/blueCorner"
-        tools:text="0"/>
+        tools:text="LOOSE"/>
 
 
     <View

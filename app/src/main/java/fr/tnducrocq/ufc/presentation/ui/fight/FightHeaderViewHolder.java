@@ -31,8 +31,8 @@ public class FightHeaderViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.fighter_1_image)
     ImageView fighter1;
 
-    @BindView(R.id.fighter_1_state)
-    TextView fighter1State;
+    @BindView(R.id.fighter_1_stats)
+    TextView fighter1Stats;
 
     @BindView(R.id.fighter_2_surname)
     TextView fighter2Surname;
@@ -43,8 +43,8 @@ public class FightHeaderViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.fighter_2_image)
     ImageView fighter2;
 
-    @BindView(R.id.fighter_2_state)
-    TextView fighter2State;
+    @BindView(R.id.fighter_2_stats)
+    TextView fighter2Stats;
 
     View mView;
 
@@ -56,7 +56,7 @@ public class FightHeaderViewHolder extends RecyclerView.ViewHolder {
 
     public void bindData(final EventFight fight) {
         fighter1Surname.setText(fight.getFighter1Nickname());
-        fighter1State.setText(String.format("%d-%d-%d (W-L-D)", fight.getFighter1Wins(), fight.getFighter1Draws(), fight.getFighter1Losses()));
+        fighter1Stats.setText(String.format("%d-%d-%d (W-L-D)", fight.getFighter1Wins(), fight.getFighter1Draws(), fight.getFighter1Losses()));
         fighter1Name.setText(fight.getFighter1FirstName() + " " + fight.getFighter1LastName());
         Glide.with(fighter1.getContext()).
                 load(fight.getFighter1ProfileImage()).
@@ -69,10 +69,9 @@ public class FightHeaderViewHolder extends RecyclerView.ViewHolder {
                         fighter1.setImageBitmap(resource);
                     }
                 });
-        fighter1State.setText(fight.getFighter1IsWinner() ? "WIN" : "LOOSE");
 
         fighter2Surname.setText(fight.getFighter2Nickname());
-        fighter2State.setText(String.format("%d-%d-%d (W-L-D)", fight.getFighter2Wins(), fight.getFighter2Draws(), fight.getFighter2Losses()));
+        fighter2Stats.setText(String.format("%d-%d-%d (W-L-D)", fight.getFighter2Wins(), fight.getFighter2Draws(), fight.getFighter2Losses()));
         fighter2Name.setText(fight.getFighter2FirstName() + " " + fight.getFighter2LastName());
         Glide.with(fighter2.getContext()).
                 load(fight.getFighter2ProfileImage()).
@@ -86,7 +85,6 @@ public class FightHeaderViewHolder extends RecyclerView.ViewHolder {
                         fighter2.setImageBitmap(resource);
                     }
                 });
-        fighter2State.setText(fight.getFighter2IsWinner() ? "WIN" : "LOOSE");
     }
 
 }

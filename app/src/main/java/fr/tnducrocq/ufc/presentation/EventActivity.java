@@ -30,13 +30,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import fr.tnducrocq.ufc.data.entity.event.Event;
 import fr.tnducrocq.ufc.data.entity.event.EventFight;
+import fr.tnducrocq.ufc.data.entity.event.EventFights;
 import fr.tnducrocq.ufc.data.entity.event.EventMedia;
+import fr.tnducrocq.ufc.data.entity.event.EventMedias;
 import fr.tnducrocq.ufc.presentation.app.App;
 import fr.tnducrocq.ufc.presentation.ui.event.EventFightsRecyclerViewAdapter;
-import fr.tnducrocq.ufc.presentation.ui.event.EventInformations;
 import fr.tnducrocq.ufc.presentation.ui.utils.PaletteColors;
 import fr.tnducrocq.ufc.presentation.ui.utils.PresentationUtils;
-import rx.Observable;
 import rx.Observer;
 
 public class EventActivity extends AppCompatActivity implements EventFightsRecyclerViewAdapter.OnEventFightsInteractionListener {
@@ -48,7 +48,8 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
 
     private Event mEvent;
     private PaletteColors mEventPalette;
-    private EventInformations mDetail;
+    protected List<EventFight> mFights;
+    protected List<EventMedia> mMedias;
 
     @BindView(R.id.event_fights_list)
     public RecyclerView mRecyclerView;
@@ -131,44 +132,58 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        Observable<List<EventFight>> obsEventFights = App.getInstance().getEventRepository().getEventFight(mEvent.id());
-        Observable<List<EventMedia>> obsEventMedias = App.getInstance().getEventRepository().getEventMedia(mEvent.id());
+        App.getInstance().getEventFightsRepository().get(mEvent.id()).
+                subscribeOn(App.getInstance().schedulerProvider.multi()).
+                observeOn(App.getInstance().schedulerProvider.ui()).
+                subscribe(new Observer<EventFights>() {
 
-        Observable.zip(obsEventFights, obsEventMedias, (eventFights, eventMedias) -> {
-            EventInformations detail = new EventInformations();
-            detail.fights = eventFights;
-            detail.medias = eventMedias;
-            return detail;
-        }).subscribeOn(App.getInstance().schedulerProvider.multi()).//
-                observeOn(App.getInstance().schedulerProvider.ui()).//
-                subscribe(new ObserverEventInformations());
+                    protected Throwable mError;
+
+                    @Override
+                    public void onCompleted() {
+                        if (mFights != null) {
+                            mAdapter = new EventFightsRecyclerViewAdapter(mFights, EventActivity.this);
+                            mRecyclerView.setAdapter(mAdapter);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mError = e;
+                    }
+
+                    @Override
+                    public void onNext(EventFights values) {
+                        mFights = values.getFightList();
+                    }
+                });
+
+        App.getInstance().getEventMediasRepository().get(mEvent.id()).
+                subscribeOn(App.getInstance().schedulerProvider.multi()).
+                observeOn(App.getInstance().schedulerProvider.ui()).
+                subscribe(new Observer<EventMedias>() {
+
+                    protected Throwable mError;
+
+                    @Override
+                    public void onCompleted() {
+                        if (mMedias != null) {
+                            EventActivity.this.invalidateOptionsMenu();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mError = e;
+                    }
+
+                    @Override
+                    public void onNext(EventMedias values) {
+                        mMedias = values.getMediaList();
+                    }
+                });
     }
 
-    public class ObserverEventInformations implements Observer<EventInformations> {
-
-        protected EventInformations mDetail;
-        protected Throwable mError;
-
-        @Override
-        public void onCompleted() {
-            EventActivity.this.mDetail = mDetail;
-            if (mDetail != null) {
-                mAdapter = new EventFightsRecyclerViewAdapter(mDetail, EventActivity.this);
-                mRecyclerView.setAdapter(mAdapter);
-                EventActivity.this.invalidateOptionsMenu();
-            }
-        }
-
-        @Override
-        public void onError(Throwable e) {
-            mError = e;
-        }
-
-        @Override
-        public void onNext(EventInformations eventDetail) {
-            mDetail = eventDetail;
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -180,7 +195,7 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
 
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem register = menu.findItem(R.id.action_video);
-        boolean hide = mDetail == null || mDetail.medias == null || mDetail.medias.isEmpty();
+        boolean hide = mMedias == null || mMedias == null || mMedias.isEmpty();
         register.setVisible(!hide);
         return true;
     }
@@ -191,7 +206,7 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
             onBackPressed();
             return true;
         } else if (menuItem.getItemId() == R.id.action_video) {
-            Intent intent = PlayerActivity.newIntent(this, mDetail.medias.get(0).getMobileVideoUrl());
+            Intent intent = PlayerActivity.newIntent(this, mMedias.get(0).getMobileVideoUrl());
             startActivity(intent);
             return true;
         }

@@ -3,13 +3,13 @@ package fr.tnducrocq.ufc.presentation.app;
 import android.content.Context;
 import android.support.multidex.MultiDexApplication;
 
+import fr.tnducrocq.ufc.data.repository.impl.EventFightsRepository;
+import fr.tnducrocq.ufc.data.repository.impl.EventMediaRepository;
 import fr.tnducrocq.ufc.data.repository.impl.EventRepository;
 import fr.tnducrocq.ufc.data.repository.impl.FighterDetailsRepository;
 import fr.tnducrocq.ufc.data.repository.impl.FighterRepository;
-import fr.tnducrocq.ufc.data.source.local.EventDataSource;
 import fr.tnducrocq.ufc.data.source.local.LocalEvents;
 import fr.tnducrocq.ufc.data.source.local.LocalFighters;
-import fr.tnducrocq.ufc.data.source.remote.EventRemoteSource;
 import fr.tnducrocq.ufc.data.source.remote.RemoteEvents;
 import fr.tnducrocq.ufc.data.source.remote.RemoteFighterDetails;
 import fr.tnducrocq.ufc.data.source.remote.RemoteFighters;
@@ -32,6 +32,8 @@ public class App extends MultiDexApplication {
     public BaseSchedulerProvider schedulerProvider;
     public FighterRepository fighterRepository;
     public EventRepository eventRepository;
+    public EventFightsRepository eventFightsRepository;
+    public EventMediaRepository eventMediasRepository;
     public FighterDetailsRepository fighterDetailsRepository;
 
     @Override
@@ -45,16 +47,11 @@ public class App extends MultiDexApplication {
         context = this;
         schedulerProvider = new SchedulerProvider();
 
-        LocalFighters localSource = new LocalFighters(context);
-        RemoteFighters remoteSource = new RemoteFighters();
-        fighterRepository = new FighterRepository(context, localSource, remoteSource, schedulerProvider);
-
-        RemoteFighterDetails remoteFighterDetails = new RemoteFighterDetails();
-        fighterDetailsRepository = new FighterDetailsRepository(context, remoteFighterDetails, schedulerProvider);
-
-        EventDataSource localEvent = new LocalEvents(context);
-        EventRemoteSource remoteEvent = new RemoteEvents();
-        eventRepository = new EventRepository(context, localEvent, remoteEvent, schedulerProvider);
+        fighterRepository = new FighterRepository(context, new LocalFighters(context), new RemoteFighters(), schedulerProvider);
+        fighterDetailsRepository = new FighterDetailsRepository(context, new RemoteFighterDetails(), schedulerProvider);
+        eventRepository = new EventRepository(context, new LocalEvents(context), new RemoteEvents(), schedulerProvider);
+        eventFightsRepository = new EventFightsRepository(context, schedulerProvider);
+        eventMediasRepository = new EventMediaRepository(context, schedulerProvider);
     }
 
     public Context getContext() {
@@ -69,11 +66,19 @@ public class App extends MultiDexApplication {
         return fighterRepository;
     }
 
-    public FighterDetailsRepository getFighterDetailsRepository() {
-        return fighterDetailsRepository;
-    }
-
     public EventRepository getEventRepository() {
         return eventRepository;
+    }
+
+    public EventFightsRepository getEventFightsRepository() {
+        return eventFightsRepository;
+    }
+
+    public EventMediaRepository getEventMediasRepository() {
+        return eventMediasRepository;
+    }
+
+    public FighterDetailsRepository getFighterDetailsRepository() {
+        return fighterDetailsRepository;
     }
 }

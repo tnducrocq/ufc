@@ -90,6 +90,12 @@ public class Fighter implements HasId, Parcelable {
     public Fighter() {
     }
 
+    public Fighter(String id, String firstName, String lastName) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     @Override
     public String id() {
         return id;

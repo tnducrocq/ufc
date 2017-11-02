@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import rx.Observable;
-import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
 import rx.subjects.Subject;
 
@@ -42,11 +41,12 @@ public class CacheStore<K, V> {
 
     public Observable<V> getStream(K key) {
         subjectMap.put(key, PublishSubject.create());
-        V cachedValue = cache.getIfPresent(key);
+        final V cachedValue = cache.getIfPresent(key);
         if (cachedValue != null) {
-            final Subject<V, V> subject = BehaviorSubject.create(cachedValue);
-            subjectMap.get(key).subscribe(subject);
-            return subject;
+            return Observable.create(subscriber -> {
+                subscriber.onNext(cachedValue);
+                subscriber.onCompleted();
+            });
         } else {
             return subjectMap.get(key);
         }

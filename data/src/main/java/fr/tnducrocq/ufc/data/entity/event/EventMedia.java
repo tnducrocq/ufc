@@ -6,11 +6,13 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import fr.tnducrocq.ufc.data.entity.HasId;
+
 /**
  * Created by tony on 10/08/2017.
  */
 
-public class EventMedia implements Parcelable {
+public class EventMedia implements HasId, Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -72,8 +74,9 @@ public class EventMedia implements Parcelable {
     @Expose
     private String publishedStartDate;
 
-    public Integer getId() {
-        return id;
+    @Override
+    public String id() {
+        return Integer.toString(id);
     }
 
     public void setId(Integer id) {
