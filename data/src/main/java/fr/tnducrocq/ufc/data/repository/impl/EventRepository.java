@@ -35,4 +35,9 @@ public class EventRepository extends AbstractRepository<Event, EventDataSource, 
         return localSource.getPast(max)//
                 .doOnNext(list -> cacheData(list));
     }
+
+    @Override
+    protected int getNetworkExpirationInMinutes() {
+        return 24;
+    }
 }

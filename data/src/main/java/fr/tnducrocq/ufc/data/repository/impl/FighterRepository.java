@@ -33,4 +33,9 @@ public class FighterRepository extends AbstractRepository<Fighter, FighterDataSo
     public Observable<List<Fighter>> getChampions() {
         return localSource.getChampions();
     }
+
+    @Override
+    protected int getNetworkExpirationInMinutes() {
+        return 24;
+    }
 }

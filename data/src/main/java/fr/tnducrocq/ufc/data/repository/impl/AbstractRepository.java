@@ -22,7 +22,7 @@ import rx.Observable;
 abstract class AbstractRepository<T extends HasId, L extends IDataSource<T>, R extends IRepository<T>> implements IDataSource<T> {
 
     private static final int DEFAULT_CACHE_SIZE = 150; //max 150 items
-    private static final int DEFAULT_CACHE_DURATION = 20; //20 minutes
+    private static final int DEFAULT_CACHE_DURATION = 60; //20 minutes
     private static final int DEFAULT_NETWORK_EXPIRATION_DURATION = 60; //60 minutes
 
     private Context context;
@@ -67,7 +67,7 @@ abstract class AbstractRepository<T extends HasId, L extends IDataSource<T>, R e
 
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(lastTime);
-        cal.add(Calendar.MINUTE, DEFAULT_NETWORK_EXPIRATION_DURATION);
+        cal.add(Calendar.MINUTE, getNetworkExpirationInMinutes());
         return cal.getTime().before(Calendar.getInstance().getTime());
     }
 
@@ -135,4 +135,9 @@ abstract class AbstractRepository<T extends HasId, L extends IDataSource<T>, R e
                 .subscribeOn(schedulerProvider.multi())//
                 .subscribe();
     }
+
+    protected int getNetworkExpirationInMinutes() {
+        return DEFAULT_NETWORK_EXPIRATION_DURATION;
+    }
+
 }

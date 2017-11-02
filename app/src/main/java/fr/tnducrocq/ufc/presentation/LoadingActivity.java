@@ -25,12 +25,12 @@ public class LoadingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
-        if (!requestsIsNeeded()) {
+      /*  if (!requestsIsNeeded()) {
             finish();
             Intent intent = MainActivity.newIntent(this);
             startActivity(intent);
             return;
-        }
+        }*/
 
         Observable<List<Fighter>> obsFighters = App.getInstance().getFighterRepository().get();
         Observable<List<Event>> obsEvents = App.getInstance().getEventRepository().get();
@@ -49,10 +49,10 @@ public class LoadingActivity extends AppCompatActivity {
 
             @Override
             public void onCompleted() {
-                if (mValue != null) {
+                /*if (mValue != null) {
                     SharedPreferences settings = getSharedPreferences(TAG, 0);
                     settings.edit().putLong(LAST_REQUEST_TIME, GregorianCalendar.getInstance().getTimeInMillis()).commit();
-                }
+                }*/
                 finish();
                 Intent intent = MainActivity.newIntent(LoadingActivity.this);
                 startActivity(intent);
