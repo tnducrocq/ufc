@@ -1,45 +1,32 @@
 package fr.tnducrocq.ufc.data.source.local;
 
-import android.content.Context;
+import org.greenrobot.greendao.query.QueryBuilder;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
+import fr.tnducrocq.ufc.data.App;
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
-import fr.tnducrocq.ufc.data.source.local.utils.fighter.FighterProvider;
-import fr.tnducrocq.ufc.data.utils.WeightCategory;
+import fr.tnducrocq.ufc.data.entity.fighter.FighterDao;
+import fr.tnducrocq.ufc.data.entity.fighter.WeightCategory;
+import fr.tnducrocq.ufc.data.entity.fighter.WeightCategoryConverter;
 import rx.Observable;
 
-public class LocalFighters extends AbstractLocal<Fighter, FighterProvider> implements FighterDataSource {
+public class LocalFighters extends AbstractLocal<Fighter> implements FighterDataSource {
 
-    public LocalFighters(Context context) {
-        super(context, new FighterProvider(context));
+    public LocalFighters(App application) {
+        super(application);
     }
 
     @Override
     public Observable<List<Fighter>> get(WeightCategory type) {
         return Observable.create(subscriber -> {
             try {
-                List<Fighter> temp = provider.get(type);
-                List<Fighter> fighters = new ArrayList<>();
-                for (Fighter f : temp) {
-                    if ("Active".equalsIgnoreCase(f.getFighterStatus()) && f.get_rank() != null) {
-                        fighters.add(f);
-                    }
-                }
-
-                Collections.sort(fighters, (f1, f2) -> {
-                    /*if (f1.getTitleHolder()) {
-                        return -1;
-                    }
-                    if (f2.getTitleHolder()) {
-                        return 1;
-                    }*/
-                    return Integer.compare(f1.getRank(), f2.getRank());
-                });
-
-                subscriber.onNext(fighters);
+                QueryBuilder<Fighter> queryBuilder = application.getSession().getFighterDao().queryBuilder();
+                WeightCategoryConverter converter = new WeightCategoryConverter();
+                List<Fighter> fighterList = queryBuilder
+                        .where(FighterDao.Properties.WeightClass.eq(converter.convertToDatabaseValue(type)))
+                        .list();
+                subscriber.onNext(fighterList);
             } catch (Exception e) {
                 subscriber.onError(e);
             }
@@ -51,12 +38,38 @@ public class LocalFighters extends AbstractLocal<Fighter, FighterProvider> imple
     public Observable<List<Fighter>> getChampions() {
         return Observable.create(subscriber -> {
             try {
-                List<Fighter> fighters = provider.getChampions();
-                subscriber.onNext(fighters);
+                QueryBuilder<Fighter> queryBuilder = application.getSession().getFighterDao().queryBuilder();
+                List<Fighter> fighterList = queryBuilder
+                        .where(FighterDao.Properties.TitleHolder.eq(true))
+                        .orderAsc(FighterDao.Properties.WeightClass)
+                        .list();
+                subscriber.onNext(fighterList);
             } catch (Exception e) {
                 subscriber.onError(e);
             }
             subscriber.onCompleted();
         });
     }
+
+
+    @Override
+    public boolean save(List<Fighter> list) {
+        application.getSession().getFighterDao().insertOrReplaceInTx(list);
+        return true;
+    }
+
+    @Override
+    public boolean save(Fighter item) {
+        application.getSession().getFighterDao().insertOrReplace(item);
+        return true;
+    }
+
+    public Observable<Fighter> get(String id) {
+        return Observable.create(subscriber -> {
+            Fighter fighter = application.getSession().getFighterDao().queryBuilder().where(FighterDao.Properties.Id.eq(id)).unique();
+            subscriber.onNext(fighter);
+            subscriber.onCompleted();
+        });
+    }
+
 }

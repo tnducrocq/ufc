@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">data</string>
+    <string name="fighter_category_flyweight">Poids mouches</string>
+    <string name="fighter_category_bantamweight">Poids coqs</string>
+    <string name="fighter_category_featherweight">Poids plumes</string>
+    <string name="fighter_category_lightweight">Poids légers</string>
+    <string name="fighter_category_welterweight">Poids mi-moyens</string>
+    <string name="fighter_category_middleweight">Poids moyens</string>
+    <string name="fighter_category_light_heavyweight">Poids lourds-légers</string>
+    <string name="fighter_category_heavyweight">Poids lourds</string>
+    <string name="fighter_category_women_strawweight">Poids pailles femme</string>
+    <string name="fighter_category_women_bantamweight">Poids coqs femme</string>
+    <string name="fighter_category_women_featherweight">Poids plumes femme</string>
+</resources>

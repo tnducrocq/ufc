@@ -1,80 +1,45 @@
 package fr.tnducrocq.ufc.data.source.local;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-
 import java.util.List;
 
+import fr.tnducrocq.ufc.data.App;
 import fr.tnducrocq.ufc.data.entity.HasId;
-import fr.tnducrocq.ufc.data.source.local.utils.AbstractProvider;
 import rx.Observable;
 
 /**
  * Created by tony on 10/08/2017.
  */
-public class AbstractLocal<T extends HasId, P extends AbstractProvider<T, ?>> implements IDataSource<T> {
+public abstract class AbstractLocal<T extends HasId> implements IDataSource<T> {
 
-    protected P provider;
+    protected App application;
 
-    public AbstractLocal(Context context, P provider) {
-        this.provider = provider;
-        if (this.provider != null) {
-            this.provider.open();
-        }
+    public AbstractLocal(App application) {
+        this.application = application;
     }
 
-    @Override
-    public boolean save(@NonNull T item) {
-        if (provider == null) {
-            return false;
-        }
-
-        T fighter = provider.get(item.id());
-        if (fighter == null) {
-            provider.insert(item);
-        } else {
-            provider.update(item);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean save(@NonNull List<T> items) {
-        if (provider == null) {
-            return false;
-        }
-
-        provider.saveAll(items);
-        return true;
-    }
-
-    @Override
     public Observable<T> get(String id) {
-        if (provider == null) {
-            return Observable.create(subscriber -> {
-                subscriber.onCompleted();
-            });
-        }
-
         return Observable.create(subscriber -> {
-            T fighter = provider.get(id);
-            subscriber.onNext(fighter);
+            subscriber.onNext(null);
             subscriber.onCompleted();
         });
     }
 
-    @Override
     public Observable<List<T>> get() {
-        if (provider == null) {
-            return Observable.create(subscriber -> {
-                subscriber.onCompleted();
-            });
-        }
-
         return Observable.create(subscriber -> {
-            List<T> fighters = provider.get();
-            subscriber.onNext(fighters);
+            subscriber.onNext(null);
             subscriber.onCompleted();
         });
     }
+
+    public boolean save(T item) {
+        return false;
+    }
+
+    public boolean save(List<T> list) {
+        for (T item : list) {
+            save(item);
+        }
+        return true;
+    }
+
 }

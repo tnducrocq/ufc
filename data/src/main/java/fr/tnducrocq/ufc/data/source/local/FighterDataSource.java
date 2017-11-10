@@ -3,7 +3,7 @@ package fr.tnducrocq.ufc.data.source.local;
 import java.util.List;
 
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
-import fr.tnducrocq.ufc.data.utils.WeightCategory;
+import fr.tnducrocq.ufc.data.entity.fighter.WeightCategory;
 import rx.Observable;
 
 public interface FighterDataSource extends IDataSource<Fighter> {

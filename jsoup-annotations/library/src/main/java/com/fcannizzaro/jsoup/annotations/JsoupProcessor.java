@@ -129,28 +129,23 @@ public class JsoupProcessor {
 
     }
 
+
     /**
      * Bind a Jsoup element to a class
      *
      * @param container dom element
      * @param clazz     object class
-     * @return object instance
+     * @param instance     object instance
      */
-    public static <T> T from(Element container, Class<T> clazz) {
-
+    public static <T> void from(Element container, Class<T> clazz, T instance) {
         try {
-
-            T instance = clazz.newInstance();
-
             for (Field field : clazz.getDeclaredFields()) {
-
                 Object value = valueOf(container, field);
 
                 if (value != null) {
                     field.setAccessible(true);
                     field.set(instance, value);
                 }
-
             }
 
             Method afterBindMethod = null;
@@ -186,25 +181,35 @@ public class JsoupProcessor {
                         }
 
                         method.invoke(instance, element);
-
                     }
-
                 }
-
             }
 
             if (afterBindMethod != null) {
                 afterBindMethod.invoke(instance);
             }
 
-            return instance;
-
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    /**
+     * Bind a Jsoup element to a class
+     *
+     * @param container dom element
+     * @param clazz     object class
+     * @return object instance
+     */
+    public static <T> T from(Element container, Class<T> clazz) {
+        try{
+            T instance = clazz.newInstance();
+            from(container, clazz, instance);
+            return instance;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
-
     }
 
     /**

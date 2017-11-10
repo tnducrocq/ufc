@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'org.greenrobot.greendao'
 
 def config = rootProject.ext.configuration;
 def libs = rootProject.ext.dependencies;
@@ -25,6 +26,10 @@ android {
     }
 }
 
+greendao {
+    schemaVersion 4
+}
+
 dependencies {
 
     compile project(':jsoup-annotations-library')
@@ -39,6 +44,7 @@ dependencies {
     annotationProcessor libs.Dagger2Compiler
 
     compile libs.guava
+    compile libs.greendao
     compile libs.retrofit
     compile libs.retrofitAdapter
     compile libs.retrofitConverter

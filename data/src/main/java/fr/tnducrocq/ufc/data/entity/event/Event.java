@@ -7,15 +7,25 @@ import android.support.annotation.NonNull;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Index;
+
 import java.util.Date;
 
 import fr.tnducrocq.ufc.data.entity.HasId;
+import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Created by tony on 25/07/2017.
  */
-
+@Entity(indexes = {
+        @Index(value = "id ASC", unique = true)
+})
 public class Event implements Comparable<Event>, HasId, Parcelable {
+
+    @Id(autoincrement = true)
+    private Long uid;
 
     @SerializedName("id")
     @Expose
@@ -128,8 +138,16 @@ public class Event implements Comparable<Event>, HasId, Parcelable {
     public Event() {
     }
 
+    public Long getUid() {
+        return uid;
+    }
+
+    public void setUid(Long uid) {
+        this.uid = uid;
+    }
+
     @Override
-    public String id() {
+    public String getId() {
         return id;
     }
 
@@ -346,40 +364,6 @@ public class Event implements Comparable<Event>, HasId, Parcelable {
     }
 
     @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("Event{");
-        sb.append("id=").append(id);
-        sb.append(", eventDate='").append(eventDate).append('\'');
-        sb.append(", secondaryFeatureImage='").append(secondaryFeatureImage).append('\'');
-        sb.append(", ticketImage='").append(ticketImage).append('\'');
-        sb.append(", eventTimeZoneText='").append(eventTimeZoneText).append('\'');
-        sb.append(", shortDescription='").append(shortDescription).append('\'');
-        sb.append(", eventDategmt='").append(eventDategmt).append('\'');
-        sb.append(", endEventDategmt='").append(endEventDategmt).append('\'');
-        sb.append(", ticketurl='").append(ticketurl).append('\'');
-        sb.append(", baseTitle='").append(baseTitle).append('\'');
-        sb.append(", titleTagLine='").append(titleTagLine).append('\'');
-        sb.append(", twitterHashtag='").append(twitterHashtag).append('\'');
-        sb.append(", featureImage='").append(featureImage).append('\'');
-        sb.append(", eventTimeText='").append(eventTimeText).append('\'');
-        sb.append(", ticketGeneralSaleText='").append(ticketGeneralSaleText).append('\'');
-        sb.append(", subtitle='").append(subtitle).append('\'');
-        sb.append(", eventStatus='").append(eventStatus).append('\'');
-        sb.append(", isppvevent=").append(isppvevent);
-        sb.append(", cornerAudioAvailable=").append(cornerAudioAvailable);
-        sb.append(", lastModified='").append(lastModified).append('\'');
-        sb.append(", urlName='").append(urlName).append('\'');
-        sb.append(", created='").append(created).append('\'');
-        sb.append(", arena='").append(arena).append('\'');
-        sb.append(", location='").append(location).append('\'');
-        sb.append(", fmFntFeedUrl='").append(fmFntFeedUrl).append('\'');
-        sb.append(", mainEventFighter1Id=").append(mainEventFighter1Id);
-        sb.append(", mainEventFighter2Id=").append(mainEventFighter2Id);
-        sb.append('}');
-        return sb.toString();
-    }
-
-    @Override
     public int compareTo(@NonNull Event event) {
         if (eventDate == null && event.eventDate == null) {
             return 0;
@@ -390,7 +374,6 @@ public class Event implements Comparable<Event>, HasId, Parcelable {
         return eventDate.compareTo(event.eventDate);
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -398,6 +381,7 @@ public class Event implements Comparable<Event>, HasId, Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.uid);
         dest.writeString(this.id);
         dest.writeLong(this.eventDate != null ? this.eventDate.getTime() : -1);
         dest.writeString(this.secondaryFeatureImage);
@@ -428,6 +412,7 @@ public class Event implements Comparable<Event>, HasId, Parcelable {
     }
 
     protected Event(Parcel in) {
+        this.uid = (Long) in.readValue(Long.class.getClassLoader());
         this.id = in.readString();
         long tmpEventDate = in.readLong();
         this.eventDate = tmpEventDate == -1 ? null : new Date(tmpEventDate);
@@ -456,6 +441,46 @@ public class Event implements Comparable<Event>, HasId, Parcelable {
         this.fmFntFeedUrl = in.readString();
         this.mainEventFighter1Id = (Integer) in.readValue(Integer.class.getClassLoader());
         this.mainEventFighter2Id = (Integer) in.readValue(Integer.class.getClassLoader());
+    }
+
+    @Generated(hash = 1763558353)
+    public Event(Long uid, String id, Date eventDate, String secondaryFeatureImage,
+            String ticketImage, String eventTimeZoneText, String shortDescription,
+            String eventDategmt, String endEventDategmt, String ticketurl, String baseTitle,
+            String titleTagLine, String twitterHashtag, String featureImage,
+            String eventTimeText, String ticketGeneralSaleText, String subtitle,
+            String eventStatus, Boolean isppvevent, Boolean cornerAudioAvailable,
+            String lastModified, String urlName, String created, String arena,
+            String location, String fmFntFeedUrl, Integer mainEventFighter1Id,
+            Integer mainEventFighter2Id) {
+        this.uid = uid;
+        this.id = id;
+        this.eventDate = eventDate;
+        this.secondaryFeatureImage = secondaryFeatureImage;
+        this.ticketImage = ticketImage;
+        this.eventTimeZoneText = eventTimeZoneText;
+        this.shortDescription = shortDescription;
+        this.eventDategmt = eventDategmt;
+        this.endEventDategmt = endEventDategmt;
+        this.ticketurl = ticketurl;
+        this.baseTitle = baseTitle;
+        this.titleTagLine = titleTagLine;
+        this.twitterHashtag = twitterHashtag;
+        this.featureImage = featureImage;
+        this.eventTimeText = eventTimeText;
+        this.ticketGeneralSaleText = ticketGeneralSaleText;
+        this.subtitle = subtitle;
+        this.eventStatus = eventStatus;
+        this.isppvevent = isppvevent;
+        this.cornerAudioAvailable = cornerAudioAvailable;
+        this.lastModified = lastModified;
+        this.urlName = urlName;
+        this.created = created;
+        this.arena = arena;
+        this.location = location;
+        this.fmFntFeedUrl = fmFntFeedUrl;
+        this.mainEventFighter1Id = mainEventFighter1Id;
+        this.mainEventFighter2Id = mainEventFighter2Id;
     }
 
     public static final Parcelable.Creator<Event> CREATOR = new Parcelable.Creator<Event>() {

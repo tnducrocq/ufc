@@ -1,4 +1,4 @@
-package fr.tnducrocq.ufc.presentation.ui.champions;
+package fr.tnducrocq.ufc.presentation.ui.main.categories;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,10 +11,10 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
  * Created by tony on 17/10/2017.
  */
 
-public class ChampionImageTransformation extends BitmapTransformation {
+public class FighterImageTransformation extends BitmapTransformation {
     private static final String TAG = "ChampionImageTr";
 
-    public ChampionImageTransformation(Context context) {
+    public FighterImageTransformation(Context context) {
         super(context);
     }
 
@@ -31,6 +31,6 @@ public class ChampionImageTransformation extends BitmapTransformation {
 
     @Override
     public String getId() {
-        return "fr.tnducrocq.ufc.presentation.ui.champions.ChampionImageTransformation";
+        return "fr.tnducrocq.ufc.presentation.ui.main.categories.FighterImageTransformation";
     }
 }

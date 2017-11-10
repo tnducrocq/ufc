@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@+id/icon"
+        android:layout_toRightOf="@+fighterId/icon"
         android:orientation="vertical">
 
         <TextView

@@ -1,6 +1,5 @@
 package fr.tnducrocq.ufc.data.repository.impl;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
@@ -11,6 +10,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.tnducrocq.ufc.data.App;
 import fr.tnducrocq.ufc.data.entity.event.EventMedia;
 import fr.tnducrocq.ufc.data.entity.event.EventMedias;
 import fr.tnducrocq.ufc.data.source.local.IDataSource;
@@ -27,16 +27,12 @@ import rx.Observable;
 
 public class EventMediaRepository extends AbstractRepository<EventMedias, IDataSource<EventMedias>, IRepository<EventMedias>> {
 
-    public EventMediaRepository(@NonNull Context context, @NonNull BaseSchedulerProvider schedulerProvider) {
-        super(context, schedulerProvider);
+    public EventMediaRepository(@NonNull App application, @NonNull BaseSchedulerProvider schedulerProvider) {
+        super(application, schedulerProvider);
     }
 
     public Observable<EventMedias> get(String eventId) {
-        if (!isCached(eventId)) {
-            return getEventMedia(eventId)
-                    .doOnNext(item -> cache(eventId, item));
-        }
-        return fromCache(eventId);
+        return getEventMedia(eventId);
     }
 
     private Observable<EventMedias> getEventMedia(String eventId) {

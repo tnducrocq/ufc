@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MMA Actu</string>
+    <string name="more_label">Voir tous</string>
+    <string name="fighter_country">Pays</string>
+    <string name="fighter_height">Taille</string>
+    <string name="fighter_weight">Poids</string>
+    <string name="fighter_score">%1$d-%2$d-%3$d (V-D-N)</string>
+    <string name="fighter_reach">Allonge</string>
+    <string name="fighter_leg_reach">Allonge jambes</string>
+    <string name="fighter_draw">Nul</string>
+    <string name="fighter_win">Victoire</string>
+    <string name="events">Evénements</string>
+    <string name="fighters">Combattants</string>
+    <string name="past_events">Événements antérieurs</string>
+    <string name="future_events">Prochains Événements</string>
+    <string name="fighter_loose">Défaite</string>
+</resources>

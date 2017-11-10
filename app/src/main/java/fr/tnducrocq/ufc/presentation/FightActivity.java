@@ -3,17 +3,20 @@ package fr.tnducrocq.ufc.presentation;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fr.tnducrocq.ufc.data.entity.event.EventFight;
+import fr.tnducrocq.ufc.data.entity.event.EventFightDao;
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
-import fr.tnducrocq.ufc.data.entity.fighter.FighterDetails;
 import fr.tnducrocq.ufc.presentation.app.App;
 import fr.tnducrocq.ufc.presentation.ui.fight.FightRecyclerViewAdapter;
 import rx.Observable;
@@ -46,46 +49,75 @@ public class FightActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fight);
         ButterKnife.bind(this);
 
-        mEventFight = (EventFight) getIntent().getParcelableExtra(ARG_EVENT_FIGHT);
+        EventFight tmp = (EventFight) getIntent().getParcelableExtra(ARG_EVENT_FIGHT);
+        mEventFight = App.getInstance().getSession().getEventFightDao().queryBuilder().where(EventFightDao.Properties.Uid.eq(tmp.getUid())).unique();
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mAdapter = new FightRecyclerViewAdapter(mEventFight);
+        mAdapter = new FightRecyclerViewAdapter(this, mEventFight);
         mRecyclerView.setAdapter(mAdapter);
         mToolbar.setTitle(mEventFight.getFighter1LastName() + " vs " + mEventFight.getFighter2LastName());
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        Fighter fighter1 = new Fighter(Integer.toString(mEventFight.getFighter1Id()), mEventFight.getFighter1FirstName(), mEventFight.getFighter1LastName());
-        Fighter fighter2 = new Fighter(Integer.toString(mEventFight.getFighter2Id()), mEventFight.getFighter2FirstName(), mEventFight.getFighter2LastName());
+        Observable<Fighter> obsFighter1 = App.getInstance().getFighterRepository().get(Integer.toString(mEventFight.getFighter1Id()));
+        Observable<Fighter> obsFighter2 = App.getInstance().getFighterRepository().get(Integer.toString(mEventFight.getFighter2Id()));
+        Observable.zip(obsFighter1, obsFighter2, (fighter1, fighter2) -> new Fighter[]{fighter1, fighter2}).
+                subscribeOn(App.getInstance().getSchedulerProvider().multi()).//
+                observeOn(App.getInstance().getSchedulerProvider().ui()).//
+                subscribe(new Observer<Fighter[]>() {
 
-        Observable<FighterDetails> obsFighter1 = App.getInstance().getFighterDetailsRepository().get(fighter1);
-        Observable<FighterDetails> obsFighter2 = App.getInstance().getFighterDetailsRepository().get(fighter2);
-        Observable.zip(obsFighter1, obsFighter2, (fighter1Details, fighter2Details) -> new FighterDetails[]{fighter1Details, fighter2Details}).
-                subscribeOn(App.getInstance().schedulerProvider.multi()).//
-                observeOn(App.getInstance().schedulerProvider.ui()).//
-                subscribe(new Observer<FighterDetails[]>() {
-
-            FighterDetails[] mValues;
+            Fighter[] mValues;
             Throwable mError;
 
             @Override
             public void onCompleted() {
                 if (mValues != null) {
-                    mEventFight.setFighter1(mValues[0]);
-                    mEventFight.setFighter2(mValues[1]);
-                    mAdapter = new FightRecyclerViewAdapter(mEventFight);
-                    mRecyclerView.setAdapter(mAdapter);
+                    onFighterResult(mValues[0], mValues[1]);
                 }
             }
 
             @Override
             public void onError(Throwable e) {
                 mError = e;
+                Log.e(TAG, "onError", e);
+                Snackbar snackbar = Snackbar.make(FightActivity.this.findViewById(android.R.id.content), e.getLocalizedMessage(), Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
 
             @Override
-            public void onNext(FighterDetails[] fighters) {
+            public void onNext(Fighter[] fighters) {
+                mValues = fighters;
+            }
+        });
+    }
+
+    protected void onFighterResult(@NonNull Fighter fighter1, @NonNull Fighter fighter2) {
+        Observable<Fighter> obsFighter1 = App.getInstance().getFighterRepository().fetchDetail(fighter1);
+        Observable<Fighter> obsFighter2 = App.getInstance().getFighterRepository().fetchDetail(fighter2);
+        Observable.zip(obsFighter1, obsFighter2, (fullFighter1, fullFighter2) -> new Fighter[]{fullFighter1, fullFighter2}).
+                subscribeOn(App.getInstance().getSchedulerProvider().multi()).//
+                observeOn(App.getInstance().getSchedulerProvider().ui()).//
+                subscribe(new Observer<Fighter[]>() {
+
+            Fighter[] mValues;
+
+            @Override
+            public void onCompleted() {
+                if (mValues != null) {
+                    mEventFight.setFighter1(mValues[0]);
+                    mEventFight.setFighter2(mValues[1]);
+                    mAdapter = new FightRecyclerViewAdapter(FightActivity.this, mEventFight);
+                    mRecyclerView.setAdapter(mAdapter);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+            }
+
+            @Override
+            public void onNext(Fighter[] fighters) {
                 mValues = fighters;
             }
         });

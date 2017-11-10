@@ -15,6 +15,6 @@
         android:layout_height="match_parent"
         android:background="@color/blue_grey_400"
         android:orientation="horizontal"
-        app:layoutManager="@string/media_layout_manager"/>
+        app:layoutManager="LinearLayoutManager"/>
 
 </com.ritesh.ratiolayout.RatioFrameLayout>

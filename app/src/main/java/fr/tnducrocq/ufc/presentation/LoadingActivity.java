@@ -3,7 +3,9 @@ package fr.tnducrocq.ufc.presentation;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -25,13 +27,6 @@ public class LoadingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
-      /*  if (!requestsIsNeeded()) {
-            finish();
-            Intent intent = MainActivity.newIntent(this);
-            startActivity(intent);
-            return;
-        }*/
-
         Observable<List<Fighter>> obsFighters = App.getInstance().getFighterRepository().get();
         Observable<List<Event>> obsEvents = App.getInstance().getEventRepository().get();
 
@@ -40,8 +35,8 @@ public class LoadingActivity extends AppCompatActivity {
             datas.eventList = events;
             datas.fighterList = fighters;
             return datas;
-        }).subscribeOn(App.getInstance().schedulerProvider.multi()).//
-                observeOn(App.getInstance().schedulerProvider.ui()).//
+        }).subscribeOn(App.getInstance().getSchedulerProvider().multi()).//
+                observeOn(App.getInstance().getSchedulerProvider().ui()).//
                 subscribe(new Observer<LoadingDatas>() {
 
             LoadingDatas mValue;
@@ -49,10 +44,6 @@ public class LoadingActivity extends AppCompatActivity {
 
             @Override
             public void onCompleted() {
-                /*if (mValue != null) {
-                    SharedPreferences settings = getSharedPreferences(TAG, 0);
-                    settings.edit().putLong(LAST_REQUEST_TIME, GregorianCalendar.getInstance().getTimeInMillis()).commit();
-                }*/
                 finish();
                 Intent intent = MainActivity.newIntent(LoadingActivity.this);
                 startActivity(intent);
@@ -61,6 +52,9 @@ public class LoadingActivity extends AppCompatActivity {
             @Override
             public void onError(Throwable e) {
                 mError = e;
+                Log.e(TAG, "onError", e);
+                Snackbar snackbar = Snackbar.make(LoadingActivity.this.findViewById(android.R.id.content), e.getLocalizedMessage(), Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
 
             @Override

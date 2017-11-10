@@ -1,5 +1,6 @@
 package fr.tnducrocq.ufc.presentation.ui.fight;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,12 +15,14 @@ import fr.tnducrocq.ufc.presentation.R;
 
 public class FightRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private final Context mContext;
     private final EventFight mFight;
     private final List<FightLine> mLines;
 
-    public FightRecyclerViewAdapter(EventFight fight) {
+    public FightRecyclerViewAdapter(@NonNull Context context, @NonNull EventFight fight) {
+        mContext = context;
         mFight = fight;
-        mLines = !isFinish() ? getItemsFight(fight) : getItemsFightFinished(fight);
+        mLines = !isFinish() ? getItemsFight(context, fight) : getItemsFightFinished(context, fight);
     }
 
     public boolean isFinish() {
@@ -66,11 +69,11 @@ public class FightRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         } else if (type == 1) {
             FightRowViewHolder cHolder = (FightRowViewHolder) holder;
             if (mFight.getFighter1IsWinner() == mFight.getFighter2IsWinner()) {
-                cHolder.bindData("DRAW", "", "DRAW");
+                cHolder.bindData(mContext.getString(R.string.fighter_draw), "", mContext.getString(R.string.fighter_draw));
             } else if (mFight.getFighter1IsWinner()) {
-                cHolder.bindData("WIN", "", "LOOSE");
+                cHolder.bindData(mContext.getString(R.string.fighter_win), "", mContext.getString(R.string.fighter_loose));
             } else {
-                cHolder.bindData("LOOSE", "", "WIN");
+                cHolder.bindData(mContext.getString(R.string.fighter_loose), "", mContext.getString(R.string.fighter_win));
             }
         } else {
             FightLine line = mLines.get(position - (isFinish() ? 2 : 1));
@@ -79,7 +82,7 @@ public class FightRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         }
     }
 
-    private static List<FightLine> getItemsFight(EventFight fight) {
+    private static List<FightLine> getItemsFight(Context context, EventFight fight) {
         List<FightLine> lines = new ArrayList<>();
         if (fight.getFighter1() == null && fight.getFighter2() == null) {
             return lines;
@@ -92,7 +95,7 @@ public class FightRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         if (fight.getFighter2() != null && fight.getFighter2().getLocation() != null) {
             locations[1] = fight.getFighter2().getLocation();
         }
-        lines.add(new FightLine.Builder().withLineTitle("COUNTRY").withLine1info(locations[0]).withLine2info(locations[1]).build());
+        lines.add(new FightLine.Builder().withLineTitle(context.getString(R.string.fighter_country)).withLine1info(locations[0]).withLine2info(locations[1]).build());
 
         String[] height = {"/", "/"};
         if (fight.getFighter1() != null && fight.getFighter1().getHeight_cm() != null) {
@@ -101,7 +104,7 @@ public class FightRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         if (fight.getFighter2() != null && fight.getFighter2().getHeight_cm() != null) {
             height[1] = Integer.toString(fight.getFighter2().getHeight_cm()) + "cm";
         }
-        lines.add(new FightLine.Builder().withLineTitle("Taille").withLine1info(height[0]).withLine2info(height[1]).build());
+        lines.add(new FightLine.Builder().withLineTitle(context.getString(R.string.fighter_height)).withLine1info(height[0]).withLine2info(height[1]).build());
 
         String[] weight = {"/", "/"};
         if (fight.getFighter1() != null && fight.getFighter1().getWeight_kg() != null) {
@@ -110,7 +113,7 @@ public class FightRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         if (fight.getFighter2() != null && fight.getFighter2().getWeight_kg() != null) {
             weight[1] = Integer.toString(fight.getFighter2().getWeight_kg()) + "kg";
         }
-        lines.add(new FightLine.Builder().withLineTitle("POIDS").withLine1info(weight[0]).withLine2info(weight[0]).build());
+        lines.add(new FightLine.Builder().withLineTitle(context.getString(R.string.fighter_weight)).withLine1info(weight[0]).withLine2info(weight[0]).build());
 
         String[] reach = {"/", "/"};
         if (fight.getFighter1() != null && fight.getFighter1().getReach_cm() != null) {
@@ -119,7 +122,7 @@ public class FightRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         if (fight.getFighter2() != null && fight.getFighter2().getReach_cm() != null) {
             reach[1] = Integer.toString(fight.getFighter2().getReach_cm()) + "cm";
         }
-        lines.add(new FightLine.Builder().withLineTitle("REACH").withLine1info(reach[0]).withLine2info(reach[1]).build());
+        lines.add(new FightLine.Builder().withLineTitle(context.getString(R.string.fighter_reach)).withLine1info(reach[0]).withLine2info(reach[1]).build());
 
         String[] legReach = {"/", "/"};
         if (fight.getFighter1() != null && fight.getFighter1().getLegReach_cm() != null) {
@@ -128,14 +131,14 @@ public class FightRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         if (fight.getFighter2() != null && fight.getFighter2().getLegReach_cm() != null) {
             legReach[1] = Integer.toString(fight.getFighter2().getLegReach_cm()) + "cm";
         }
-        lines.add(new FightLine.Builder().withLineTitle("LEG REACH").withLine1info(legReach[0]).withLine2info(legReach[1]).build());
+        lines.add(new FightLine.Builder().withLineTitle(context.getString(R.string.fighter_leg_reach)).withLine1info(legReach[0]).withLine2info(legReach[1]).build());
 
         return lines;
     }
 
-    private static List<FightLine> getItemsFightFinished(EventFight fight) {
+    private static List<FightLine> getItemsFightFinished(Context context, EventFight fight) {
         List<FightLine> lines = new ArrayList<>();
-        //lines.addAll(getItemsFight(fight));
+        lines.addAll(getItemsFight(context, fight));
         return lines;
     }
 

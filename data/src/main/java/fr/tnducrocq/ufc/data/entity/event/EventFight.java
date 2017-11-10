@@ -6,11 +6,29 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import fr.tnducrocq.ufc.data.entity.HasId;
-import fr.tnducrocq.ufc.data.entity.fighter.FighterDetails;
-import fr.tnducrocq.ufc.data.utils.WeightCategory;
+import org.greenrobot.greendao.DaoException;
+import org.greenrobot.greendao.annotation.Convert;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Index;
+import org.greenrobot.greendao.annotation.ToOne;
+import org.greenrobot.greendao.annotation.Transient;
 
+import fr.tnducrocq.ufc.data.entity.HasId;
+import fr.tnducrocq.ufc.data.entity.fighter.DaoSession;
+import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
+import fr.tnducrocq.ufc.data.entity.fighter.WeightCategory;
+import fr.tnducrocq.ufc.data.entity.fighter.WeightCategoryConverter;
+
+
+@Entity(indexes = {
+        @Index(value = "id ASC", unique = true)
+})
 public class EventFight implements HasId, Parcelable {
+
+    @Id(autoincrement = true)
+    private Long uid;
 
     @SerializedName("id")
     @Expose
@@ -18,7 +36,7 @@ public class EventFight implements HasId, Parcelable {
 
     @SerializedName("event_id")
     @Expose
-    private Integer eventId;
+    private String eventId;
 
     @SerializedName("fightcard_order")
     @Expose
@@ -52,11 +70,18 @@ public class EventFight implements HasId, Parcelable {
     @Expose
     private String fmFightRhythmFeedUrl;
 
+    private Long resultId;
+
     @SerializedName("result")
     @Expose
+    @Transient
+    private EventFightResult _result;
+
+    @ToOne(joinProperty = "resultId")
     private EventFightResult result;
 
-    private FighterDetails fighter1;
+    @Transient
+    private Fighter fighter1;
 
     @SerializedName("fighter1_id")
     @Expose
@@ -88,6 +113,7 @@ public class EventFight implements HasId, Parcelable {
 
     @SerializedName("fighter1_weight_class")
     @Expose
+    @Convert(converter = WeightCategoryConverter.class, columnType = Integer.class)
     private WeightCategory fighter1WeightClass;
 
     @SerializedName("fighter1_is_winner")
@@ -170,7 +196,8 @@ public class EventFight implements HasId, Parcelable {
     @Expose
     private String fighter1Submissionsaverage;
 
-    private FighterDetails fighter2;
+    @Transient
+    private Fighter fighter2;
 
     @SerializedName("fighter2_id")
     @Expose
@@ -202,6 +229,7 @@ public class EventFight implements HasId, Parcelable {
 
     @SerializedName("fighter2_weight_class")
     @Expose
+    @Convert(converter = WeightCategoryConverter.class, columnType = Integer.class)
     private WeightCategory fighter2WeightClass;
 
     @SerializedName("fighter2_is_winner")
@@ -284,8 +312,16 @@ public class EventFight implements HasId, Parcelable {
     @Expose
     private String fighter2Submissionsaverage;
 
+    public Long getUid() {
+        return uid;
+    }
+
+    public void setUid(Long uid) {
+        this.uid = uid;
+    }
+
     @Override
-    public String id() {
+    public String getId() {
         return id;
     }
 
@@ -293,11 +329,11 @@ public class EventFight implements HasId, Parcelable {
         this.id = id;
     }
 
-    public Integer getEventId() {
+    public String getEventId() {
         return eventId;
     }
 
-    public void setEventId(Integer eventId) {
+    public void setEventId(String eventId) {
         this.eventId = eventId;
     }
 
@@ -365,19 +401,27 @@ public class EventFight implements HasId, Parcelable {
         this.fmFightRhythmFeedUrl = fmFightRhythmFeedUrl;
     }
 
-    public EventFightResult getResult() {
-        return result;
+    public Long getResultId() {
+        return resultId;
     }
 
-    public void setResult(EventFightResult result) {
-        this.result = result;
+    public void setResultId(Long resultId) {
+        this.resultId = resultId;
     }
 
-    public FighterDetails getFighter1() {
+    public EventFightResult get_result() {
+        return _result;
+    }
+
+    public void set_result(EventFightResult _result) {
+        this._result = _result;
+    }
+
+    public Fighter getFighter1() {
         return fighter1;
     }
 
-    public void setFighter1(FighterDetails fighter1) {
+    public void setFighter1(Fighter fighter1) {
         this.fighter1 = fighter1;
     }
 
@@ -605,11 +649,11 @@ public class EventFight implements HasId, Parcelable {
         this.fighter1Submissionsaverage = fighter1Submissionsaverage;
     }
 
-    public FighterDetails getFighter2() {
+    public Fighter getFighter2() {
         return fighter2;
     }
 
-    public void setFighter2(FighterDetails fighter2) {
+    public void setFighter2(Fighter fighter2) {
         this.fighter2 = fighter2;
     }
 
@@ -838,14 +882,93 @@ public class EventFight implements HasId, Parcelable {
     }
 
     @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("EventFight{\n");
+        sb.append("uid=").append(uid);
+        sb.append(",\n\t id='").append(id).append('\'');
+        sb.append(",\n\t eventId='").append(eventId).append('\'');
+        sb.append(",\n\t fightcardOrder=").append(fightcardOrder);
+        sb.append(",\n\t isTitleFight=").append(isTitleFight);
+        sb.append(",\n\t isMainEvent=").append(isMainEvent);
+        sb.append(",\n\t isPrelim=").append(isPrelim);
+        sb.append(",\n\t endingTime='").append(endingTime).append('\'');
+        sb.append(",\n\t endingRoundNumber='").append(endingRoundNumber).append('\'');
+        sb.append(",\n\t fmStatsFeedUrl='").append(fmStatsFeedUrl).append('\'');
+        sb.append(",\n\t fmFightRhythmFeedUrl='").append(fmFightRhythmFeedUrl).append('\'');
+        sb.append(",\n\t resultId=").append(resultId);
+        sb.append(",\n\t result=").append(result);
+        sb.append(",\n\t fighter1=").append(fighter1);
+        sb.append(",\n\t fighter1Id=").append(fighter1Id);
+        sb.append(",\n\t fighter1weight=").append(fighter1weight);
+        sb.append(",\n\t fighter1height=").append(fighter1height);
+        sb.append(",\n\t fighter1reach=").append(fighter1reach);
+        sb.append(",\n\t fighter1Nickname='").append(fighter1Nickname).append('\'');
+        sb.append(",\n\t fighter1LastName='").append(fighter1LastName).append('\'');
+        sb.append(",\n\t fighter1FirstName='").append(fighter1FirstName).append('\'');
+        sb.append(",\n\t fighter1WeightClass=").append(fighter1WeightClass);
+        sb.append(",\n\t fighter1IsWinner=").append(fighter1IsWinner);
+        sb.append(",\n\t fighter1FullBodyImage='").append(fighter1FullBodyImage).append('\'');
+        sb.append(",\n\t fighter1ProfileImage='").append(fighter1ProfileImage).append('\'');
+        sb.append(",\n\t fighter1record='").append(fighter1record).append('\'');
+        sb.append(",\n\t fighter1Wins=").append(fighter1Wins);
+        sb.append(",\n\t fighter1Losses=").append(fighter1Losses);
+        sb.append(",\n\t fighter1Draws=").append(fighter1Draws);
+        sb.append(",\n\t fighter1Statid=").append(fighter1Statid);
+        sb.append(",\n\t fighter1Rank='").append(fighter1Rank).append('\'');
+        sb.append(",\n\t fighter1Averagefighttime='").append(fighter1Averagefighttime).append('\'');
+        sb.append(",\n\t fighter1AveragefighttimeSeconds='").append(fighter1AveragefighttimeSeconds).append('\'');
+        sb.append(",\n\t fighter1Kdaverage='").append(fighter1Kdaverage).append('\'');
+        sb.append(",\n\t fighter1Slpm='").append(fighter1Slpm).append('\'');
+        sb.append(",\n\t fighter1Strikingaccuracy='").append(fighter1Strikingaccuracy).append('\'');
+        sb.append(",\n\t fighter1Sapm='").append(fighter1Sapm).append('\'');
+        sb.append(",\n\t fighter1Strikingdefense='").append(fighter1Strikingdefense).append('\'');
+        sb.append(",\n\t fighter1Takedownaverage='").append(fighter1Takedownaverage).append('\'');
+        sb.append(",\n\t fighter1Takedownaccuracy='").append(fighter1Takedownaccuracy).append('\'');
+        sb.append(",\n\t fighter1Takedowndefense='").append(fighter1Takedowndefense).append('\'');
+        sb.append(",\n\t fighter1Submissionsaverage='").append(fighter1Submissionsaverage).append('\'');
+        sb.append(",\n\t fighter2=").append(fighter2);
+        sb.append(",\n\t fighter2Id=").append(fighter2Id);
+        sb.append(",\n\t fighter2weight=").append(fighter2weight);
+        sb.append(",\n\t fighter2height=").append(fighter2height);
+        sb.append(",\n\t fighter2reach=").append(fighter2reach);
+        sb.append(",\n\t fighter2Nickname='").append(fighter2Nickname).append('\'');
+        sb.append(",\n\t fighter2LastName='").append(fighter2LastName).append('\'');
+        sb.append(",\n\t fighter2FirstName='").append(fighter2FirstName).append('\'');
+        sb.append(",\n\t fighter2WeightClass=").append(fighter2WeightClass);
+        sb.append(",\n\t fighter2IsWinner=").append(fighter2IsWinner);
+        sb.append(",\n\t fighter2FullBodyImage='").append(fighter2FullBodyImage).append('\'');
+        sb.append(",\n\t fighter2ProfileImage='").append(fighter2ProfileImage).append('\'');
+        sb.append(",\n\t fighter2record='").append(fighter2record).append('\'');
+        sb.append(",\n\t fighter2Wins=").append(fighter2Wins);
+        sb.append(",\n\t fighter2Losses=").append(fighter2Losses);
+        sb.append(",\n\t fighter2Draws=").append(fighter2Draws);
+        sb.append(",\n\t fighter2Statid=").append(fighter2Statid);
+        sb.append(",\n\t fighter2Rank='").append(fighter2Rank).append('\'');
+        sb.append(",\n\t fighter2Averagefighttime='").append(fighter2Averagefighttime).append('\'');
+        sb.append(",\n\t fighter2AveragefighttimeSeconds='").append(fighter2AveragefighttimeSeconds).append('\'');
+        sb.append(",\n\t fighter2Kdaverage='").append(fighter2Kdaverage).append('\'');
+        sb.append(",\n\t fighter2Slpm='").append(fighter2Slpm).append('\'');
+        sb.append(",\n\t fighter2Strikingaccuracy='").append(fighter2Strikingaccuracy).append('\'');
+        sb.append(",\n\t fighter2Sapm='").append(fighter2Sapm).append('\'');
+        sb.append(",\n\t fighter2Strikingdefense='").append(fighter2Strikingdefense).append('\'');
+        sb.append(",\n\t fighter2Takedownaverage='").append(fighter2Takedownaverage).append('\'');
+        sb.append(",\n\t fighter2Takedownaccuracy='").append(fighter2Takedownaccuracy).append('\'');
+        sb.append(",\n\t fighter2Takedowndefense='").append(fighter2Takedowndefense).append('\'');
+        sb.append(",\n\t fighter2Submissionsaverage='").append(fighter2Submissionsaverage).append('\'');
+        sb.append("\n}");
+        return sb.toString();
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.uid);
         dest.writeString(this.id);
-        dest.writeValue(this.eventId);
+        dest.writeString(this.eventId);
         dest.writeValue(this.fightcardOrder);
         dest.writeValue(this.isTitleFight);
         dest.writeValue(this.isMainEvent);
@@ -854,8 +977,9 @@ public class EventFight implements HasId, Parcelable {
         dest.writeString(this.endingRoundNumber);
         dest.writeString(this.fmStatsFeedUrl);
         dest.writeString(this.fmFightRhythmFeedUrl);
+        dest.writeValue(this.resultId);
         dest.writeParcelable(this.result, flags);
-        dest.writeValue(this.fighter1);
+        dest.writeParcelable(this.fighter1, flags);
         dest.writeValue(this.fighter1Id);
         dest.writeValue(this.fighter1weight);
         dest.writeValue(this.fighter1height);
@@ -884,7 +1008,7 @@ public class EventFight implements HasId, Parcelable {
         dest.writeString(this.fighter1Takedownaccuracy);
         dest.writeString(this.fighter1Takedowndefense);
         dest.writeString(this.fighter1Submissionsaverage);
-        dest.writeValue(this.fighter2);
+        dest.writeParcelable(this.fighter2, flags);
         dest.writeValue(this.fighter2Id);
         dest.writeValue(this.fighter2weight);
         dest.writeValue(this.fighter2height);
@@ -915,12 +1039,115 @@ public class EventFight implements HasId, Parcelable {
         dest.writeString(this.fighter2Submissionsaverage);
     }
 
+    public Boolean getIsTitleFight() {
+        return this.isTitleFight;
+    }
+
+    public void setIsTitleFight(Boolean isTitleFight) {
+        this.isTitleFight = isTitleFight;
+    }
+
+    public Boolean getIsMainEvent() {
+        return this.isMainEvent;
+    }
+
+    public void setIsMainEvent(Boolean isMainEvent) {
+        this.isMainEvent = isMainEvent;
+    }
+
+    public Boolean getIsPrelim() {
+        return this.isPrelim;
+    }
+
+    public void setIsPrelim(Boolean isPrelim) {
+        this.isPrelim = isPrelim;
+    }
+
+    /**
+     * To-one relationship, resolved on first access.
+     */
+    @Generated(hash = 442053779)
+    public EventFightResult getResult() {
+        Long __key = this.resultId;
+        if (result__resolvedKey == null || !result__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            EventFightResultDao targetDao = daoSession.getEventFightResultDao();
+            EventFightResult resultNew = targetDao.load(__key);
+            synchronized (this) {
+                result = resultNew;
+                result__resolvedKey = __key;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
+    @Generated(hash = 151856254)
+    public void setResult(EventFightResult result) {
+        synchronized (this) {
+            this.result = result;
+            resultId = result == null ? null : result.getUid();
+            result__resolvedKey = resultId;
+        }
+    }
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 128553479)
+    public void delete() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.delete(this);
+    }
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 1942392019)
+    public void refresh() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.refresh(this);
+    }
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 713229351)
+    public void update() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.update(this);
+    }
+
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
+    @Generated(hash = 1866111855)
+    public void __setDaoSession(DaoSession daoSession) {
+        this.daoSession = daoSession;
+        myDao = daoSession != null ? daoSession.getEventFightDao() : null;
+    }
+
     public EventFight() {
     }
 
     protected EventFight(Parcel in) {
+        this.uid = (Long) in.readValue(Long.class.getClassLoader());
         this.id = in.readString();
-        this.eventId = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.eventId = in.readString();
         this.fightcardOrder = (Integer) in.readValue(Integer.class.getClassLoader());
         this.isTitleFight = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.isMainEvent = (Boolean) in.readValue(Boolean.class.getClassLoader());
@@ -929,8 +1156,9 @@ public class EventFight implements HasId, Parcelable {
         this.endingRoundNumber = in.readString();
         this.fmStatsFeedUrl = in.readString();
         this.fmFightRhythmFeedUrl = in.readString();
+        this.resultId = (Long) in.readValue(Long.class.getClassLoader());
         this.result = in.readParcelable(EventFightResult.class.getClassLoader());
-        this.fighter1 = in.readParcelable(FighterDetails.class.getClassLoader());
+        this.fighter1 = in.readParcelable(Fighter.class.getClassLoader());
         this.fighter1Id = (Integer) in.readValue(Integer.class.getClassLoader());
         this.fighter1weight = (Integer) in.readValue(Integer.class.getClassLoader());
         this.fighter1height = (Integer) in.readValue(Integer.class.getClassLoader());
@@ -960,7 +1188,7 @@ public class EventFight implements HasId, Parcelable {
         this.fighter1Takedownaccuracy = in.readString();
         this.fighter1Takedowndefense = in.readString();
         this.fighter1Submissionsaverage = in.readString();
-        this.fighter2 = in.readParcelable(FighterDetails.class.getClassLoader());
+        this.fighter2 = in.readParcelable(Fighter.class.getClassLoader());
         this.fighter2Id = (Integer) in.readValue(Integer.class.getClassLoader());
         this.fighter2weight = (Integer) in.readValue(Integer.class.getClassLoader());
         this.fighter2height = (Integer) in.readValue(Integer.class.getClassLoader());
@@ -992,7 +1220,97 @@ public class EventFight implements HasId, Parcelable {
         this.fighter2Submissionsaverage = in.readString();
     }
 
-    public static final Parcelable.Creator<EventFight> CREATOR = new Parcelable.Creator<EventFight>() {
+    @Generated(hash = 1764067168)
+    public EventFight(Long uid, String id, String eventId, Integer fightcardOrder, Boolean isTitleFight,
+                      Boolean isMainEvent, Boolean isPrelim, String endingTime, String endingRoundNumber, String fmStatsFeedUrl,
+                      String fmFightRhythmFeedUrl, Long resultId, Integer fighter1Id, Integer fighter1weight, Integer fighter1height,
+                      Integer fighter1reach, String fighter1Nickname, String fighter1LastName, String fighter1FirstName,
+                      WeightCategory fighter1WeightClass, Boolean fighter1IsWinner, String fighter1FullBodyImage,
+                      String fighter1ProfileImage, String fighter1record, Integer fighter1Wins, Integer fighter1Losses,
+                      Integer fighter1Draws, Integer fighter1Statid, String fighter1Rank, String fighter1Averagefighttime,
+                      String fighter1AveragefighttimeSeconds, String fighter1Kdaverage, String fighter1Slpm,
+                      String fighter1Strikingaccuracy, String fighter1Sapm, String fighter1Strikingdefense,
+                      String fighter1Takedownaverage, String fighter1Takedownaccuracy, String fighter1Takedowndefense,
+                      String fighter1Submissionsaverage, Integer fighter2Id, Integer fighter2weight, Integer fighter2height,
+                      Integer fighter2reach, String fighter2Nickname, String fighter2LastName, String fighter2FirstName,
+                      WeightCategory fighter2WeightClass, Boolean fighter2IsWinner, String fighter2FullBodyImage,
+                      String fighter2ProfileImage, String fighter2record, Integer fighter2Wins, Integer fighter2Losses,
+                      Integer fighter2Draws, Integer fighter2Statid, String fighter2Rank, String fighter2Averagefighttime,
+                      String fighter2AveragefighttimeSeconds, String fighter2Kdaverage, String fighter2Slpm,
+                      String fighter2Strikingaccuracy, String fighter2Sapm, String fighter2Strikingdefense,
+                      String fighter2Takedownaverage, String fighter2Takedownaccuracy, String fighter2Takedowndefense,
+                      String fighter2Submissionsaverage) {
+        this.uid = uid;
+        this.id = id;
+        this.eventId = eventId;
+        this.fightcardOrder = fightcardOrder;
+        this.isTitleFight = isTitleFight;
+        this.isMainEvent = isMainEvent;
+        this.isPrelim = isPrelim;
+        this.endingTime = endingTime;
+        this.endingRoundNumber = endingRoundNumber;
+        this.fmStatsFeedUrl = fmStatsFeedUrl;
+        this.fmFightRhythmFeedUrl = fmFightRhythmFeedUrl;
+        this.resultId = resultId;
+        this.fighter1Id = fighter1Id;
+        this.fighter1weight = fighter1weight;
+        this.fighter1height = fighter1height;
+        this.fighter1reach = fighter1reach;
+        this.fighter1Nickname = fighter1Nickname;
+        this.fighter1LastName = fighter1LastName;
+        this.fighter1FirstName = fighter1FirstName;
+        this.fighter1WeightClass = fighter1WeightClass;
+        this.fighter1IsWinner = fighter1IsWinner;
+        this.fighter1FullBodyImage = fighter1FullBodyImage;
+        this.fighter1ProfileImage = fighter1ProfileImage;
+        this.fighter1record = fighter1record;
+        this.fighter1Wins = fighter1Wins;
+        this.fighter1Losses = fighter1Losses;
+        this.fighter1Draws = fighter1Draws;
+        this.fighter1Statid = fighter1Statid;
+        this.fighter1Rank = fighter1Rank;
+        this.fighter1Averagefighttime = fighter1Averagefighttime;
+        this.fighter1AveragefighttimeSeconds = fighter1AveragefighttimeSeconds;
+        this.fighter1Kdaverage = fighter1Kdaverage;
+        this.fighter1Slpm = fighter1Slpm;
+        this.fighter1Strikingaccuracy = fighter1Strikingaccuracy;
+        this.fighter1Sapm = fighter1Sapm;
+        this.fighter1Strikingdefense = fighter1Strikingdefense;
+        this.fighter1Takedownaverage = fighter1Takedownaverage;
+        this.fighter1Takedownaccuracy = fighter1Takedownaccuracy;
+        this.fighter1Takedowndefense = fighter1Takedowndefense;
+        this.fighter1Submissionsaverage = fighter1Submissionsaverage;
+        this.fighter2Id = fighter2Id;
+        this.fighter2weight = fighter2weight;
+        this.fighter2height = fighter2height;
+        this.fighter2reach = fighter2reach;
+        this.fighter2Nickname = fighter2Nickname;
+        this.fighter2LastName = fighter2LastName;
+        this.fighter2FirstName = fighter2FirstName;
+        this.fighter2WeightClass = fighter2WeightClass;
+        this.fighter2IsWinner = fighter2IsWinner;
+        this.fighter2FullBodyImage = fighter2FullBodyImage;
+        this.fighter2ProfileImage = fighter2ProfileImage;
+        this.fighter2record = fighter2record;
+        this.fighter2Wins = fighter2Wins;
+        this.fighter2Losses = fighter2Losses;
+        this.fighter2Draws = fighter2Draws;
+        this.fighter2Statid = fighter2Statid;
+        this.fighter2Rank = fighter2Rank;
+        this.fighter2Averagefighttime = fighter2Averagefighttime;
+        this.fighter2AveragefighttimeSeconds = fighter2AveragefighttimeSeconds;
+        this.fighter2Kdaverage = fighter2Kdaverage;
+        this.fighter2Slpm = fighter2Slpm;
+        this.fighter2Strikingaccuracy = fighter2Strikingaccuracy;
+        this.fighter2Sapm = fighter2Sapm;
+        this.fighter2Strikingdefense = fighter2Strikingdefense;
+        this.fighter2Takedownaverage = fighter2Takedownaverage;
+        this.fighter2Takedownaccuracy = fighter2Takedownaccuracy;
+        this.fighter2Takedowndefense = fighter2Takedowndefense;
+        this.fighter2Submissionsaverage = fighter2Submissionsaverage;
+    }
+
+    public static final Creator<EventFight> CREATOR = new Creator<EventFight>() {
         @Override
         public EventFight createFromParcel(Parcel source) {
             return new EventFight(source);
@@ -1003,4 +1321,19 @@ public class EventFight implements HasId, Parcelable {
             return new EventFight[size];
         }
     };
+
+    /**
+     * Used to resolve relations
+     */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+
+    /**
+     * Used for active entity operations.
+     */
+    @Generated(hash = 1358543292)
+    private transient EventFightDao myDao;
+
+    @Generated(hash = 446399057)
+    private transient Long result__resolvedKey;
 }

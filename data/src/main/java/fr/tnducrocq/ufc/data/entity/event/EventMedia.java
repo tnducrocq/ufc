@@ -16,7 +16,7 @@ public class EventMedia implements HasId, Parcelable {
 
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
 
     @SerializedName("media_date")
     @Expose
@@ -75,11 +75,11 @@ public class EventMedia implements HasId, Parcelable {
     private String publishedStartDate;
 
     @Override
-    public String id() {
-        return Integer.toString(id);
+    public String getId() {
+        return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -224,7 +224,7 @@ public class EventMedia implements HasId, Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(this.id);
+        dest.writeString(this.id);
         dest.writeString(this.mediaDate);
         dest.writeString(this.type);
         dest.writeString(this.description);
@@ -245,7 +245,7 @@ public class EventMedia implements HasId, Parcelable {
     }
 
     protected EventMedia(Parcel in) {
-        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.id = in.readString();
         this.mediaDate = in.readString();
         this.type = in.readString();
         this.description = in.readString();

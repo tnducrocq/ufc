@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
-import fr.tnducrocq.ufc.data.utils.WeightCategory;
+import fr.tnducrocq.ufc.data.entity.fighter.WeightCategory;
 
 @SuppressWarnings("WeakerAccess")
 public class FakeDataProvider {
@@ -21,7 +21,6 @@ public class FakeDataProvider {
     public static final String FAKE_FIGHTER_FIRST_NAME = "first_name";
     public static final String FAKE_FIGHTER_FAKE_FIGHTER_STATUS = "fighter_status";
     public static final int FAKE_FIGHTER_RANK = 1;
-    public static final String FAKE_FIGHTER_POUND_FOR_POUND_RANK = "pound_for_pound_rank";
     public static final String FAKE_FIGHTER_THUMBNAIL = "thumbnail";
     public static final String FAKE_FIGHTER_BELT_THUMBNAIL = "belt_thumbnail";
     public static final String FAKE_FIGHTER_LEFT_FULL_BODY_IMAGE = "left_full_body_image";
@@ -44,7 +43,6 @@ public class FakeDataProvider {
         fighter.setFirstName(FAKE_FIGHTER_FIRST_NAME);
         fighter.setFighterStatus(FAKE_FIGHTER_FAKE_FIGHTER_STATUS);
         fighter.setRank(FAKE_FIGHTER_RANK);
-        fighter.setPoundForPoundRank(FAKE_FIGHTER_POUND_FOR_POUND_RANK);
         fighter.setThumbnail(FAKE_FIGHTER_THUMBNAIL);
         fighter.setBeltThumbnail(FAKE_FIGHTER_BELT_THUMBNAIL);
         fighter.setLeftFullBodyImage(FAKE_FIGHTER_LEFT_FULL_BODY_IMAGE);

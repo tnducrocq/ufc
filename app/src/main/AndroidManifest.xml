@@ -38,6 +38,9 @@
             android:name=".FightActivity"/>
 
         <activity
+            android:name=".CategoryActivity"/>
+
+        <activity
             android:name=".PlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
             android:screenOrientation="landscape"/>

@@ -36,6 +36,7 @@ ext {
     retrofitAdapterVersion = "2.1.0"
     gsonVersion = '2.3'
     guavaVersion = "14.0"
+    greendaoVersion = "3.2.2"
 
     /* Testing versions */
     robolectricVersion = '3.1.1'
@@ -77,7 +78,9 @@ ext {
             retrofitConverter        : "com.squareup.retrofit2:converter-gson:${retrofitConverterVersion}",
             retrofitAdapter          : "com.squareup.retrofit2:adapter-rxjava:${retrofitAdapterVersion}",
             gson                     : "com.google.code.gson:gson:${gsonVersion}",
-            guava                    : "com.google.guava:guava:${guavaVersion}"
+            guava                    : "com.google.guava:guava:${guavaVersion}",
+
+            greendao                 : "org.greenrobot:greendao:${greendaoVersion}"
     ]
 
     testDependencies = [

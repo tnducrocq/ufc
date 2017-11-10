@@ -21,15 +21,14 @@ import com.roughike.bottombar.BottomBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fr.tnducrocq.ufc.data.entity.event.Event;
-import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
-import fr.tnducrocq.ufc.data.utils.WeightCategory;
+import fr.tnducrocq.ufc.data.entity.fighter.WeightCategory;
 import fr.tnducrocq.ufc.presentation.ui.main.MainTypePagerAdapter;
+import fr.tnducrocq.ufc.presentation.ui.main.categories.CategoriesAdapter;
 import fr.tnducrocq.ufc.presentation.ui.main.events.AbstractEventsFragment;
-import fr.tnducrocq.ufc.presentation.ui.main.fighters.OnFighterFragmentInteractionListener;
 import fr.tnducrocq.ufc.presentation.ui.view.MainPager;
 
 
-public class MainActivity extends AppCompatActivity implements AbstractEventsFragment.OnEventFragmentInteractionListener, OnFighterFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements AbstractEventsFragment.OnEventFragmentInteractionListener, CategoriesAdapter.OnWeightCategoryInteractionListener {
 
     private static final String TAG = "MainActivity";
 
@@ -123,12 +122,7 @@ public class MainActivity extends AppCompatActivity implements AbstractEventsFra
     }
 
     @Override
-    public void onSeeAllFragmentInteraction(WeightCategory category) {
-
-    }
-
-    @Override
-    public void onListFragmentInteraction(Fighter item) {
+    public void onWeightCategoryInteraction(WeightCategory category) {
 
     }
 
