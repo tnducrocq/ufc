@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
 import fr.tnducrocq.ufc.data.entity.fighter.WeightCategory;
 import fr.tnducrocq.ufc.presentation.app.App;
-import fr.tnducrocq.ufc.presentation.ui.category.FightersAdapter;
+import fr.tnducrocq.ufc.presentation.ui.category.CategoryAdapter;
 import rx.Observer;
 
 /**
@@ -44,7 +44,7 @@ public class CategoryActivity extends AppCompatActivity {
     @BindView(R.id.category_fighters)
     public RecyclerView mRecyclerView;
 
-    private FightersAdapter mAdapter;
+    private CategoryAdapter mAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,8 +88,10 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     private void setAdapter(List<Fighter> fighters) {
-        mAdapter = new FightersAdapter(fighters);
+        mAdapter = new CategoryAdapter(fighters);
         mAdapter.setOnFighterInteractionListener(fighter -> {
+            Intent intent = FighterActivity.newIntent(getBaseContext(), fighter);
+            startActivity(intent);
         });
         mRecyclerView.setAdapter(mAdapter);
     }

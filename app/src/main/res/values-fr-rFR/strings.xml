@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MMA Actu</string>
-    <string name="more_label">Voir tous</string>
     <string name="fighter_country">Pays</string>
     <string name="fighter_height">Taille</string>
     <string name="fighter_weight">Poids</string>

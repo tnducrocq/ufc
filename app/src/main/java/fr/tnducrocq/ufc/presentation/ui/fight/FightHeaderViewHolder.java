@@ -14,6 +14,7 @@ import com.bumptech.glide.request.target.ImageViewTarget;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fr.tnducrocq.ufc.data.entity.event.EventFight;
+import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
 import fr.tnducrocq.ufc.presentation.R;
 
 /**
@@ -48,6 +49,8 @@ public class FightHeaderViewHolder extends RecyclerView.ViewHolder {
 
     View mView;
 
+    private OnFighterInteractionListener mOnFighterInteractionListener;
+
     FightHeaderViewHolder(View itemView) {
         super(itemView);
         mView = itemView;
@@ -70,6 +73,27 @@ public class FightHeaderViewHolder extends RecyclerView.ViewHolder {
                     }
                 });
 
+
+        View.OnClickListener fighter1ClickListener = v -> {
+            if (mOnFighterInteractionListener != null) {
+                mOnFighterInteractionListener.onFighterInteraction(fight.getFighter1());
+            }
+        };
+        fighter1.setOnClickListener(fighter1ClickListener);
+        fighter1Surname.setOnClickListener(fighter1ClickListener);
+        fighter1Stats.setOnClickListener(fighter1ClickListener);
+        fighter1Name.setOnClickListener(fighter1ClickListener);
+
+        View.OnClickListener fighter2ClickListener = v -> {
+            if (mOnFighterInteractionListener != null) {
+                mOnFighterInteractionListener.onFighterInteraction(fight.getFighter2());
+            }
+        };
+        fighter2.setOnClickListener(fighter2ClickListener);
+        fighter2Surname.setOnClickListener(fighter2ClickListener);
+        fighter2Stats.setOnClickListener(fighter2ClickListener);
+        fighter2Name.setOnClickListener(fighter2ClickListener);
+
         fighter2Surname.setText(fight.getFighter2Nickname());
         fighter2Stats.setText(String.format("%d-%d-%d (W-L-D)", fight.getFighter2Wins(), fight.getFighter2Draws(), fight.getFighter2Losses()));
         fighter2Name.setText(fight.getFighter2FirstName() + " " + fight.getFighter2LastName());
@@ -85,6 +109,16 @@ public class FightHeaderViewHolder extends RecyclerView.ViewHolder {
                         fighter2.setImageBitmap(resource);
                     }
                 });
+    }
+
+    public void setOnFighterInteractionListener(OnFighterInteractionListener onFighterInteractionListener) {
+        this.mOnFighterInteractionListener = onFighterInteractionListener;
+    }
+
+    public interface OnFighterInteractionListener {
+
+        void onFighterInteraction(Fighter fighter);
+
     }
 
 }

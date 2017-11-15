@@ -18,7 +18,7 @@ import fr.tnducrocq.ufc.presentation.ui.main.events.AbstractEventsFragment;
  * specified {@link AbstractEventsFragment.OnEventFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class EventFightsRecyclerViewAdapter extends RecyclerView.Adapter<EventFightMinViewHolder> {
+public class EventFightsRecyclerViewAdapter extends RecyclerView.Adapter<EventFightViewHolder> {
 
     private final List<EventFight> mFights;
     private final EventFightsRecyclerViewAdapter.OnEventFightsInteractionListener mListener;
@@ -43,37 +43,36 @@ public class EventFightsRecyclerViewAdapter extends RecyclerView.Adapter<EventFi
     }
 
     @Override
-    public EventFightMinViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public EventFightViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         if (viewType == 0) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_fight_card, parent, false);
         } else {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_fight_min_card, parent, false);
         }
-        return new EventFightMinViewHolder(view);
+        return new EventFightViewHolder(view);
 
     }
 
     @Override
-    public void onBindViewHolder(final EventFightMinViewHolder holder, int position) {
+    public void onBindViewHolder(final EventFightViewHolder holder, int position) {
         EventFight fight = mFights.get(position);
-        EventFightMinViewHolder eHolder = (EventFightMinViewHolder) holder;
-        eHolder.bindData(fight);
+        holder.bindData(fight);
 
-        eHolder.mView.setOnClickListener(view -> {
+        holder.mView.setOnClickListener(view -> {
             if (mListener != null) {
                 mListener.onListFragmentInteraction(fight);
             }
         });
 
         if (position != 0 && position % 2 == 1) {
-            GridLayoutManager.LayoutParams params = (GridLayoutManager.LayoutParams) eHolder.layout.getLayoutParams();
+            GridLayoutManager.LayoutParams params = (GridLayoutManager.LayoutParams) holder.layout.getLayoutParams();
             params.setMargins(params.leftMargin, params.topMargin, params.rightMargin / 2, params.bottomMargin);
-            eHolder.layout.setLayoutParams(params);
+            holder.layout.setLayoutParams(params);
         } else if (position != 0 && position % 2 == 0) {
-            GridLayoutManager.LayoutParams params = (GridLayoutManager.LayoutParams) eHolder.layout.getLayoutParams();
+            GridLayoutManager.LayoutParams params = (GridLayoutManager.LayoutParams) holder.layout.getLayoutParams();
             params.setMargins(params.leftMargin / 2, params.topMargin, params.rightMargin, params.bottomMargin);
-            eHolder.layout.setLayoutParams(params);
+            holder.layout.setLayoutParams(params);
         }
     }
 

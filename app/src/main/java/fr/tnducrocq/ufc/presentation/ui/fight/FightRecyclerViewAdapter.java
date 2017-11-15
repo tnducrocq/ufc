@@ -16,13 +16,20 @@ import fr.tnducrocq.ufc.presentation.R;
 public class FightRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final Context mContext;
-    private final EventFight mFight;
-    private final List<FightLine> mLines;
 
-    public FightRecyclerViewAdapter(@NonNull Context context, @NonNull EventFight fight) {
+    private EventFight mFight;
+    private List<FightLine> mLines;
+
+    private FightHeaderViewHolder.OnFighterInteractionListener mOnFighterInteractionListener;
+
+    public FightRecyclerViewAdapter(@NonNull Context context) {
         mContext = context;
+    }
+
+    public void setFight(@NonNull EventFight fight) {
         mFight = fight;
-        mLines = !isFinish() ? getItemsFight(context, fight) : getItemsFightFinished(context, fight);
+        mLines = !isFinish() ? getItemsFight(mContext, fight) : getItemsFightFinished(mContext, fight);
+        notifyDataSetChanged();
     }
 
     public boolean isFinish() {
@@ -39,6 +46,10 @@ public class FightRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public int getItemCount() {
+        if (mFight == null) {
+            return 0;
+        }
+
         if (isFinish()) {
             return 1 + 1 + mLines.size();
         }
@@ -50,7 +61,9 @@ public class FightRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         View view;
         if (viewType == 0) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_fight_header, parent, false);
-            return new FightHeaderViewHolder(view);
+            FightHeaderViewHolder holder = new FightHeaderViewHolder(view);
+            holder.setOnFighterInteractionListener(mOnFighterInteractionListener);
+            return holder;
         } else if (viewType == 1) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_fight_status, parent, false);
             return new FightRowViewHolder(view);
@@ -181,5 +194,9 @@ public class FightRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                 return line;
             }
         }
+    }
+
+    public void setOnFighterInteractionListener(FightHeaderViewHolder.OnFighterInteractionListener onFighterInteractionListener) {
+        this.mOnFighterInteractionListener = onFighterInteractionListener;
     }
 }

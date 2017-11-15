@@ -12,17 +12,20 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.gturedi.views.StatefulLayout;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fr.tnducrocq.ufc.data.entity.event.EventFight;
 import fr.tnducrocq.ufc.data.entity.event.EventFightDao;
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
 import fr.tnducrocq.ufc.presentation.app.App;
+import fr.tnducrocq.ufc.presentation.ui.fight.FightHeaderViewHolder;
 import fr.tnducrocq.ufc.presentation.ui.fight.FightRecyclerViewAdapter;
 import rx.Observable;
 import rx.Observer;
 
-public class FightActivity extends AppCompatActivity {
+public class FightActivity extends AppCompatActivity implements FightHeaderViewHolder.OnFighterInteractionListener {
 
     private static final String TAG = "FightActivity";
     private static final String ARG_EVENT_FIGHT = "event-fight";
@@ -31,6 +34,9 @@ public class FightActivity extends AppCompatActivity {
 
     @BindView(R.id.fight_toolbar)
     public Toolbar mToolbar;
+
+    @BindView(R.id.fight_stateful)
+    public StatefulLayout mStateful;
 
     @BindView(R.id.fight_list)
     public RecyclerView mRecyclerView;
@@ -49,12 +55,16 @@ public class FightActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fight);
         ButterKnife.bind(this);
 
-        EventFight tmp = (EventFight) getIntent().getParcelableExtra(ARG_EVENT_FIGHT);
+        EventFight tmp = getIntent().getParcelableExtra(ARG_EVENT_FIGHT);
         mEventFight = App.getInstance().getSession().getEventFightDao().queryBuilder().where(EventFightDao.Properties.Uid.eq(tmp.getUid())).unique();
 
+        mStateful.showLoading();
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mAdapter = new FightRecyclerViewAdapter(this, mEventFight);
+        mAdapter = new FightRecyclerViewAdapter(this);
+        mAdapter.setOnFighterInteractionListener(FightActivity.this);
         mRecyclerView.setAdapter(mAdapter);
+
         mToolbar.setTitle(mEventFight.getFighter1LastName() + " vs " + mEventFight.getFighter2LastName());
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -67,19 +77,12 @@ public class FightActivity extends AppCompatActivity {
                 observeOn(App.getInstance().getSchedulerProvider().ui()).//
                 subscribe(new Observer<Fighter[]>() {
 
-            Fighter[] mValues;
-            Throwable mError;
-
             @Override
             public void onCompleted() {
-                if (mValues != null) {
-                    onFighterResult(mValues[0], mValues[1]);
-                }
             }
 
             @Override
             public void onError(Throwable e) {
-                mError = e;
                 Log.e(TAG, "onError", e);
                 Snackbar snackbar = Snackbar.make(FightActivity.this.findViewById(android.R.id.content), e.getLocalizedMessage(), Snackbar.LENGTH_LONG);
                 snackbar.show();
@@ -87,7 +90,10 @@ public class FightActivity extends AppCompatActivity {
 
             @Override
             public void onNext(Fighter[] fighters) {
-                mValues = fighters;
+                mEventFight.setFighter1(fighters[0]);
+                mEventFight.setFighter2(fighters[1]);
+                mAdapter.setFight(mEventFight);
+                onFighterResult(fighters[0], fighters[1]);
             }
         });
     }
@@ -100,25 +106,23 @@ public class FightActivity extends AppCompatActivity {
                 observeOn(App.getInstance().getSchedulerProvider().ui()).//
                 subscribe(new Observer<Fighter[]>() {
 
-            Fighter[] mValues;
-
             @Override
             public void onCompleted() {
-                if (mValues != null) {
-                    mEventFight.setFighter1(mValues[0]);
-                    mEventFight.setFighter2(mValues[1]);
-                    mAdapter = new FightRecyclerViewAdapter(FightActivity.this, mEventFight);
-                    mRecyclerView.setAdapter(mAdapter);
-                }
             }
 
             @Override
             public void onError(Throwable e) {
+                Log.e(TAG, "onError", e);
+                Snackbar snackbar = Snackbar.make(FightActivity.this.findViewById(android.R.id.content), e.getLocalizedMessage(), Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
 
             @Override
             public void onNext(Fighter[] fighters) {
-                mValues = fighters;
+                mEventFight.setFighter1(fighters[0]);
+                mEventFight.setFighter2(fighters[1]);
+                mAdapter.setFight(mEventFight);
+                mStateful.showContent();
             }
         });
     }
@@ -130,5 +134,11 @@ public class FightActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    @Override
+    public void onFighterInteraction(Fighter fighter) {
+        Intent intent = FighterActivity.newIntent(this, fighter);
+        startActivity(intent);
     }
 }

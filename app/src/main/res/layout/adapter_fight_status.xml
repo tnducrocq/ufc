@@ -15,7 +15,7 @@
         android:layout_alignBottom="@+id/fight_row_title"
         android:layout_toStartOf="@+id/fight_row_title"
         android:gravity="center"
-        android:letterSpacing="0.5"
+        android:letterSpacing="0.25"
         android:textAllCaps="true"
         android:textColor="@color/redCorner"
         tools:text="WIN"/>
@@ -41,7 +41,7 @@
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/fight_row_title"
         android:gravity="center"
-        android:letterSpacing="0.5"
+        android:letterSpacing="0.25"
         android:textAllCaps="true"
         android:textColor="@color/blueCorner"
         tools:text="LOOSE"/>

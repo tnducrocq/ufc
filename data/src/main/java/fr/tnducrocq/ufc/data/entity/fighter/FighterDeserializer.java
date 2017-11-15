@@ -24,7 +24,11 @@ public class FighterDeserializer implements JsonDeserializer<Fighter> {
                 fighter.setRank(0);
             } else if (TextUtils.isDigitsOnly(rank)) {
                 fighter.setRank(Integer.parseInt(rank));
+            } else {
+                fighter.setRank(Integer.MAX_VALUE);
             }
+        } else {
+            fighter.setRank(Integer.MAX_VALUE);
         }
         return fighter;
     }

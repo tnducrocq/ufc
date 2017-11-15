@@ -109,7 +109,7 @@ public class Fighter implements HasId, Parcelable {
 
     private boolean hasDetails = false;
 
-    @Text(value = "#fighter-details h1", optional = false)
+    @Text(value = "#fighter-details h1", optional = true)
     private String name;
 
     @Text(value = "td#fighter-from", optional = true)

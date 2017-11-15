@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.tnducrocq.ufc.data.entity.HasId;
-import fr.tnducrocq.ufc.data.entity.fighter.DaoSession;
 
 /**
  * Created by tony on 02/11/2017.
@@ -156,9 +155,7 @@ public class EventFights implements HasId, Parcelable {
         myDao.update(this);
     }
 
-    /**
-     * called by internal mechanisms, do not call yourself.
-     */
+    /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 623848711)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;

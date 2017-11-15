@@ -1,6 +1,7 @@
 package fr.tnducrocq.ufc.data.source.remote;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -26,7 +27,7 @@ import rx.Observable;
  */
 @Singleton
 public class RemoteFighters implements IRepository<Fighter> {
-
+    private static final String TAG = "RemoteFighters";
     private static final String API_URL = "http://ufc-data-api.ufc.com/api/v3";
     private static final SwiftString API_FIGHTERS = SwiftString.format(API_URL + "/fighters");
     private final Gson gson;
@@ -62,21 +63,30 @@ public class RemoteFighters implements IRepository<Fighter> {
 
     public Observable<Fighter> fetchDetail(@NonNull Fighter fighter) {
         return Observable.create(subscriber -> {
+            String urlDetails = String.format("http://fr.ufc.com/fighter/%s-%s", fighter.getFirstName(), fighter.getLastName());
+            String html;
             try {
-                String urlDetails = String.format("http://fr.ufc.com/fighter/%s-%s", fighter.getFirstName(), fighter.getLastName());
                 Request requestDetails = new Request.Builder().url(urlDetails).get().build();
                 OkHttpClient okHttpClient = new OkHttpClient();
                 Response responseDetails = okHttpClient.newCall(requestDetails).execute();
-                String html = responseDetails.body().string();
-                fighter.fillWithHtml(html);
+                html = responseDetails.body().string();
+            } catch (Exception e) {
+                Log.w(TAG, "Fighter details 404 - " + urlDetails, e);
+                fighter.setDetails(false);
+                subscriber.onNext(fighter);
+                subscriber.onCompleted();
+                return;
+            }
 
+            try {
+                fighter.fillWithHtml(html);
                 fighter.setDetails(true);
                 subscriber.onNext(fighter);
                 subscriber.onCompleted();
             } catch (Exception e) {
-
+                Log.w(TAG, "error parsing response for " + urlDetails, e);
                 fighter.setDetails(false);
-                subscriber.onNext(fighter);
+                subscriber.onError(e);
                 subscriber.onCompleted();
             }
         });

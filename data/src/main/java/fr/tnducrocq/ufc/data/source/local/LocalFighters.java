@@ -25,6 +25,7 @@ public class LocalFighters extends AbstractLocal<Fighter> implements FighterData
                 WeightCategoryConverter converter = new WeightCategoryConverter();
                 List<Fighter> fighterList = queryBuilder
                         .where(FighterDao.Properties.WeightClass.eq(converter.convertToDatabaseValue(type)))
+                        .orderAsc(FighterDao.Properties.Rank)
                         .list();
                 subscriber.onNext(fighterList);
             } catch (Exception e) {

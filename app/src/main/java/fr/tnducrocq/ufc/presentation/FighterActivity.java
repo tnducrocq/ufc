@@ -7,6 +7,7 @@ import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -22,7 +23,9 @@ import com.bumptech.glide.request.target.ImageViewTarget;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
+import fr.tnducrocq.ufc.presentation.app.App;
 import fr.tnducrocq.ufc.presentation.ui.view.CardPieView;
+import rx.Observer;
 
 /**
  * Created by tony on 11/08/2017.
@@ -56,13 +59,6 @@ public class FighterActivity extends AppCompatActivity {
 
     @BindView(R.id.fighter_grappling_card)
     public CardPieView grapplingView;
-
-/*
-    @BindView(R.id.fighter_kick_card2)
-    public CardPieView kickView2;
-
-    @BindView(R.id.fighter_grappling_card2)
-    public CardPieView grapplingView2;*/
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -110,13 +106,12 @@ public class FighterActivity extends AppCompatActivity {
         grapplingView.setVisibility(View.GONE);
         //grapplingView2.setVisibility(View.GONE);
 
-        /*Observable<FighterDetails> observable = getInstance().getFighterDetailsRepository().get(mFighter);
-        observable.subscribeOn(App.getInstance().getSchedulerProvider().multi())//
+        App.getInstance().getFighterRepository().fetchDetail(mFighter)
+                .subscribeOn(App.getInstance().getSchedulerProvider().multi())//
                 .observeOn(App.getInstance().getSchedulerProvider().ui())//
-                .subscribe(new Observer<FighterDetails>() {
+                .subscribe(new Observer<Fighter>() {
 
-                    FighterDetails mFighter;
-                    Throwable mError;
+                    Fighter mFighter;
 
                     @Override
                     public void onCompleted() {
@@ -136,15 +131,16 @@ public class FighterActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        this.mError = e;
-                        Log.e(TAG, "ERROR", e);
+                        Log.e(TAG, "onError", e);
+                        Snackbar snackbar = Snackbar.make(FighterActivity.this.findViewById(android.R.id.content), e.getLocalizedMessage(), Snackbar.LENGTH_LONG);
+                        snackbar.show();
                     }
 
                     @Override
-                    public void onNext(FighterDetails fighter) {
+                    public void onNext(Fighter fighter) {
                         this.mFighter = fighter;
                     }
-                });*/
+                });
 
     }
 

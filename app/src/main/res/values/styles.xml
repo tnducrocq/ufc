@@ -48,45 +48,6 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="Widget.MediumTitle">
-        <item name="android:textSize">18sp</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-
-    <style name="Widget.BigTitle">
-        <item name="android:textSize">22sp</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-
-    <style name="Widget.ToolbarText">
-        <item name="android:textSize">18sp</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-
-    <style name="Widget.HashTag">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="Widget.Details"/>
-
-    <style name="Widget.Details.Action">
-        <item name="android:scaleX">0</item>
-        <item name="android:scaleY">0</item>
-        <item name="android:background">@drawable/white_oval</item>
-        <item name="android:padding">@dimen/details_action_padding</item>
-    </style>
-
-    <style name="Widget.Label.ActionLabel">
-        <item name="android:alpha">0</item>
-        <item name="android:textSize">17sp</item>
-        <item name="android:textColor">@color/white_50</item>
-    </style>
-
     <style name="Widget.NumberText">
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">14sp</item>
@@ -102,10 +63,6 @@
         <item name="android:textSize">24sp</item>
         <item name="android:textStyle">bold</item>
     </style>
-
-    <style name="main.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-    <style name="main.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
     <!-- Other Style-->
     <style name="secondary" parent="Theme.AppCompat.Light.NoActionBar">
@@ -125,30 +82,7 @@
         <item name="actionBarTheme">@style/Main.ActionBarTheme</item>
     </style>
 
-    <style name="AppBarWhite" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="colorPrimary">@color/white</item>
-        <item name="colorPrimaryDark">@color/black</item>
-        <item name="android:textColorPrimary">@color/black</item>
-    </style>
-
     <!-- TEXT -->
-    <style name="AppTheme.Display4" parent="android:style/Widget.TextView">
-        <item name="android:textSize">112sp</item>
-        <item name="android:fontFamily">sans-serif-light</item>
-        <item name="android:textStyle">normal</item>
-    </style>
-
-    <style name="AppTheme.Display3" parent="android:style/Widget.TextView">
-        <item name="android:textSize">56sp</item>
-        <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textStyle">normal</item>
-    </style>
-
-    <style name="AppTheme.Display2" parent="android:style/Widget.TextView">
-        <item name="android:textSize">32sp</item>
-        <item name="android:fontFamily">sans-serif-black</item>
-        <item name="android:textStyle">normal</item>
-    </style>
 
     <style name="AppTheme.Display1" parent="android:style/Widget.TextView">
         <item name="android:textSize">28sp</item>
@@ -177,12 +111,6 @@
     <style name="AppTheme.Body2" parent="android:style/Widget.TextView">
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">sans-serif-black</item>
-        <item name="android:textStyle">normal</item>
-    </style>
-
-    <style name="AppTheme.Body1" parent="android:style/Widget.TextView">
-        <item name="android:textSize">14sp</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textStyle">normal</item>
     </style>
 

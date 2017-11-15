@@ -7,20 +7,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import fr.tnducrocq.ufc.presentation.MainActivity;
 import fr.tnducrocq.ufc.presentation.R;
 import fr.tnducrocq.ufc.presentation.ui.main.events.FutureEventsFragment;
 import fr.tnducrocq.ufc.presentation.ui.main.events.PastEventsFragment;
@@ -53,7 +46,6 @@ public class EventsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -82,7 +74,6 @@ public class EventsFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -90,7 +81,6 @@ public class EventsFragment extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
-
 
     public static class EventsPagerAdapter extends FragmentPagerAdapter {
 
@@ -125,27 +115,5 @@ public class EventsFragment extends Fragment {
                     return mContext.getResources().getString(R.string.future_events);
             }
         }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(MainActivity.CollapsingChangedEvent event) {
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mTabLayout.getLayoutParams();
-
-        Log.d(TAG, "collasped: " + event.collasped);
-        if (event.collasped) {
-            params.setMargins(0, getStatusBarHeight(), 0, 0);
-        } else {
-            params.setMarginStart(0);
-        }
-    }
-
-
-    public int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
     }
 }

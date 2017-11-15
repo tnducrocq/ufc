@@ -14,12 +14,12 @@ import fr.tnducrocq.ufc.presentation.R;
  * Created by tony on 17/10/2017.
  */
 
-public class FightersAdapter extends RecyclerView.Adapter<FighterViewHolder> {
+public class CategoryAdapter extends RecyclerView.Adapter<FighterViewHolder> {
 
     private final List<Fighter> mFighters;
     private OnFighterInteractionListener mOnFighterInteractionListener;
 
-    public FightersAdapter(List<Fighter> fighter) {
+    public CategoryAdapter(List<Fighter> fighter) {
         mFighters = fighter;
     }
 
@@ -30,7 +30,8 @@ public class FightersAdapter extends RecyclerView.Adapter<FighterViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        return position == 0 ? 0 : 1;
+        return 0;
+        //return position == 0 ? 0 : 1;
     }
 
     @Override

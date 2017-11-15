@@ -35,8 +35,8 @@ public class FighterRepository extends AbstractRepository<Fighter, FighterDataSo
     }
 
     public Observable<Fighter> fetchDetail(Fighter fighter) {
-        String networkKey = getClass().getSimpleName() + "->fetchDetail(fighterId:" + fighter.getId() + ")";
-        if (fighter.hasDetails() || !isNetworkConnection() || !expiration(networkKey)) {
+        //String networkKey = getClass().getSimpleName() + "->fetchDetail(fighterId:" + fighter.getId() + ")";
+        if (fighter.hasDetails() || !isNetworkConnection() /*|| !expiration(networkKey)*/) {
             return Observable.create(subscriber -> {
                 subscriber.onNext(fighter);
                 subscriber.onCompleted();
@@ -44,7 +44,7 @@ public class FighterRepository extends AbstractRepository<Fighter, FighterDataSo
         }
         return remoteSource.fetchDetail(fighter)
                 .doOnNext(item -> save(item))
-                .doOnNext(item -> putNetworkCall(networkKey));
+                /*.doOnNext(item -> putNetworkCall(networkKey))*/;
     }
 
     @Override

@@ -16,7 +16,6 @@ import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Transient;
 
 import fr.tnducrocq.ufc.data.entity.HasId;
-import fr.tnducrocq.ufc.data.entity.fighter.DaoSession;
 import fr.tnducrocq.ufc.data.entity.fighter.Fighter;
 import fr.tnducrocq.ufc.data.entity.fighter.WeightCategory;
 import fr.tnducrocq.ufc.data.entity.fighter.WeightCategoryConverter;
@@ -1132,9 +1131,7 @@ public class EventFight implements HasId, Parcelable {
         myDao.update(this);
     }
 
-    /**
-     * called by internal mechanisms, do not call yourself.
-     */
+    /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1866111855)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;

@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">MMA Actu</string>
 
-    <string name="more_label">View All</string>
-
     <!-- FIGHT -->
     <string name="fighter_country">Country</string>
     <string name="fighter_height">Height</string>
@@ -42,5 +40,4 @@
     <!-- Drawer -->
     <string name="settings_item">Settings</string>
     <string name="help_item">Help</string>
-    <string name="action_settings">Settings</string>
 </resources>

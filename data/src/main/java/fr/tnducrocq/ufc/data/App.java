@@ -4,8 +4,8 @@ import android.app.Application;
 
 import org.greenrobot.greendao.database.Database;
 
-import fr.tnducrocq.ufc.data.entity.fighter.DaoMaster;
-import fr.tnducrocq.ufc.data.entity.fighter.DaoSession;
+import fr.tnducrocq.ufc.data.entity.event.DaoMaster;
+import fr.tnducrocq.ufc.data.entity.event.DaoSession;
 
 /**
  * Created by tony on 03/11/2017.

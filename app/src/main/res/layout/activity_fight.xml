@@ -21,11 +21,20 @@
             app:title="Events"/>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/fight_list"
+    <com.gturedi.views.StatefulLayout
+        android:id="@+id/fight_stateful"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:listitem="@layout/adapter_fight_header">
-    </android.support.v7.widget.RecyclerView>
+        app:stfAnimationEnabled="true"
+        app:stfInAnimation="@android:anim/slide_in_left"
+        app:stfOutAnimation="@android:anim/slide_out_right">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/fight_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:listitem="@layout/adapter_fight_header">
+        </android.support.v7.widget.RecyclerView>
+    </com.gturedi.views.StatefulLayout>
 </LinearLayout>
