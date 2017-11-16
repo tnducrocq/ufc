@@ -57,13 +57,12 @@ public class FightActivity extends AppCompatActivity implements FightHeaderViewH
 
         EventFight tmp = getIntent().getParcelableExtra(ARG_EVENT_FIGHT);
         mEventFight = App.getInstance().getSession().getEventFightDao().queryBuilder().where(EventFightDao.Properties.Uid.eq(tmp.getUid())).unique();
-
+        mStateful.setAnimationEnabled(false);
         mStateful.showLoading();
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mAdapter = new FightRecyclerViewAdapter(this);
         mAdapter.setOnFighterInteractionListener(FightActivity.this);
-        mRecyclerView.setAdapter(mAdapter);
 
         mToolbar.setTitle(mEventFight.getFighter1LastName() + " vs " + mEventFight.getFighter2LastName());
         setSupportActionBar(mToolbar);
@@ -79,10 +78,13 @@ public class FightActivity extends AppCompatActivity implements FightHeaderViewH
 
             @Override
             public void onCompleted() {
+                mRecyclerView.setAdapter(mAdapter);
             }
 
             @Override
             public void onError(Throwable e) {
+                mStateful.setAnimationEnabled(true);
+                mStateful.showEmpty();
                 Log.e(TAG, "onError", e);
                 Snackbar snackbar = Snackbar.make(FightActivity.this.findViewById(android.R.id.content), e.getLocalizedMessage(), Snackbar.LENGTH_LONG);
                 snackbar.show();
@@ -112,6 +114,8 @@ public class FightActivity extends AppCompatActivity implements FightHeaderViewH
 
             @Override
             public void onError(Throwable e) {
+                mStateful.showEmpty();
+
                 Log.e(TAG, "onError", e);
                 Snackbar snackbar = Snackbar.make(FightActivity.this.findViewById(android.R.id.content), e.getLocalizedMessage(), Snackbar.LENGTH_LONG);
                 snackbar.show();
@@ -122,6 +126,7 @@ public class FightActivity extends AppCompatActivity implements FightHeaderViewH
                 mEventFight.setFighter1(fighters[0]);
                 mEventFight.setFighter2(fighters[1]);
                 mAdapter.setFight(mEventFight);
+                mStateful.setAnimationEnabled(true);
                 mStateful.showContent();
             }
         });

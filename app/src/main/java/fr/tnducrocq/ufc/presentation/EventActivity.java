@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.ImageViewTarget;
+import com.gturedi.views.StatefulLayout;
 
 import java.util.Date;
 import java.util.List;
@@ -53,6 +54,9 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
     protected EventFights mFights;
     protected List<EventMedia> mMedias;
 
+    @BindView(R.id.event_stateful)
+    public StatefulLayout mStateful;
+
     @BindView(R.id.event_fights_list)
     public RecyclerView mRecyclerView;
 
@@ -71,7 +75,7 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
     @BindView(R.id.toolbar_layout)
     public CollapsingToolbarLayout mToolbarLayout;
 
-    private RecyclerView.Adapter mAdapter;
+    private EventFightsRecyclerViewAdapter mAdapter;
 
     public static Intent newIntent(@NonNull Context context, @NonNull Event event, @NonNull PaletteColors palette) {
         Intent intent = new Intent(context, EventActivity.class);
@@ -90,14 +94,6 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
         mEvent = getIntent().getParcelableExtra(ARG_EVENT);
         mEventPalette = getIntent().getParcelableExtra(ARG_EVENT_PALETTE);
 
-        mToolbarLayout.setStatusBarScrimColor(mEventPalette.rgb);
-        mToolbarLayout.setContentScrimColor(mEventPalette.rgb);
-        mToolbarLayout.setTitle(mEvent.getTitleTagLine().toUpperCase());
-
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         if (new Date().after(mEvent.getEventDate())) {
             mSubhead.setText(getString(R.string.event_past_title));
         } else {
@@ -105,10 +101,17 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
         }
         mTitle.setText(mEvent.getBaseTitle());
 
-
         int statusBarHeight = PresentationUtils.getStatusBarHeight(getResources());
         mToolbar.getLayoutParams().height += statusBarHeight;
         mToolbar.setPadding(0, statusBarHeight, 0, 0);
+
+        mToolbarLayout.setStatusBarScrimColor(mEventPalette.rgb);
+        mToolbarLayout.setContentScrimColor(mEventPalette.rgb);
+        mToolbarLayout.setTitle(mEvent.getTitleTagLine().toUpperCase());
+
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Glide.with(this) //
                 .load(mEvent.getFeatureImage()) //
@@ -124,6 +127,9 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
                     }
                 });
 
+        mStateful.setAnimationEnabled(false);
+        mStateful.showLoading();
+
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -131,8 +137,13 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
                 return position == 0 ? 2 : 1;
             }
         });
+
+        mAdapter = new EventFightsRecyclerViewAdapter();
+        mAdapter.setListener(this);
+
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(mAdapter);
 
         App.getInstance().getEventFightsRepository().get(mEvent.getId()).
                 subscribeOn(App.getInstance().getSchedulerProvider().multi()).
@@ -144,8 +155,9 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
                     @Override
                     public void onCompleted() {
                         if (mFights != null) {
-                            mAdapter = new EventFightsRecyclerViewAdapter(mFights.getFightList(), EventActivity.this);
-                            mRecyclerView.setAdapter(mAdapter);
+                            mAdapter.setFights(mFights.getFightList());
+                            mStateful.setAnimationEnabled(true);
+                            mStateful.showContent();
                         }
                     }
 

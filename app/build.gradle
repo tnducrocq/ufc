@@ -74,9 +74,9 @@ dependencies {
     compile 'com.afollestad:easyvideoplayer:0.3.0'
     compile 'com.github.bmarrdev:android-DecoView-charting:v0.9.3'
     compile 'com.github.iammert:ScalingLayout:1.0'
+    compile 'com.github.gturedi:stateful-layout:1.2.1'
 
     // used???
-    compile 'com.github.gturedi:stateful-layout:1.2.1'
 
     /* Testing Libraries */
     testCompile testLibs.mockito

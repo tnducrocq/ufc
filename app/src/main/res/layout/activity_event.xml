@@ -96,12 +96,22 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/event_fights_list"
+    <com.gturedi.views.StatefulLayout
+        android:id="@+id/event_stateful"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        tools:listitem="@layout/adapter_fight_card"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    </android.support.v7.widget.RecyclerView>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:stfAnimationEnabled="true"
+        app:stfInAnimation="@android:anim/slide_in_left"
+        app:stfOutAnimation="@android:anim/slide_out_right">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/event_fights_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            tools:listitem="@layout/adapter_fight_card">
+        </android.support.v7.widget.RecyclerView>
+    </com.gturedi.views.StatefulLayout>
+
 </android.support.design.widget.CoordinatorLayout>

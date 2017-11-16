@@ -20,15 +20,22 @@ import fr.tnducrocq.ufc.presentation.ui.main.events.AbstractEventsFragment;
  */
 public class EventFightsRecyclerViewAdapter extends RecyclerView.Adapter<EventFightViewHolder> {
 
-    private final List<EventFight> mFights;
-    private final EventFightsRecyclerViewAdapter.OnEventFightsInteractionListener mListener;
+    private List<EventFight> mFights;
+    private EventFightsRecyclerViewAdapter.OnEventFightsInteractionListener mListener;
 
     public interface OnEventFightsInteractionListener {
         void onListFragmentInteraction(EventFight item);
     }
 
-    public EventFightsRecyclerViewAdapter(List<EventFight> fights, EventFightsRecyclerViewAdapter.OnEventFightsInteractionListener listener) {
+    public EventFightsRecyclerViewAdapter() {
+    }
+
+    public void setFights(List<EventFight> fights) {
         mFights = fights;
+        notifyDataSetChanged();
+    }
+
+    public void setListener(OnEventFightsInteractionListener listener) {
         mListener = listener;
     }
 
@@ -39,7 +46,7 @@ public class EventFightsRecyclerViewAdapter extends RecyclerView.Adapter<EventFi
 
     @Override
     public int getItemCount() {
-        return mFights.size();
+        return mFights == null ? 0 : mFights.size();
     }
 
     @Override
