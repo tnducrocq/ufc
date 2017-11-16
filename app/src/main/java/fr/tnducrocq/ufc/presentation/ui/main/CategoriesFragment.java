@@ -34,6 +34,7 @@ public class CategoriesFragment extends Fragment {
     @BindView(R.id.champion_list)
     RecyclerView mRecyclerView;
 
+    private CategoriesAdapter mAdapter;
     private Unbinder unbinder;
 
     /**
@@ -52,7 +53,34 @@ public class CategoriesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_champions, container, false);
         unbinder = ButterKnife.bind(this, view);
+
+        mAdapter = new CategoriesAdapter();
+        mAdapter.setOnWeightCategoryInteractionListener(category -> {
+            Intent intent = CategoryActivity.newIntent(getActivity(), category);
+            startActivity(intent);
+        });
+        mRecyclerView.setAdapter(mAdapter);
         requestChampions();
+
+        App.getInstance().getFighterRepository().get().subscribeOn(App.getInstance().getSchedulerProvider().multi())//
+                .observeOn(App.getInstance().getSchedulerProvider().ui())//
+                .subscribe(new Observer<List<Fighter>>() {
+                    @Override
+                    public void onCompleted() {
+                        requestChampions();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<Fighter> fighters) {
+
+                    }
+                });
+
         return view;
     }
 
@@ -85,7 +113,7 @@ public class CategoriesFragment extends Fragment {
                     @Override
                     public void onCompleted() {
                         if (mFighters != null) {
-                            displayChampions(mFighters);
+                            mAdapter.setFighters(mFighters);
                         }
                     }
 
@@ -100,15 +128,6 @@ public class CategoriesFragment extends Fragment {
                         this.mFighters = fighters;
                     }
                 });
-    }
-
-    private void displayChampions(List<Fighter> fighters) {
-        CategoriesAdapter adapter = new CategoriesAdapter(fighters);
-        adapter.setOnWeightCategoryInteractionListener(category -> {
-            Intent intent = CategoryActivity.newIntent(getActivity(), category);
-            startActivity(intent);
-        });
-        mRecyclerView.setAdapter(adapter);
     }
 
 }

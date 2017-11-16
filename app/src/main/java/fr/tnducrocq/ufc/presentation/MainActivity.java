@@ -6,14 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 
 import com.roughike.bottombar.BottomBar;
@@ -57,12 +55,17 @@ public class MainActivity extends AppCompatActivity implements AbstractEventsFra
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         ButterKnife.bind(this);
         setUI();
     }
 
-    private void setBottomNavigation() {
+    private void setUI() {
+        mNavigationView.setCheckedItem(R.id.events);
+
+        mMainTypePagerAdapter = new MainTypePagerAdapter(getSupportFragmentManager(), this);
+        mMainPager.setAdapter(mMainTypePagerAdapter);
+        mMainPager.setOffscreenPageLimit(2);
+
         final int duration = getResources().getInteger(R.integer.page_fade_duration);
         mBottomNavigation.setOnTabSelectListener((tabId -> mMainPager.animate().alpha(0).setDuration(duration).setListener(new AnimatorListenerAdapter() {
             @Override
@@ -85,22 +88,9 @@ public class MainActivity extends AppCompatActivity implements AbstractEventsFra
         }).start()));
     }
 
-
-    private void setMovieTypePager() {
-        mMainTypePagerAdapter = new MainTypePagerAdapter(getSupportFragmentManager(), this);
-        mMainPager.setAdapter(mMainTypePagerAdapter);
-        mMainPager.setOffscreenPageLimit(2);
-    }
-
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-    }
-
-    private void setUI() {
-        mNavigationView.setCheckedItem(R.id.events);
-        setMovieTypePager();
-        setBottomNavigation();
     }
 
     @Override
@@ -110,15 +100,8 @@ public class MainActivity extends AppCompatActivity implements AbstractEventsFra
         return true;
     }
 
-    public void handleEvent(@NonNull Object event) {
-        Log.d(MainActivity.class.getSimpleName(), "HandleEvent");
-    }
-
     @Override
     public void onListFragmentInteraction(Event item) {
-        Log.d("MainActivity", item.toString());
-       /* Intent intent = EventActivity.newIntent(this, item, color);
-        startActivity(intent);*/
     }
 
     @Override
@@ -128,15 +111,7 @@ public class MainActivity extends AppCompatActivity implements AbstractEventsFra
 
     @Override
     public void onBackPressed() {
-        //finish();
         moveTaskToBack(true);
     }
 
-    public static class CollapsingChangedEvent {
-        public boolean collasped;
-
-        public CollapsingChangedEvent(boolean collasped) {
-            this.collasped = collasped;
-        }
-    }
 }

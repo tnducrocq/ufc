@@ -1,6 +1,5 @@
 package fr.tnducrocq.ufc.presentation.ui.main.events;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,20 +17,25 @@ import fr.tnducrocq.ufc.presentation.R;
  */
 public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventViewHolder> {
 
-    private final List<Event> mValues;
-    private final Context mContext;
-    private final AbstractEventsFragment.OnEventFragmentInteractionListener mListener;
+    private List<Event> mValues;
+    private AbstractEventsFragment.OnEventFragmentInteractionListener mListener;
 
 
-    public EventsRecyclerViewAdapter(List<Event> items, Context context, AbstractEventsFragment.OnEventFragmentInteractionListener listener) {
-        mValues = items;
-        mContext = context;
-        mListener = listener;
+    public EventsRecyclerViewAdapter() {
+    }
+
+    public void setValues(List<Event> mValues) {
+        this.mValues = mValues;
+        notifyDataSetChanged();
+    }
+
+    public void setListener(AbstractEventsFragment.OnEventFragmentInteractionListener mListener) {
+        this.mListener = mListener;
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return mValues == null ? 0 : mValues.size();
     }
 
     @Override

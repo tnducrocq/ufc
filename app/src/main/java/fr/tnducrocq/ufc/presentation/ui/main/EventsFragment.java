@@ -11,12 +11,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import fr.tnducrocq.ufc.data.entity.event.Event;
 import fr.tnducrocq.ufc.presentation.R;
+import fr.tnducrocq.ufc.presentation.app.App;
+import fr.tnducrocq.ufc.presentation.ui.main.events.AbstractEventsFragment;
 import fr.tnducrocq.ufc.presentation.ui.main.events.FutureEventsFragment;
 import fr.tnducrocq.ufc.presentation.ui.main.events.PastEventsFragment;
+import rx.Observer;
 
 /**
  * Created by tony on 16/10/2017.
@@ -35,6 +42,7 @@ public class EventsFragment extends Fragment {
     TabLayout mTabLayout;
 
     EventsPagerAdapter mEventsPagerAdapter;
+    List<EventsSyncListener> mEventsListenerList = new ArrayList<>();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -63,6 +71,28 @@ public class EventsFragment extends Fragment {
         });
         mTabLayout.setupWithViewPager(mViewPager);
         mViewPager.setCurrentItem(1);
+
+        App.getInstance().getEventRepository().get().subscribeOn(App.getInstance().getSchedulerProvider().multi())//
+                .observeOn(App.getInstance().getSchedulerProvider().ui())//
+                .subscribe(new Observer<List<Event>>() {
+
+                    @Override
+                    public void onCompleted() {
+                        for (EventsSyncListener listener : mEventsListenerList) {
+                            listener.onEventReloaded();
+                        }
+                    }
+
+                    @Override
+                    public void onNext(List<Event> events) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
         return view;
     }
 
@@ -82,7 +112,7 @@ public class EventsFragment extends Fragment {
         unbinder.unbind();
     }
 
-    public static class EventsPagerAdapter extends FragmentPagerAdapter {
+    public class EventsPagerAdapter extends FragmentPagerAdapter {
 
         private Context mContext;
 
@@ -93,12 +123,16 @@ public class EventsFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
+            AbstractEventsFragment fragment;
             switch (position) {
                 case 0:
-                    return new PastEventsFragment();
+                    fragment = new PastEventsFragment();
+                    break;
                 default:
-                    return new FutureEventsFragment();
+                    fragment = new FutureEventsFragment();
             }
+            addEventsSyncListener(fragment);
+            return fragment;
         }
 
         @Override
@@ -115,5 +149,13 @@ public class EventsFragment extends Fragment {
                     return mContext.getResources().getString(R.string.future_events);
             }
         }
+    }
+
+    public interface EventsSyncListener {
+        void onEventReloaded();
+    }
+
+    public void addEventsSyncListener(EventsSyncListener eventsSyncListener) {
+        mEventsListenerList.add(eventsSyncListener);
     }
 }

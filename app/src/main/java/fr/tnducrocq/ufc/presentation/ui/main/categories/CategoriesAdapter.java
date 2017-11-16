@@ -17,16 +17,20 @@ import fr.tnducrocq.ufc.presentation.R;
 
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesViewHolder> {
 
-    private final List<Fighter> mFighters;
+    private List<Fighter> mFighters;
     private OnWeightCategoryInteractionListener mOnWeightCategoryInteractionListener;
 
-    public CategoriesAdapter(List<Fighter> fighter) {
-        mFighters = fighter;
+    public CategoriesAdapter() {
+    }
+
+    public void setFighters(List<Fighter> fighters) {
+        mFighters = fighters;
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return mFighters.size();
+        return mFighters == null ? 0 : mFighters.size();
     }
 
 

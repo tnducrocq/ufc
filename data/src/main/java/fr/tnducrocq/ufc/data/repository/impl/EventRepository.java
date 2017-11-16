@@ -18,6 +18,8 @@ import rx.Observable;
 
 public class EventRepository extends AbstractRepository<Event, EventDataSource, IRepository<Event>> implements EventDataSource, IRepository<Event> {
 
+    private static final String TAG = "EventRepository";
+
     public EventRepository(@NonNull App application, @NonNull EventDataSource localSource, @NonNull IRepository<Event> remoteSource, @NonNull BaseSchedulerProvider schedulerProvider) {
         super(application, schedulerProvider);
         this.localSource = localSource;

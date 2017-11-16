@@ -53,7 +53,6 @@ public class FighterActivity extends AppCompatActivity {
     @BindView(R.id.fighter_toolbar)
     public Toolbar mToolbar;
 
-
     @BindView(R.id.fighter_kick_card)
     public CardPieView kickView;
 

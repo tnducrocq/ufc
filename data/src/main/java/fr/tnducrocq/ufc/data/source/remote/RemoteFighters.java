@@ -52,6 +52,11 @@ public class RemoteFighters implements IRepository<Fighter> {
                 List<Fighter> fighterList = new ArrayList<>();
                 Collections.addAll(fighterList, gson.fromJson(response.body().charStream(), Fighter[].class));
 
+                try {
+                    Thread.sleep(25000);
+                } catch (Exception e) {
+                }
+
                 subscriber.onNext(fighterList);
                 subscriber.onCompleted();
             } catch (IOException e) {

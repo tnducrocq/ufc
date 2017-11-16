@@ -1,7 +1,5 @@
 package fr.tnducrocq.ufc.presentation.ui.main.events;
 
-import android.os.Bundle;
-
 import java.util.Date;
 import java.util.List;
 
@@ -14,13 +12,6 @@ import rx.Observable;
  */
 
 public class FutureEventsFragment extends AbstractEventsFragment {
-
-    public static FutureEventsFragment newFragment() {
-        FutureEventsFragment fragment = new FutureEventsFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the

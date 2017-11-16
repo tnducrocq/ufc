@@ -7,12 +7,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -145,61 +143,59 @@ public class EventActivity extends AppCompatActivity implements EventFightsRecyc
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        App.getInstance().getEventFightsRepository().get(mEvent.getId()).
-                subscribeOn(App.getInstance().getSchedulerProvider().multi()).
-                observeOn(App.getInstance().getSchedulerProvider().ui()).
-                subscribe(new Observer<EventFights>() {
-
-                    protected Throwable mError;
-
-                    @Override
-                    public void onCompleted() {
-                        if (mFights != null) {
-                            mAdapter.setFights(mFights.getFightList());
-                            mStateful.setAnimationEnabled(true);
-                            mStateful.showContent();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        mError = e;
-                        Log.e(TAG, "onError", e);
-                        Snackbar snackbar = Snackbar.make(EventActivity.this.findViewById(android.R.id.content), e.getLocalizedMessage(), Snackbar.LENGTH_LONG);
-                        snackbar.show();
-                    }
-
-                    @Override
-                    public void onNext(EventFights values) {
-                        mFights = values;
-                    }
-                });
+        loadFights();
 
         App.getInstance().getEventMediasRepository().get(mEvent.getId()).
                 subscribeOn(App.getInstance().getSchedulerProvider().multi()).
                 observeOn(App.getInstance().getSchedulerProvider().ui()).
                 subscribe(new Observer<EventMedias>() {
 
-                    protected Throwable mError;
-
                     @Override
                     public void onCompleted() {
-                        if (mMedias != null) {
-                            EventActivity.this.invalidateOptionsMenu();
-                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        mError = e;
-                        Log.e(TAG, "onError", e);
-                        Snackbar snackbar = Snackbar.make(EventActivity.this.findViewById(android.R.id.content), e.getLocalizedMessage(), Snackbar.LENGTH_LONG);
-                        snackbar.show();
                     }
 
                     @Override
                     public void onNext(EventMedias values) {
                         mMedias = values.getMediaList();
+                        EventActivity.this.invalidateOptionsMenu();
+                    }
+                });
+    }
+
+    public void loadFights() {
+        App.getInstance().getEventFightsRepository().get(mEvent.getId()).
+                subscribeOn(App.getInstance().getSchedulerProvider().multi()).
+                observeOn(App.getInstance().getSchedulerProvider().ui()).
+                subscribe(new Observer<EventFights>() {
+
+                    @Override
+                    public void onCompleted() {
+                        mStateful.setAnimationEnabled(true);
+                        if (mFights != null) {
+                            mAdapter.setFights(mFights.getFightList());
+                            mStateful.showContent();
+                        } else {
+                            mAdapter.setFights(null);
+                            mStateful.showEmpty();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mStateful.setAnimationEnabled(true);
+                        mStateful.showError(e.getLocalizedMessage(), v -> {
+                            mStateful.showLoading();
+                            loadFights();
+                        });
+                    }
+
+                    @Override
+                    public void onNext(EventFights values) {
+                        mFights = values;
                     }
                 });
     }

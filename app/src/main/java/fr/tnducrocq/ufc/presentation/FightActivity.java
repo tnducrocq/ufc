@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -83,11 +82,10 @@ public class FightActivity extends AppCompatActivity implements FightHeaderViewH
 
             @Override
             public void onError(Throwable e) {
-                mStateful.setAnimationEnabled(true);
-                mStateful.showEmpty();
                 Log.e(TAG, "onError", e);
-                Snackbar snackbar = Snackbar.make(FightActivity.this.findViewById(android.R.id.content), e.getLocalizedMessage(), Snackbar.LENGTH_LONG);
-                snackbar.show();
+                mStateful.setAnimationEnabled(true);
+                mStateful.showError(e.getLocalizedMessage(), v -> {
+                });
             }
 
             @Override
@@ -114,11 +112,13 @@ public class FightActivity extends AppCompatActivity implements FightHeaderViewH
 
             @Override
             public void onError(Throwable e) {
-                mStateful.showEmpty();
-
                 Log.e(TAG, "onError", e);
-                Snackbar snackbar = Snackbar.make(FightActivity.this.findViewById(android.R.id.content), e.getLocalizedMessage(), Snackbar.LENGTH_LONG);
-                snackbar.show();
+
+                mStateful.setAnimationEnabled(true);
+                mStateful.showError(e.getLocalizedMessage(), v -> {
+                    mStateful.showLoading();
+                    onFighterResult(fighter1, fighter2);
+                });
             }
 
             @Override

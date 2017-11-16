@@ -21,6 +21,8 @@ import rx.Observable;
 
 public class EventFightsRepository extends AbstractRepository<EventFights, LocalEventFights, RemoteEventFights> {
 
+    private static final String TAG = "EventFightsRepository";
+
     public EventFightsRepository(@NonNull App application, @NonNull BaseSchedulerProvider schedulerProvider) {
         super(application, schedulerProvider);
         localSource = new LocalEventFights(application);

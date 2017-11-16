@@ -17,8 +17,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import fr.tnducrocq.ufc.data.entity.event.Event;
-import fr.tnducrocq.ufc.presentation.app.App;
 import fr.tnducrocq.ufc.presentation.R;
+import fr.tnducrocq.ufc.presentation.app.App;
+import fr.tnducrocq.ufc.presentation.ui.main.EventsFragment;
 import rx.Observable;
 import rx.Observer;
 
@@ -26,19 +27,16 @@ import rx.Observer;
  * Created by tony on 01/08/2017.
  */
 
-public abstract class AbstractEventsFragment extends Fragment {
+public abstract class AbstractEventsFragment extends Fragment implements EventsFragment.EventsSyncListener {
 
     private static final String TAG = "AbstractEventsFragment";
 
     @BindView(R.id.list)
     protected RecyclerView mRecyclerView;
 
-    protected AbstractEventsFragment.OnEventFragmentInteractionListener mListener;
+    protected EventsRecyclerViewAdapter mAdapter;
+    protected OnEventFragmentInteractionListener mListener;
     protected Unbinder unbinder;
-
-    public interface OnEventFragmentInteractionListener {
-        void onListFragmentInteraction(Event item);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,17 +48,13 @@ public abstract class AbstractEventsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_past_event, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            requestEvent();
-        }
+        mAdapter = new EventsRecyclerViewAdapter();
+        mAdapter.setListener(mListener);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setAdapter(mAdapter);
+        requestEvent();
         return view;
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -85,8 +79,7 @@ public abstract class AbstractEventsFragment extends Fragment {
     }
 
     protected void requestEvent() {
-        Observable<List<Event>> obsEvents = getEvent();
-        obsEvents.subscribeOn(App.getInstance().getSchedulerProvider().multi())//
+        getEvent().subscribeOn(App.getInstance().getSchedulerProvider().multi())//
                 .observeOn(App.getInstance().getSchedulerProvider().ui())//
                 .subscribe(new Observer<List<Event>>() {
 
@@ -96,7 +89,7 @@ public abstract class AbstractEventsFragment extends Fragment {
                     @Override
                     public void onCompleted() {
                         if (mEvents != null) {
-                            mRecyclerView.setAdapter(new EventsRecyclerViewAdapter(mEvents, getActivity(), mListener));
+                            mAdapter.setValues(mEvents);
                         }
                     }
 
@@ -115,5 +108,18 @@ public abstract class AbstractEventsFragment extends Fragment {
     }
 
     public abstract Observable<List<Event>> getEvent();
+
+    @Override
+    public void onEventReloaded() {
+        requestEvent();
+    }
+
+    public void setListener(OnEventFragmentInteractionListener listener) {
+        mListener = listener;
+    }
+
+    public interface OnEventFragmentInteractionListener {
+        void onListFragmentInteraction(Event item);
+    }
 
 }
